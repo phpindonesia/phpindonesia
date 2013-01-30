@@ -1,7 +1,7 @@
 TATA CARA KONTRIBUSI
 ====================
 
-Portal PHP Indonesia dikembangkan secara open-source oleh membernya. Kontribusi diberikan dalam bentuk Issue atau [Pull Requests](http://help.github.com/send-pull-requests/) ke [repository PHP Indonesia](https://github.com/phpindonesia/phpindonesia>) di GitHub.
+Portal PHP Indonesia dikembangkan secara open-source oleh membernya. Kontribusi diberikan dalam bentuk Issue atau [Pull Requests](https://help.github.com/articles/using-pull-requests) ke [repository PHP Indonesia](https://github.com/phpindonesia/phpindonesia>) di GitHub.
 
 Membuat Issue adalah cara cepat untuk melaporkan bug atau hal-hal seputar pengembangan portal PHP Indonesia. Sebelum anda membuat issue baru, pastikan:
 
@@ -13,12 +13,12 @@ Cara lain yang lebih baik lagi ketimbang membuat Issue adalah dengan berkontribu
 1. Menyiapkan Git (Windows, Mac & Linux)
 2. Kunjungi repositori [PHP Indonesia](https://github.com/phpindonesia/phpindonesia)
 3. Fork repositori tersebut
-4. Clone repo anda: git@github.com:<nama-anda>/phpindonesia.git
+4. Clone repo/fork anda.
 5. Checkout branch "develop". Di titik ini anda bisa mulai melakukan perubahan-perubahan. 
 6. Perbaiki bug yang anda yakini membuat aplikasi tidak berjalan seperti seharusnya. 
 7. Commit
 8. Push ke repo anda
-9. Kirim [Pull Request](http://help.github.com/send-pull-requests/)
+9. Kirim [Pull Request](https://help.github.com/articles/using-pull-requests)
 
 Team developer PHP Indonesia akan mendapat pemberitahuan tentang PR yang anda buat, melakukan review, dan mengambil tindakan selanjutnya.
 
