@@ -1,4 +1,4 @@
-phpindonesia
-============
+phpindonesia.net
+================
 
-Portal PHP Indonesia
+Official-repository untuk next-generation Portal PHP Indonesia.
