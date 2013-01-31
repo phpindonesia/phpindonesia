@@ -1,7 +1,7 @@
 README
 ======
 
-[![Build Status](https://secure.travis-ci.org/phpindonesia/phpindonesia.png?branch=develop)](http://travis-ci.org/phpindonesia/phpindonesia)
+[![Build Status](https://secure.travis-ci.org/phpindonesia/phpindonesia.png)](http://travis-ci.org/phpindonesia/phpindonesia) 
 
 Official-repository untuk Portal PHP Indonesia. Project ini dikembangkan secara open-source oleh member PHP Indonesia.
 
