@@ -12,7 +12,28 @@ use Symfony\Component\Routing\RouteCollection;
 
 $routes = new RouteCollection();
 
-$routes->add('default', new Route('/'));
+/**
+ * Prototype(default) :
+ *
+ * GET /{controller}/{action}/{id}
+ * GET /home 							=> ControllerHome::actionIndex()
+ * GET /home/index 						=> ControllerHome::actionIndex()
+ * GET /home/foo 						=> ControllerHome::actionFoo()
+ * GET /home/foo/1 						=> ControllerHome::actionFoo()
+ *
+ * 
+ * Custom :
+ *
+ * Misalnya, kita mau me-relasikan 
+ * GET /sesuatu                         => ControllerFoo::actionBar()
+ *
+ * Maka kita cukup menambahkan route berikut kedalam RouteCollection :
+ * $routes->add('nama_route', new Route('/sesuatu', array(Route::HANDLER => array(Route::HANDLER_CLASS => 'foo', Route::HANDLER_ACTION => 'bar'))));
+ *
+ * @see \app\Router.php for more details
+ */
+
+$routes->add('default', new Route('/', array(Route::HANDLER => array(Route::HANDLER_CLASS => 'home', Route::HANDLER_ACTION => 'index'))));
 
 $routes->add('universal_route_default', new Route('/{controller}', array('controller' => '[a-z]+')));
 
