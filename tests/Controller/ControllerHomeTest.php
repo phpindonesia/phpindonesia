@@ -48,6 +48,5 @@ class ControllerHomeTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals(200, $response->getStatusCode());
-		$this->assertEquals('You are in Bar ', $response->getContent());
 	}
 }

@@ -43,7 +43,7 @@ Menjalankan Tests
 Untuk menjalankan test-suite (dengan asumsi anda telah melakukan proses instalasi dengan benar) :
 
 	cd /lokasi/folder/phpindonesia
-	vendor/bin/phpunit --code-coverage
+	vendor/bin/phpunit --coverage-text
 	
 Proses pengembangan project ini menggunakan Continuous Integration dan Test Driven Development dengan Travis-CI untuk melakukan proses build secara otomatis (status build bisa dilihat di bagian paling atas dokumen ini).
 

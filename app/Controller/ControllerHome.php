@@ -38,7 +38,11 @@ class ControllerHome extends ControllerBase
 	public function actionFoo()
 	{
 		$id = $this->request->get('id');
+		$data = array(
+			'title' => 'PHP Indonesia - Bar',
+			'content' => 'You are in Bar '.$id,
+		);
 
-		return $this->render('You are in Bar '.$id);
+		return $this->render($data);
 	}
 }

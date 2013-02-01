@@ -9,6 +9,9 @@
 	stopOnFailure="false"
 	stopOnIncomplete="false"
 	stopOnSkipped="false">
+	<php>
+		<const name="APPLICATION_PATH" value="app"/>
+	</php>
 	<testsuites>
 		<testsuite name="PHP Indonesia Test Suite">
 			<directory suffix="Test.php">tests</directory>

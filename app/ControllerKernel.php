@@ -11,7 +11,7 @@ namespace app;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Application Controller Kernel Interface
+ * Application Controller Kernel
  *
  * @author PHP Indonesia Dev
  */

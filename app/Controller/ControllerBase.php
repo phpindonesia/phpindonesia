@@ -48,14 +48,27 @@ class ControllerBase
 	/**
 	 * Render response.
 	 *
-	 * @param string $content A Response content
+	 * @param mixed $content A Response content
 	 * @param int $status HTTP status code
 	 * @param Array $headers HTTP Headers
 	 *
 	 * @return Response A Response instance
 	 */
-	public function render($content = '', $status = 200, $headers = array())
+	public function render($data = NULL, $status = 200, $headers = array())
 	{
+		// Persiapkan data yang akan di-render
+		if (is_array($data) && array_key_exists('title', $data) && array_key_exists('content', $data)) {
+			// Data yang dikirim memiliki parameter minimal yakni 'title' dan 'content'
+			// Load twig dan template yang berkaitan
+			$twigLoader = new \Twig_Loader_Filesystem(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'Templates');
+			$twig = new \Twig_Environment($twigLoader);
+			$content = $twig->render('layout.html.tpl', $data);
+		} else {
+			// Data yang dikirim tidak memenuhi kriteria
+			// Outputkan raw data
+			$content = $data;
+		}
+
 		return new Response($content, $status, $headers);
 	}
 }

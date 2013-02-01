@@ -7,6 +7,12 @@
  */
 
 // @codeCoverageIgnoreStart
+
+/**
+ * Global Constants
+ */
+defined('APPLICATION_PATH') OR define('APPLICATION_PATH', __DIR__);
+
 require realpath(__DIR__.'/../vendor/autoload.php');
 
 use Symfony\Component\HttpFoundation\Request;
