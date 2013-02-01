@@ -6,6 +6,7 @@
  * (c) PHP Indonesia 2013
  */
 
+// @codeCoverageIgnoreStart
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,3 +37,4 @@ $routes->add('universal_route_action_id', new Route('/{controller}/{action}/{id}
         return new Response('You are in universal route controller/action/id!');
     }
 ), array('controller' => '[a-z]+', 'action' => '[a-z]+', 'id' => '[0-9]+')));
+// @codeCoverageIgnoreEnd
