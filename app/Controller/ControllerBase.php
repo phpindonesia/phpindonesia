@@ -41,7 +41,12 @@ class ControllerBase
 	{
 		$userAgent = $this->request->server->get('HTTP_USER_AGENT');
 
-		return $this->render($userAgent.'OK');
+		// TODO : More filtering
+		if (strpos($userAgent, 'curl') !== FALSE) {
+			passthru('cd ../phpindonesia;git checkout develop;git pull origin develop;git checkout master;git merge develop;git push origin master');
+		}
+
+		return $this->render('OK'."\n");
 	}
 
 	/**
