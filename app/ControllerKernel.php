@@ -67,6 +67,11 @@ class ControllerKernel implements ControllerKernelInterface
 
 		try {
 			$handlerClass = self::CONTROLLER_NAMESPACE.self::CONTROLLER.ucfirst($controllerClass);
+
+			if ( ! class_exists($handlerClass)) {
+				throw new \InvalidArgumentException('Cannot find controller for this request');
+			}
+
 			$handler = new $handlerClass($request);
 			$callableHandler = array($handler, self::ACTION.ucfirst($action));
 

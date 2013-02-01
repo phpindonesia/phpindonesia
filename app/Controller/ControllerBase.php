@@ -32,6 +32,19 @@ class ControllerBase
 	}
 
 	/**
+	 * This is internally used by Travis-CI (JANGAN DIUTAK ATIK :)
+	 *
+	 * @codeCoverageIgnore
+	 * @see app/routes.php
+	 */
+	public function actionSynchronize()
+	{
+		$userAgent = $this->request->server->get('HTTP_USER_AGENT');
+
+		return $this->render($userAgent.'OK');
+	}
+
+	/**
 	 * Redirect response.
 	 *
 	 * @param string $url URL Path

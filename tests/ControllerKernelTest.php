@@ -58,6 +58,22 @@ class ControllerKernelTest extends PHPUnit_Framework_TestCase {
 	{
 		$request = Request::create('/home/index');
 		$controllerKernel = new ControllerKernel(array(
+			Route::HANDLER_CLASS => 'controlleryangtidakada',
+			Route::HANDLER_ACTION => 'index',
+		));
+
+		$this->setExpectedException('Exception', 'Cannot find controller for this request');
+
+		$controllerKernel->handle($request);
+	}
+
+	/**
+	 * Cek valid handler dan invalid action parameter
+	 */
+	public function testCekValidHandlerInvalidAction()
+	{
+		$request = Request::create('/home/index');
+		$controllerKernel = new ControllerKernel(array(
 			Route::HANDLER_CLASS => 'home',
 			Route::HANDLER_ACTION => 'actionyangtidakada',
 		));
