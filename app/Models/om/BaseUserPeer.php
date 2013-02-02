@@ -47,8 +47,8 @@ abstract class BaseUserPeer
     /** the column name for the UID field */
     const UID = 'phpid_users.UID';
 
-    /** the column name for the NAMES field */
-    const NAMES = 'phpid_users.NAMES';
+    /** the column name for the NAME field */
+    const NAME = 'phpid_users.NAME';
 
     /** the column name for the PASS field */
     const PASS = 'phpid_users.PASS';
@@ -111,11 +111,11 @@ abstract class BaseUserPeer
      * e.g. UserPeer::$fieldNames[UserPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Uid', 'Names', 'Pass', 'Mail', 'Theme', 'Signature', 'SignatureFormat', 'Created', 'Access', 'Login', 'Status', 'Timezone', 'Language', 'Picture', 'Init', 'Data', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('uid', 'names', 'pass', 'mail', 'theme', 'signature', 'signatureFormat', 'created', 'access', 'login', 'status', 'timezone', 'language', 'picture', 'init', 'data', ),
-        BasePeer::TYPE_COLNAME => array (UserPeer::UID, UserPeer::NAMES, UserPeer::PASS, UserPeer::MAIL, UserPeer::THEME, UserPeer::SIGNATURE, UserPeer::SIGNATURE_FORMAT, UserPeer::CREATED, UserPeer::ACCESS, UserPeer::LOGIN, UserPeer::STATUS, UserPeer::TIMEZONE, UserPeer::LANGUAGE, UserPeer::PICTURE, UserPeer::INIT, UserPeer::DATA, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('UID', 'NAMES', 'PASS', 'MAIL', 'THEME', 'SIGNATURE', 'SIGNATURE_FORMAT', 'CREATED', 'ACCESS', 'LOGIN', 'STATUS', 'TIMEZONE', 'LANGUAGE', 'PICTURE', 'INIT', 'DATA', ),
-        BasePeer::TYPE_FIELDNAME => array ('uid', 'names', 'pass', 'mail', 'theme', 'signature', 'signature_format', 'created', 'access', 'login', 'status', 'timezone', 'language', 'picture', 'init', 'data', ),
+        BasePeer::TYPE_PHPNAME => array ('Uid', 'Name', 'Pass', 'Mail', 'Theme', 'Signature', 'SignatureFormat', 'Created', 'Access', 'Login', 'Status', 'Timezone', 'Language', 'Picture', 'Init', 'Data', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('uid', 'name', 'pass', 'mail', 'theme', 'signature', 'signatureFormat', 'created', 'access', 'login', 'status', 'timezone', 'language', 'picture', 'init', 'data', ),
+        BasePeer::TYPE_COLNAME => array (UserPeer::UID, UserPeer::NAME, UserPeer::PASS, UserPeer::MAIL, UserPeer::THEME, UserPeer::SIGNATURE, UserPeer::SIGNATURE_FORMAT, UserPeer::CREATED, UserPeer::ACCESS, UserPeer::LOGIN, UserPeer::STATUS, UserPeer::TIMEZONE, UserPeer::LANGUAGE, UserPeer::PICTURE, UserPeer::INIT, UserPeer::DATA, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('UID', 'NAME', 'PASS', 'MAIL', 'THEME', 'SIGNATURE', 'SIGNATURE_FORMAT', 'CREATED', 'ACCESS', 'LOGIN', 'STATUS', 'TIMEZONE', 'LANGUAGE', 'PICTURE', 'INIT', 'DATA', ),
+        BasePeer::TYPE_FIELDNAME => array ('uid', 'name', 'pass', 'mail', 'theme', 'signature', 'signature_format', 'created', 'access', 'login', 'status', 'timezone', 'language', 'picture', 'init', 'data', ),
         BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
     );
 
@@ -126,11 +126,11 @@ abstract class BaseUserPeer
      * e.g. UserPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Uid' => 0, 'Names' => 1, 'Pass' => 2, 'Mail' => 3, 'Theme' => 4, 'Signature' => 5, 'SignatureFormat' => 6, 'Created' => 7, 'Access' => 8, 'Login' => 9, 'Status' => 10, 'Timezone' => 11, 'Language' => 12, 'Picture' => 13, 'Init' => 14, 'Data' => 15, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('uid' => 0, 'names' => 1, 'pass' => 2, 'mail' => 3, 'theme' => 4, 'signature' => 5, 'signatureFormat' => 6, 'created' => 7, 'access' => 8, 'login' => 9, 'status' => 10, 'timezone' => 11, 'language' => 12, 'picture' => 13, 'init' => 14, 'data' => 15, ),
-        BasePeer::TYPE_COLNAME => array (UserPeer::UID => 0, UserPeer::NAMES => 1, UserPeer::PASS => 2, UserPeer::MAIL => 3, UserPeer::THEME => 4, UserPeer::SIGNATURE => 5, UserPeer::SIGNATURE_FORMAT => 6, UserPeer::CREATED => 7, UserPeer::ACCESS => 8, UserPeer::LOGIN => 9, UserPeer::STATUS => 10, UserPeer::TIMEZONE => 11, UserPeer::LANGUAGE => 12, UserPeer::PICTURE => 13, UserPeer::INIT => 14, UserPeer::DATA => 15, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('UID' => 0, 'NAMES' => 1, 'PASS' => 2, 'MAIL' => 3, 'THEME' => 4, 'SIGNATURE' => 5, 'SIGNATURE_FORMAT' => 6, 'CREATED' => 7, 'ACCESS' => 8, 'LOGIN' => 9, 'STATUS' => 10, 'TIMEZONE' => 11, 'LANGUAGE' => 12, 'PICTURE' => 13, 'INIT' => 14, 'DATA' => 15, ),
-        BasePeer::TYPE_FIELDNAME => array ('uid' => 0, 'names' => 1, 'pass' => 2, 'mail' => 3, 'theme' => 4, 'signature' => 5, 'signature_format' => 6, 'created' => 7, 'access' => 8, 'login' => 9, 'status' => 10, 'timezone' => 11, 'language' => 12, 'picture' => 13, 'init' => 14, 'data' => 15, ),
+        BasePeer::TYPE_PHPNAME => array ('Uid' => 0, 'Name' => 1, 'Pass' => 2, 'Mail' => 3, 'Theme' => 4, 'Signature' => 5, 'SignatureFormat' => 6, 'Created' => 7, 'Access' => 8, 'Login' => 9, 'Status' => 10, 'Timezone' => 11, 'Language' => 12, 'Picture' => 13, 'Init' => 14, 'Data' => 15, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('uid' => 0, 'name' => 1, 'pass' => 2, 'mail' => 3, 'theme' => 4, 'signature' => 5, 'signatureFormat' => 6, 'created' => 7, 'access' => 8, 'login' => 9, 'status' => 10, 'timezone' => 11, 'language' => 12, 'picture' => 13, 'init' => 14, 'data' => 15, ),
+        BasePeer::TYPE_COLNAME => array (UserPeer::UID => 0, UserPeer::NAME => 1, UserPeer::PASS => 2, UserPeer::MAIL => 3, UserPeer::THEME => 4, UserPeer::SIGNATURE => 5, UserPeer::SIGNATURE_FORMAT => 6, UserPeer::CREATED => 7, UserPeer::ACCESS => 8, UserPeer::LOGIN => 9, UserPeer::STATUS => 10, UserPeer::TIMEZONE => 11, UserPeer::LANGUAGE => 12, UserPeer::PICTURE => 13, UserPeer::INIT => 14, UserPeer::DATA => 15, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('UID' => 0, 'NAME' => 1, 'PASS' => 2, 'MAIL' => 3, 'THEME' => 4, 'SIGNATURE' => 5, 'SIGNATURE_FORMAT' => 6, 'CREATED' => 7, 'ACCESS' => 8, 'LOGIN' => 9, 'STATUS' => 10, 'TIMEZONE' => 11, 'LANGUAGE' => 12, 'PICTURE' => 13, 'INIT' => 14, 'DATA' => 15, ),
+        BasePeer::TYPE_FIELDNAME => array ('uid' => 0, 'name' => 1, 'pass' => 2, 'mail' => 3, 'theme' => 4, 'signature' => 5, 'signature_format' => 6, 'created' => 7, 'access' => 8, 'login' => 9, 'status' => 10, 'timezone' => 11, 'language' => 12, 'picture' => 13, 'init' => 14, 'data' => 15, ),
         BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
     );
 
@@ -206,7 +206,7 @@ abstract class BaseUserPeer
     {
         if (null === $alias) {
             $criteria->addSelectColumn(UserPeer::UID);
-            $criteria->addSelectColumn(UserPeer::NAMES);
+            $criteria->addSelectColumn(UserPeer::NAME);
             $criteria->addSelectColumn(UserPeer::PASS);
             $criteria->addSelectColumn(UserPeer::MAIL);
             $criteria->addSelectColumn(UserPeer::THEME);
@@ -223,7 +223,7 @@ abstract class BaseUserPeer
             $criteria->addSelectColumn(UserPeer::DATA);
         } else {
             $criteria->addSelectColumn($alias . '.UID');
-            $criteria->addSelectColumn($alias . '.NAMES');
+            $criteria->addSelectColumn($alias . '.NAME');
             $criteria->addSelectColumn($alias . '.PASS');
             $criteria->addSelectColumn($alias . '.MAIL');
             $criteria->addSelectColumn($alias . '.THEME');

@@ -20,7 +20,7 @@ use app\Models\UserQuery;
  * User Table
  *
  * @method UserQuery orderByUid($order = Criteria::ASC) Order by the uid column
- * @method UserQuery orderByNames($order = Criteria::ASC) Order by the names column
+ * @method UserQuery orderByName($order = Criteria::ASC) Order by the name column
  * @method UserQuery orderByPass($order = Criteria::ASC) Order by the pass column
  * @method UserQuery orderByMail($order = Criteria::ASC) Order by the mail column
  * @method UserQuery orderByTheme($order = Criteria::ASC) Order by the theme column
@@ -37,7 +37,7 @@ use app\Models\UserQuery;
  * @method UserQuery orderByData($order = Criteria::ASC) Order by the data column
  *
  * @method UserQuery groupByUid() Group by the uid column
- * @method UserQuery groupByNames() Group by the names column
+ * @method UserQuery groupByName() Group by the name column
  * @method UserQuery groupByPass() Group by the pass column
  * @method UserQuery groupByMail() Group by the mail column
  * @method UserQuery groupByTheme() Group by the theme column
@@ -61,7 +61,7 @@ use app\Models\UserQuery;
  * @method User findOneOrCreate(PropelPDO $con = null) Return the first User matching the query, or a new User object populated from the query conditions when no match is found
  *
  * @method User findOneByUid(int $uid) Return the first User filtered by the uid column
- * @method User findOneByNames(string $names) Return the first User filtered by the names column
+ * @method User findOneByName(string $name) Return the first User filtered by the name column
  * @method User findOneByPass(string $pass) Return the first User filtered by the pass column
  * @method User findOneByMail(string $mail) Return the first User filtered by the mail column
  * @method User findOneByTheme(string $theme) Return the first User filtered by the theme column
@@ -78,7 +78,7 @@ use app\Models\UserQuery;
  * @method User findOneByData(string $data) Return the first User filtered by the data column
  *
  * @method array findByUid(int $uid) Return User objects filtered by the uid column
- * @method array findByNames(string $names) Return User objects filtered by the names column
+ * @method array findByName(string $name) Return User objects filtered by the name column
  * @method array findByPass(string $pass) Return User objects filtered by the pass column
  * @method array findByMail(string $mail) Return User objects filtered by the mail column
  * @method array findByTheme(string $theme) Return User objects filtered by the theme column
@@ -182,7 +182,7 @@ abstract class BaseUserQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `UID`, `NAMES`, `PASS`, `MAIL`, `THEME`, `SIGNATURE`, `SIGNATURE_FORMAT`, `CREATED`, `ACCESS`, `LOGIN`, `STATUS`, `TIMEZONE`, `LANGUAGE`, `PICTURE`, `INIT`, `DATA` FROM `phpid_users` WHERE `UID` = :p0';
+        $sql = 'SELECT `UID`, `NAME`, `PASS`, `MAIL`, `THEME`, `SIGNATURE`, `SIGNATURE_FORMAT`, `CREATED`, `ACCESS`, `LOGIN`, `STATUS`, `TIMEZONE`, `LANGUAGE`, `PICTURE`, `INIT`, `DATA` FROM `phpid_users` WHERE `UID` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -299,32 +299,32 @@ abstract class BaseUserQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the names column
+     * Filter the query on the name column
      *
      * Example usage:
      * <code>
-     * $query->filterByNames('fooValue');   // WHERE names = 'fooValue'
-     * $query->filterByNames('%fooValue%'); // WHERE names LIKE '%fooValue%'
+     * $query->filterByName('fooValue');   // WHERE name = 'fooValue'
+     * $query->filterByName('%fooValue%'); // WHERE name LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $names The value to use as filter.
+     * @param     string $name The value to use as filter.
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return UserQuery The current query, for fluid interface
      */
-    public function filterByNames($names = null, $comparison = null)
+    public function filterByName($name = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($names)) {
+            if (is_array($name)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $names)) {
-                $names = str_replace('*', '%', $names);
+            } elseif (preg_match('/[\%\*]/', $name)) {
+                $name = str_replace('*', '%', $name);
                 $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(UserPeer::NAMES, $names, $comparison);
+        return $this->addUsingAlias(UserPeer::NAME, $name, $comparison);
     }
 
     /**

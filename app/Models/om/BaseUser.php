@@ -50,10 +50,10 @@ abstract class BaseUser extends BaseObject implements Persistent
     protected $uid;
 
     /**
-     * The value for the names field.
+     * The value for the name field.
      * @var        string
      */
-    protected $names;
+    protected $name;
 
     /**
      * The value for the pass field.
@@ -206,18 +206,18 @@ abstract class BaseUser extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [names] column value.
+     * Get the [name] column value.
      * Unique user name.
      * @return string
      */
-    public function getNames()
+    public function getName()
     {
-        return $this->names;
+        return $this->name;
     }
 
     /**
      * Get the [pass] column value.
-     * User’s password (hashed).
+     * User's password (hashed).
      * @return string
      */
     public function getPass()
@@ -237,7 +237,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Get the [theme] column value.
-     * User’s default theme.
+     * User's default theme.
      * @return string
      */
     public function getTheme()
@@ -247,7 +247,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Get the [signature] column value.
-     * User’s signature.
+     * User's signature.
      * @return string
      */
     public function getSignature()
@@ -287,7 +287,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Get the [login] column value.
-     * Timestamp for user’s last login.
+     * Timestamp for user's last login.
      * @return int
      */
     public function getLogin()
@@ -307,7 +307,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Get the [timezone] column value.
-     * User’s time zone.
+     * User's time zone.
      * @return string
      */
     public function getTimezone()
@@ -317,7 +317,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Get the [language] column value.
-     * User’s default language.
+     * User's default language.
      * @return string
      */
     public function getLanguage()
@@ -327,7 +327,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Get the [picture] column value.
-     * Foreign key: phpid_file_managed.fid of user’s picture.
+     * Foreign key: phpid_file_managed.fid of user's picture.
      * @return int
      */
     public function getPicture()
@@ -347,7 +347,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Get the [data] column value.
-     * A serialized array of name value pairs that are related to the user. Any form values posted during user edit are stored and are loaded into the $user object during user_load(). Use of this field is discouraged and it will likely disappear in a future...
+     *
      * @return string
      */
     public function getData()
@@ -377,29 +377,29 @@ abstract class BaseUser extends BaseObject implements Persistent
     } // setUid()
 
     /**
-     * Set the value of [names] column.
+     * Set the value of [name] column.
      * Unique user name.
      * @param string $v new value
      * @return User The current object (for fluent API support)
      */
-    public function setNames($v)
+    public function setName($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->names !== $v) {
-            $this->names = $v;
-            $this->modifiedColumns[] = UserPeer::NAMES;
+        if ($this->name !== $v) {
+            $this->name = $v;
+            $this->modifiedColumns[] = UserPeer::NAME;
         }
 
 
         return $this;
-    } // setNames()
+    } // setName()
 
     /**
      * Set the value of [pass] column.
-     * User’s password (hashed).
+     * User's password (hashed).
      * @param string $v new value
      * @return User The current object (for fluent API support)
      */
@@ -441,7 +441,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Set the value of [theme] column.
-     * User’s default theme.
+     * User's default theme.
      * @param string $v new value
      * @return User The current object (for fluent API support)
      */
@@ -462,7 +462,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Set the value of [signature] column.
-     * User’s signature.
+     * User's signature.
      * @param string $v new value
      * @return User The current object (for fluent API support)
      */
@@ -546,7 +546,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Set the value of [login] column.
-     * Timestamp for user’s last login.
+     * Timestamp for user's last login.
      * @param int $v new value
      * @return User The current object (for fluent API support)
      */
@@ -588,7 +588,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Set the value of [timezone] column.
-     * User’s time zone.
+     * User's time zone.
      * @param string $v new value
      * @return User The current object (for fluent API support)
      */
@@ -609,7 +609,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Set the value of [language] column.
-     * User’s default language.
+     * User's default language.
      * @param string $v new value
      * @return User The current object (for fluent API support)
      */
@@ -630,7 +630,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Set the value of [picture] column.
-     * Foreign key: phpid_file_managed.fid of user’s picture.
+     * Foreign key: phpid_file_managed.fid of user's picture.
      * @param int $v new value
      * @return User The current object (for fluent API support)
      */
@@ -672,7 +672,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Set the value of [data] column.
-     * A serialized array of name value pairs that are related to the user. Any form values posted during user edit are stored and are loaded into the $user object during user_load(). Use of this field is discouraged and it will likely disappear in a future...
+     *
      * @param string $v new value
      * @return User The current object (for fluent API support)
      */
@@ -771,7 +771,7 @@ abstract class BaseUser extends BaseObject implements Persistent
         try {
 
             $this->uid = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-            $this->names = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
+            $this->name = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
             $this->pass = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
             $this->mail = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
             $this->theme = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
@@ -1020,8 +1020,8 @@ abstract class BaseUser extends BaseObject implements Persistent
         if ($this->isColumnModified(UserPeer::UID)) {
             $modifiedColumns[':p' . $index++]  = '`UID`';
         }
-        if ($this->isColumnModified(UserPeer::NAMES)) {
-            $modifiedColumns[':p' . $index++]  = '`NAMES`';
+        if ($this->isColumnModified(UserPeer::NAME)) {
+            $modifiedColumns[':p' . $index++]  = '`NAME`';
         }
         if ($this->isColumnModified(UserPeer::PASS)) {
             $modifiedColumns[':p' . $index++]  = '`PASS`';
@@ -1079,8 +1079,8 @@ abstract class BaseUser extends BaseObject implements Persistent
                     case '`UID`':
                         $stmt->bindValue($identifier, $this->uid, PDO::PARAM_INT);
                         break;
-                    case '`NAMES`':
-                        $stmt->bindValue($identifier, $this->names, PDO::PARAM_STR);
+                    case '`NAME`':
+                        $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
                     case '`PASS`':
                         $stmt->bindValue($identifier, $this->pass, PDO::PARAM_STR);
@@ -1265,7 +1265,7 @@ abstract class BaseUser extends BaseObject implements Persistent
                 return $this->getUid();
                 break;
             case 1:
-                return $this->getNames();
+                return $this->getName();
                 break;
             case 2:
                 return $this->getPass();
@@ -1338,7 +1338,7 @@ abstract class BaseUser extends BaseObject implements Persistent
         $keys = UserPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getUid(),
-            $keys[1] => $this->getNames(),
+            $keys[1] => $this->getName(),
             $keys[2] => $this->getPass(),
             $keys[3] => $this->getMail(),
             $keys[4] => $this->getTheme(),
@@ -1391,7 +1391,7 @@ abstract class BaseUser extends BaseObject implements Persistent
                 $this->setUid($value);
                 break;
             case 1:
-                $this->setNames($value);
+                $this->setName($value);
                 break;
             case 2:
                 $this->setPass($value);
@@ -1460,7 +1460,7 @@ abstract class BaseUser extends BaseObject implements Persistent
         $keys = UserPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setUid($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setNames($arr[$keys[1]]);
+        if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setPass($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setMail($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setTheme($arr[$keys[4]]);
@@ -1487,7 +1487,7 @@ abstract class BaseUser extends BaseObject implements Persistent
         $criteria = new Criteria(UserPeer::DATABASE_NAME);
 
         if ($this->isColumnModified(UserPeer::UID)) $criteria->add(UserPeer::UID, $this->uid);
-        if ($this->isColumnModified(UserPeer::NAMES)) $criteria->add(UserPeer::NAMES, $this->names);
+        if ($this->isColumnModified(UserPeer::NAME)) $criteria->add(UserPeer::NAME, $this->name);
         if ($this->isColumnModified(UserPeer::PASS)) $criteria->add(UserPeer::PASS, $this->pass);
         if ($this->isColumnModified(UserPeer::MAIL)) $criteria->add(UserPeer::MAIL, $this->mail);
         if ($this->isColumnModified(UserPeer::THEME)) $criteria->add(UserPeer::THEME, $this->theme);
@@ -1565,7 +1565,7 @@ abstract class BaseUser extends BaseObject implements Persistent
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setNames($this->getNames());
+        $copyObj->setName($this->getName());
         $copyObj->setPass($this->getPass());
         $copyObj->setMail($this->getMail());
         $copyObj->setTheme($this->getTheme());
@@ -1632,7 +1632,7 @@ abstract class BaseUser extends BaseObject implements Persistent
     public function clear()
     {
         $this->uid = null;
-        $this->names = null;
+        $this->name = null;
         $this->pass = null;
         $this->mail = null;
         $this->theme = null;

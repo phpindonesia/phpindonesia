@@ -43,19 +43,19 @@ class UserTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('UID', 'Uid', 'INTEGER', true, 10, null);
-        $this->addColumn('NAMES', 'Names', 'VARCHAR', true, 60, null);
+        $this->addColumn('NAME', 'Name', 'VARCHAR', true, 60, null);
         $this->addColumn('PASS', 'Pass', 'VARCHAR', true, 128, '');
         $this->addColumn('MAIL', 'Mail', 'VARCHAR', false, 320, '');
         $this->addColumn('THEME', 'Theme', 'VARCHAR', true, 255, '');
         $this->addColumn('SIGNATURE', 'Signature', 'VARCHAR', true, 255, '');
         $this->addColumn('SIGNATURE_FORMAT', 'SignatureFormat', 'VARCHAR', false, 255, null);
-        $this->addColumn('CREATED', 'Created', 'INTEGER', true, 11, 0);
-        $this->addColumn('ACCESS', 'Access', 'INTEGER', true, 11, 0);
-        $this->addColumn('LOGIN', 'Login', 'INTEGER', true, 11, 0);
-        $this->addColumn('STATUS', 'Status', 'TINYINT', true, 4, 0);
-        $this->addColumn('TIMEZONE', 'Timezone', 'VARCHAR', false, 32, null);
-        $this->addColumn('LANGUAGE', 'Language', 'VARCHAR', true, 12, '');
-        $this->addColumn('PICTURE', 'Picture', 'INTEGER', true, 11, 0);
+        $this->addColumn('CREATED', 'Created', 'INTEGER', true, null, 0);
+        $this->addColumn('ACCESS', 'Access', 'INTEGER', true, null, 0);
+        $this->addColumn('LOGIN', 'Login', 'INTEGER', true, null, 0);
+        $this->addColumn('STATUS', 'Status', 'TINYINT', true, null, 0);
+        $this->addColumn('TIMEZONE', 'Timezone', 'VARCHAR', false, 255, null);
+        $this->addColumn('LANGUAGE', 'Language', 'VARCHAR', true, 255, '');
+        $this->addColumn('PICTURE', 'Picture', 'INTEGER', true, null, 0);
         $this->addColumn('INIT', 'Init', 'VARCHAR', false, 254, '');
         $this->addColumn('DATA', 'Data', 'LONGVARBINARY', false, null, null);
         // validators
