@@ -41,18 +41,20 @@ Setelah itu anda harus menggenerate configurasi database terlebih dahulu dengan 
 
  - Copy-Paste file dalam folder propel-template sejajar dengan folder vendor 
  - Ganti semua namanya dengan cara menghapus semua extension .tpl nya contoh: build.properties.tpl menjadi build.properties
- -  Buka file build.properties ganti line 16 - 18 sesuai dengan konfigurasi database anda. Line tersebut berisi : 
-<pre>propel.database.url = mysql:host=localhost;dbname=dev_phpindonesia
-
+ - Buka file build.properties ganti line 16 - 18 sesuai dengan konfigurasi database anda. Line tersebut berisi : 
+<pre>
+propel.database.url = mysql:host=localhost;dbname=dev_phpindonesia
 propel.database.user = dev
-
-propel.database.password = dev</pre>
-
+propel.database.password = dev
+</pre>
  - Buka buildtime-conf.xml dan runtime-conf.xml dan ganti datasources default, id, dsn, user, dan password sesuai dengan konfigurasi database anda.
  - Buka console / terminal lalu masuk ke direktory utama aplikasi ini. Dari direktori utama ketik :
-        
-        chmod -cR 755 vendor/propel && vendor/bin/propel-gen diff && vendor/bin/propel-gen migrate && vendor/bin/propel-gen convert-conf
 
+        Bash terminal :
+        chmod -cR 755 vendor/propel && vendor/bin/propel-gen diff && vendor/bin/propel-gen migrate && vendor/bin/propel-gen convert-conf
+        
+        Windows CMD:
+        vendor/bin/propel-gen.bat diff && vendor/bin/propel-gen.bat migrate && vendor/bin/propel-gen.bat convert-conf
 
 Jika semua-nya berjalan baik, saat ini seharusnya anda dapat menjalankan aplikasi PHP Indonesia. 
 
@@ -65,5 +67,9 @@ Untuk menjalankan test-suite (dengan asumsi anda telah melakukan proses instalas
 	vendor/bin/phpunit --coverage-text
 	
 Proses pengembangan project ini menggunakan Continuous Integration dan Test Driven Development dengan Travis-CI untuk melakukan proses build secara otomatis (status build bisa dilihat di bagian paling atas dokumen ini).
+
+Menggunakan Propel Database Migration Tools
+--------------------------------------------
+Silakan baca http://propelorm.org/documentation/10-migrations.html untuk mengetahui cara menggunakan migration tools.
 
 **PHP Indonesia Team**
