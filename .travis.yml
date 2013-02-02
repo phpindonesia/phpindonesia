@@ -7,6 +7,7 @@ php:
 before_script:
   - composer self-update
   - composer install
+  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE dev_phpindonesia;'; fi"
   - cp propel-template/build.properties.tpl build.properties && cp propel-template/buildtime-conf.xml.tpl buildtime-conf.xml && cp propel-template/runtime-conf.xml.tpl runtime-conf.xml
   - chmod -cR 755 vendor/propel/
   - vendor/bin/propel-gen diff && vendor/bin/propel-gen migrate && vendor/bin/propel-gen convert-conf
