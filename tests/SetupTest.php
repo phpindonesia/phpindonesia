@@ -14,6 +14,7 @@ class SetupTest extends PHPUnit_Framework_TestCase {
 	public function testCekFolderApplikasi()
 	{
 		$folderAppExists = is_dir(realpath(__DIR__.'/../app'));
+
 		$this->assertTrue($folderAppExists);
 	}
 
@@ -23,6 +24,7 @@ class SetupTest extends PHPUnit_Framework_TestCase {
 	public function testCekFolderVendor()
 	{
 		$folderVendorExists = is_dir(realpath(__DIR__.'/../vendor'));
+		
 		$this->assertTrue($folderVendorExists);
 	}
 }

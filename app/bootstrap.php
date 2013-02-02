@@ -6,6 +6,13 @@
  * (c) PHP Indonesia 2013
  */
 
+// @codeCoverageIgnoreStart
+
+/**
+ * Global Constants
+ */
+defined('APPLICATION_PATH') OR define('APPLICATION_PATH', __DIR__);
+
 require realpath(__DIR__.'/../vendor/autoload.php');
 
 use Symfony\Component\HttpFoundation\Request;
@@ -40,3 +47,4 @@ $resolver = new ControllerResolver();
 $kernel = new HttpKernel($dispatcher, $resolver);
 
 $kernel->handle($request)->send();
+// @codeCoverageIgnoreEnd
