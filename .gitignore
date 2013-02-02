@@ -5,5 +5,4 @@ vendor/*
 app/conf/*
 /build.properties
 /buildtime-conf.xml
-/db1.schema.xml
 /runtime-conf.xml

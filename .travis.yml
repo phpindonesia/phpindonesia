@@ -7,7 +7,7 @@ php:
 before_script:
   - composer self-update
   - composer install
-  - cp propel-template/build.properties.tpl build.properties && cp propel-template/buildtime-conf.xml.tpl buildtime-conf.xml && cp propel-template/runtime-conf.xml.tpl runtime-conf.xml && cp propel-template/db1.schema.xml.tpl db1.schema.xml  
+  - cp propel-template/build.properties.tpl build.properties && cp propel-template/buildtime-conf.xml.tpl buildtime-conf.xml && cp propel-template/runtime-conf.xml.tpl runtime-conf.xml
   - vendor/bin/propel-gen sql
   - vendor/bin/propel-gen convert-conf
   - vendor/bin/propel-gen insert-sql
