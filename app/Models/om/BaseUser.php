@@ -197,7 +197,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Get the [uid] column value.
-     * Unique user ID.
+     *
      * @return int
      */
     public function getUid()
@@ -357,7 +357,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
     /**
      * Set the value of [uid] column.
-     * Unique user ID.
+     *
      * @param int $v new value
      * @return User The current object (for fluent API support)
      */

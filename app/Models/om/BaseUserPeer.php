@@ -772,6 +772,18 @@ abstract class BaseUserPeer
             }
         } else {
 
+        if ($obj->isNew() || $obj->isColumnModified(UserPeer::NAME))
+            $columns[UserPeer::NAME] = $obj->getName();
+
+        if ($obj->isNew() || $obj->isColumnModified(UserPeer::PASS))
+            $columns[UserPeer::PASS] = $obj->getPass();
+
+        if ($obj->isNew() || $obj->isColumnModified(UserPeer::MAIL))
+            $columns[UserPeer::MAIL] = $obj->getMail();
+
+        if ($obj->isNew() || $obj->isColumnModified(UserPeer::INIT))
+            $columns[UserPeer::INIT] = $obj->getInit();
+
         }
 
         return BasePeer::doValidate(UserPeer::DATABASE_NAME, UserPeer::TABLE_NAME, $columns);

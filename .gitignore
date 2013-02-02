@@ -6,4 +6,5 @@ app/conf/*
 /build.properties
 /buildtime-conf.xml
 /runtime-conf.xml
-/app/sql/
+/app/sql/*
+/app/migrations/*
