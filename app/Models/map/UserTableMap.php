@@ -59,6 +59,15 @@ class UserTableMap extends TableMap
         $this->addColumn('INIT', 'Init', 'VARCHAR', false, 254, '');
         $this->addColumn('DATA', 'Data', 'LONGVARBINARY', false, null, null);
         // validators
+        $this->addValidator('NAME', 'minLength', 'propel.validator.MinLengthValidator', '5', 'Username harus lebih dari 5 karakter.');
+        $this->addValidator('NAME', 'maxLength', 'propel.validator.MaxLengthValidator', '60', 'Username tidak boleh lebih dari 60 karakter.');
+        $this->addValidator('NAME', 'match', 'propel.validator.MatchValidator', '/^[a-zA-Z][a-zA-Z0-9_]+$/', 'Username yang anda masukkan salah. hanya huruf, angka, dan underscore yang diizinkan.');
+        $this->addValidator('NAME', 'unique', 'propel.validator.UniqueValidator', '', 'Username sudah digunakan.');
+        $this->addValidator('PASS', 'minLength', 'propel.validator.MinLengthValidator', '5', 'Katasandi harus lebih dari 5 karakter.');
+        $this->addValidator('MAIL', 'match', 'propel.validator.MatchValidator', '/^([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9])+(\.[a-zA-Z0-9_-]+)+$/', 'Silakan masukkan alamat email dengan benar.');
+        $this->addValidator('MAIL', 'maxLength', 'propel.validator.MaxLengthValidator', '320', 'email tidak boleh lebih dari 320 karakter.');
+        $this->addValidator('INIT', 'match', 'propel.validator.MatchValidator', '/^([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9])+(\.[a-zA-Z0-9_-]+)+$/', 'Silakan masukkan alamat email dengan benar.');
+        $this->addValidator('INIT', 'maxLength', 'propel.validator.MaxLengthValidator', '254', 'email tidak boleh lebih dari 254 karakter.');
     } // initialize()
 
     /**
