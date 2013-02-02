@@ -3,7 +3,7 @@
     <!-- table definitions go here -->
     <table name="users" description="User Table" namespace="\app\Models" phpName="User">
         <column name="uid" required="true" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" description="Unique user ID." />
-        <column name="names" required="true" type="VARCHAR" size="60"  description="Unique user name." />
+        <column name="name" required="true" type="VARCHAR" size="60"  description="Unique user name." />
         <column name="pass" type="VARCHAR" size="128" required="true" defaultValue="" description="User’s password (hashed)." />
         <column name="mail" type="VARCHAR" size="320" defaultValue="" />
         <column name="theme" type="VARCHAR" size="255" required="true" defaultValue=""  description="User’s default theme." />
