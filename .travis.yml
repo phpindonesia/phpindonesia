@@ -16,8 +16,8 @@ before_script:
   - chmod -cR 755 vendor/propel/
   - vendor/bin/propel-gen diff && vendor/bin/propel-gen migrate && vendor/bin/propel-gen convert-conf
 
-after_success:
-  - curl -s http://dev.phpindonesia.net/synchronize
+#after_success:
+#  - curl -s http://dev.phpindonesia.net/synchronize
 
 script: vendor/bin/phpunit --coverage-text
 
