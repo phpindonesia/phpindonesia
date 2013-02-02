@@ -12,8 +12,8 @@
                 <connection>
                     <classname>DebugPDO</classname>
                     <dsn>mysql:host=localhost;dbname=dev_phpindonesia</dsn>
-                    <user>dev</user>
-                    <password>dev</password>
+                    <user>travis</user>
+                    <password></password>
                     <!--                    <options>
                         <option id="ATTR_PERSISTENT">false</option>
                     </options>-->

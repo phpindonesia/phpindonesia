@@ -14,8 +14,8 @@ propel.database = mysql
 #   pgsql:host=localhost;port=5432;dbname=testdb;user=bruce;password=mypass
 #   oci:dbname=//localhost:1521/mydb
 propel.database.url = mysql:host=localhost;dbname=dev_phpindonesia
-propel.database.user = dev
-propel.database.password = dev
+propel.database.user = travis
+#propel.database.password = 
 propel.mysql.tableType = "InnoDB"
 
 # The database PDO connection settings at builtime for reverse engineer
