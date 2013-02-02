@@ -1,7 +1,7 @@
 README
 ======
 
-[![Build Status](https://secure.travis-ci.org/phpindonesia/phpindonesia.png?branch=develop)](http://travis-ci.org/phpindonesia/phpindonesia)
+[![Build Status](https://secure.travis-ci.org/phpindonesia/phpindonesia.png)](http://travis-ci.org/phpindonesia/phpindonesia) 
 
 Official-repository untuk Portal PHP Indonesia. Project ini dikembangkan secara open-source oleh member PHP Indonesia.
 
@@ -43,7 +43,7 @@ Menjalankan Tests
 Untuk menjalankan test-suite (dengan asumsi anda telah melakukan proses instalasi dengan benar) :
 
 	cd /lokasi/folder/phpindonesia
-	vendor/bin/phpunit --code-coverage
+	vendor/bin/phpunit --coverage-text
 	
 Proses pengembangan project ini menggunakan Continuous Integration dan Test Driven Development dengan Travis-CI untuk melakukan proses build secara otomatis (status build bisa dilihat di bagian paling atas dokumen ini).
 
