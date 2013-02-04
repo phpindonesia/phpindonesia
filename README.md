@@ -38,7 +38,7 @@ Selanjutnya, kita akan menyiapkan database menggunakan **Propel ORM**. Pertama t
 
 Anda dapat menggunakan template (build.properties.tpl, connection.xml.tpl, buildtime.xml.tpl) sebagai starting point dan mengubah nilai-nya (nama database, username, password) sesuai dengan environment anda. Di sistem UNIX, mungkin anda akan perlu mengubah permission pada propel agar script **propel-gen** berjalan :
 	
-	chmod -R 755 vendor/proper
+	chmod -R 755 vendor/propel
 
 Setelah ke-tiga file tersebut siap, sekarang kita bisa menjalankan :
 
