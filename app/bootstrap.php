@@ -27,6 +27,9 @@ use Symfony\Component\HttpKernel\HttpKernel;
 
 include 'routes.php';
 
+// Setting Propel
+Propel::init(str_replace('app', 'conf', APPLICATION_PATH) . DIRECTORY_SEPARATOR . 'connection.php');
+
 $request = Request::createFromGlobals();
 
 $context = new RequestContext();

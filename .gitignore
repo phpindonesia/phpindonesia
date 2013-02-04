@@ -1,3 +1,9 @@
 composer.phar
 composer.lock
+build.properties
+buildtime.xml
+connection.xml
 vendor/*
+app/Model/Orm/*
+conf/*
+migrations/*

@@ -6,6 +6,13 @@ php:
 
 before_script:
   - composer install
+  - mysqladmin -u travis -p create phpindonesia
+  - mv build.properties.tpl build.properties
+  - mv buildtime.xml.tpl buildtime.xml
+  - mv connection.xml.tpl connection.xml
+  - vendor/bin/propel-gen . diff migrate
+  - vendor/bin/propel-gen om
+  - vendor/bin/propel-gen convert-conf
   
 after_success:
   - curl -s http://dev.phpindonesia.net/synchronize
