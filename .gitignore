@@ -6,4 +6,5 @@ connection.xml
 vendor/*
 app/Model/Orm/*
 conf/*
+sql/*
 migrations/*
