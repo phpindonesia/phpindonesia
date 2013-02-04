@@ -65,8 +65,4 @@ Untuk menjalankan test-suite (dengan asumsi anda telah melakukan proses instalas
 	
 Proses pengembangan project ini menggunakan Continuous Integration dan Test Driven Development dengan Travis-CI untuk melakukan proses build secara otomatis (status build bisa dilihat di bagian paling atas dokumen ini).
 
-Menggunakan Propel Database Migration Tools
---------------------------------------------
-Silakan baca http://propelorm.org/documentation/10-migrations.html untuk mengetahui cara menggunakan migration tools.
-
 **PHP Indonesia Team**
