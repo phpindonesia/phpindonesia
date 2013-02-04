@@ -27,20 +27,9 @@ class ControllerHome extends ControllerBase
 		}
 		// @codeCoverageIgnoreEnd
 
-		return $this->redirect('home/foo');
-	}
-
-	/**
-	 * Handler untuk GET/POST /home/foo
-	 *
-	 * Tips : try access GET /home/foo/<numeric>
-	 */
-	public function actionFoo()
-	{
-		$id = $this->request->get('id');
 		$data = array(
-			'title' => 'PHP Indonesia - Bar',
-			'content' => 'You are in Bar '.$id,
+			'title' => 'PHP Indonesia - Bersama Berkarya Berjaya',
+			'content' => 'Portal PHP Indonesia sedang dalam pembangunan.',
 		);
 
 		return $this->render($data);
