@@ -28,7 +28,26 @@ Aplikasi ini menggunakan komponen-komponen dari Composer, cara menginstall-nya :
 	curl -s https://getcomposer.org/installer | php
 	php composer.phar install
 
-Setelah proses instalasi komponen-komponen tersebut selesai, anda akan menemukan folder **vendor** dalam direktori anda. Terakhir, anda perlu menambahkan **index.php** sebagai front-socket, yang berisi :
+Setelah proses instalasi komponen-komponen tersebut selesai, anda akan menemukan folder **vendor** dalam direktori anda. 
+
+Selanjutnya, kita akan menyiapkan database menggunakan **Propel ORM**. Pertama tama, buatlah database dengan nama **phpindonesia** beserta user yang memiliki hak akses ke database tersebut. Kini anda perlu membuat 3 file :
+
+- build.properties. Berisi global variable yang diperlukan Propel saat run-time
+- connection.xml. Berisi konfigurasi database yang diperlukan untuk membuat koneksi.
+- buildtime.xml. Berisi konfigurasi database yang diperlukan untuk proses migrasi.
+
+Anda dapat menggunakan template (build.properties.tpl, connection.xml.tpl, buildtime.xml.tpl) sebagai starting point dan mengubah nilai-nya (nama database, username, password) sesuai dengan environment anda. Di sistem UNIX, mungkin anda akan perlu mengubah permission pada propel agar script **propel-gen** berjalan :
+	
+	chmod -R 755 vendor/proper
+
+Setelah ke-tiga file tersebut siap, sekarang kita bisa menjalankan :
+
+	vendor/bin/propel-gen . diff migrate
+	vendor/bin/propel-gen -quiet
+
+Jika semua berjalan lancar, database beserta file-file yang diperlukan akan di-generate oleh proses tersebut. Lihat [Dokumentasi Propel](http://propelorm.org/documentation/) jika anda memerlukan panduan lebih lanjut.
+
+Terakhir, anda perlu menambahkan **index.php** sebagai front-socket, yang berisi :
 
 	<?php 
 
