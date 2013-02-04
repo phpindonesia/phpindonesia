@@ -10,6 +10,7 @@ before_script:
   - mv build.properties.tpl build.properties
   - mv buildtime.xml.tpl buildtime.xml
   - mv connection.xml.tpl connection.xml
+  - chmod -R 755 vendor/propel/
   - vendor/bin/propel-gen . diff migrate
   - vendor/bin/propel-gen om
   - vendor/bin/propel-gen convert-conf
