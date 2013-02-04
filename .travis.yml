@@ -6,7 +6,7 @@ php:
 
 before_script:
   - composer install
-  - mysqladmin -u travis -p create phpindonesia
+  - mysqladmin create phpindonesia
   - mv build.properties.tpl build.properties
   - mv buildtime.xml.tpl buildtime.xml
   - mv connection.xml.tpl connection.xml
