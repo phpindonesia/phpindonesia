@@ -8,3 +8,4 @@ app/Model/Orm/*
 conf/*
 sql/*
 migrations/*
+/nbproject
