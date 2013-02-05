@@ -27,7 +27,7 @@ class ControllerHome extends ControllerBase
 		}
 		// @codeCoverageIgnoreEnd
 
-		return $this->redirect('home/foo');
+		return $this->redirect('/home/foo');
 	}
 
 	/**
