@@ -23,6 +23,9 @@
 		</blacklist>
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">app</directory>
+			<exclude>
+		      <directory suffix=".php">app/Model/Orm</directory>
+		    </exclude>
 		</whitelist>
 	</filter>
 </phpunit>

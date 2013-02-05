@@ -19,6 +19,16 @@ class SetupTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Cek folder ORM Models
+	 */
+	public function testCekFolderORMClasses()
+	{
+		$folderOrmExists = is_dir(realpath(__DIR__.'/../app/Model/Orm'));
+
+		$this->assertTrue($folderOrmExists);
+	}
+
+	/**
 	 * Cek folder vendor
 	 */
 	public function testCekFolderVendor()
@@ -26,5 +36,15 @@ class SetupTest extends PHPUnit_Framework_TestCase {
 		$folderVendorExists = is_dir(realpath(__DIR__.'/../vendor'));
 		
 		$this->assertTrue($folderVendorExists);
+	}
+
+	/**
+	 * Cek folder configuration file
+	 */
+	public function testCekFolderConf()
+	{
+		$folderConfExists = is_dir(realpath(__DIR__.'/../conf'));
+		
+		$this->assertTrue($folderConfExists);
 	}
 }

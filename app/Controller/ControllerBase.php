@@ -77,7 +77,7 @@ class ControllerBase
 		// Persiapkan data yang akan di-render
 		if (is_array($data) && array_key_exists('title', $data) && array_key_exists('content', $data)) {
 			// Data yang dikirim memiliki parameter minimal yakni 'title' dan 'content'
-			// Load twig dan template yang berkaitan
+			// yang diperlukan Twig. Load template yang berkaitan dan assign data.
 			$twigLoader = new \Twig_Loader_Filesystem(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'Templates');
 			$twig = new \Twig_Environment($twigLoader);
 			$content = $twig->render('layout.html.tpl', $data);

@@ -1,10 +1,10 @@
 composer.phar
 composer.lock
+build.properties
+buildtime.xml
+connection.xml
 vendor/*
-/nbproject
-app/conf/*
-/build.properties
-/buildtime-conf.xml
-/runtime-conf.xml
-/app/sql/*
-/app/migrations/*
+app/Model/Orm/*
+conf/*
+sql/*
+migrations/*
