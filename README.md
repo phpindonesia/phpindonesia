@@ -53,7 +53,8 @@ Terakhir, anda perlu menambahkan **index.php** sebagai front-socket, yang berisi
 
 	include '/lokasi/folder/phpindonesia/app/bootstrap.php';
 
-Letakkan **index.php** di luar direktori **phpindonesia**, dan arahkan base-directory dari virtual-host ke folder dimana file **index.php** berada. Jika semua-nya berjalan baik, saat ini seharusnya anda dapat menjalankan aplikasi PHP Indonesia. 
+Letakkan **index.php** di luar direktori **phpindonesia** dan buat folder baru bernama assets disebelah nya, dan arahkan base-directory dari virtual-host ke folder dimana file **index.php** berada. Jika semua-nya berjalan baik, saat ini seharusnya anda dapat menjalankan aplikasi PHP Indonesia. 
+Jika anda pengguna sistem Operasi berbasis unix jangan lupa set write permission untuk folder assets tersebut caranya chmod -R 777 assets.
 
 Menjalankan Tests
 -----------------
