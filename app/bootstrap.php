@@ -12,7 +12,7 @@
  * Global Constants
  */
 defined('APPLICATION_PATH') OR define('APPLICATION_PATH', __DIR__);
-defined('ASSET_FACTORY_PATH') OR define('ASSET_FACTORY_PATH', dirname(__DIR__) . "/assets");
+defined('ASSET_FACTORY_PATH') OR define('ASSET_FACTORY_PATH', dirname(__DIR__) . "/asset");
 /** Set application adalah debug mode disable dalam production mode */
 defined('APPLICATION_DEBUG') OR define('APPLICATION_DEBUG', true);
 defined('BASE_PATH') OR define('BASE_PATH', dirname($_SERVER['SCRIPT_FILENAME']));
