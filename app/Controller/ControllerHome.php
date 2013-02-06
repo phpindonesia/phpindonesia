@@ -18,8 +18,7 @@ class ControllerHome extends ControllerBase
 	/**
 	 * Handler untuk GET/POST /home/index
 	 */
-	public function actionIndex()
-	{
+	public function actionIndex() {
 		// @codeCoverageIgnoreStart
 		// Exception untuk PHPUnit, yang secara otomatis selalu melakukan GET request ke / di akhir eksekusi
 		if ($this->request->server->get('PHP_SELF', 'undefined') == 'vendor/bin/phpunit') {
