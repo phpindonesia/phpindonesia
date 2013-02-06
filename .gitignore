@@ -9,3 +9,5 @@ conf/*
 sql/*
 migrations/*
 /nbproject
+/tests/assets/*
+!/tests/assets/.gitignore
