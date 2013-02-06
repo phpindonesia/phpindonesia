@@ -12,8 +12,12 @@
  * Global Constants
  */
 defined('APPLICATION_PATH') OR define('APPLICATION_PATH', __DIR__);
+defined('ASSET_FACTORY_PATH') OR define('ASSET_FACTORY_PATH', dirname(__DIR__) . "/assets");
+/** Set application adalah debug mode disable dalam production mode */
+defined('APPLICATION_DEBUG') OR define('APPLICATION_DEBUG', true);
+defined('BASE_PATH') OR define('BASE_PATH', dirname($_SERVER['SCRIPT_FILENAME']));
 
-require realpath(__DIR__.'/../vendor/autoload.php');
+require realpath(__DIR__ . '/../vendor/autoload.php');
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,10 +44,10 @@ $matcher = new UrlMatcher($routes, $context);
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new RouterListener($matcher));
 $dispatcher->addSubscriber(new ExceptionListener(function (Request $request) {
-    $msg = 'Something went wrong! ('.$request->get('exception')->getMessage().')';
+                    $msg = 'Something went wrong! (' . $request->get('exception')->getMessage() . ')';
 
-    return new Response($msg, 500);
-}));
+                    return new Response($msg, 500);
+                }));
 
 $resolver = new ControllerResolver();
 
