@@ -9,5 +9,10 @@
 </head>
 <body>
 {{ content }}
+<ul>
+{% for lalala in objects %}
+	<li>{{lalala.title}}</li>
+{% endfor %}
+</ul>
 </body>
 </html>
