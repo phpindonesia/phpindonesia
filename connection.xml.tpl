@@ -5,6 +5,7 @@
       <datasource id="phpindonesia">
         <adapter>mysql</adapter>
         <connection>
+          <!-- Ubah nilai di bawah ini sesuai dengan environment anda -->
           <dsn>mysql:host=localhost;dbname=phpindonesia</dsn>
           <user>travis</user>
           <password></password>

@@ -33,19 +33,6 @@ class ControllerHomeTest extends PHPUnit_Framework_TestCase {
 		$controllerHome = new ControllerHome($request);
 		$response = $controllerHome->actionIndex();
 
-		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\RedirectResponse', $response);
-		$this->assertEquals(302, $response->getStatusCode());
-	}
-
-	/**
-	 * Cek action foo
-	 */
-	public function testCekActionFooAppControllerHome()
-	{
-		$request = Request::create('/home/index');
-		$controllerHome = new ControllerHome($request);
-		$response = $controllerHome->actionFoo();
-
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals(200, $response->getStatusCode());
 	}
