@@ -9,10 +9,10 @@
         {% stylesheets 'bootstrap/less/bootstrap.less' filter='less' output='/assets/css/main.css' %}
         <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
         {% endstylesheets %}
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     </head>
     <body>
         {{ content }}
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
         {% javascripts 
 'bootstrap/js/bootstrap-alert.js'
 'bootstrap/js/bootstrap-modal.js' 
