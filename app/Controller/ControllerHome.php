@@ -8,6 +8,8 @@
 
 namespace app\Controller;
 
+use app\Model\Orm\PhpidNodeQuery;
+
 /**
  * ControllerHome
  *
@@ -41,6 +43,24 @@ class ControllerHome extends ControllerBase
 		$data = array(
 			'title' => 'PHP Indonesia - Bar',
 			'content' => 'You are in Bar '.$id,
+		);
+
+		return $this->render($data);
+	}
+
+	public function actionLalala()
+	{
+		$nodes = PhpidNodeQuery::create()->find();
+
+		// foreach ($nodes as $node) {
+		// 	echo $node->getTitle();
+		// 	echo "<hr />";
+		// }
+
+		$data = array(
+			'title' => 'PHP Indonesia - Bar',
+			'content' => 'You are in Lalala ',
+			'objects' => $nodes
 		);
 
 		return $this->render($data);
