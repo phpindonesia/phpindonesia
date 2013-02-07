@@ -27,11 +27,37 @@ class ControllerHome extends ControllerBase
 		}
 		// @codeCoverageIgnoreEnd
 
-		$data = array(
-			'title' => 'PHP Indonesia - Bersama Berkarya Berjaya',
-			'content' => 'Portal PHP Indonesia sedang dalam pembangunan.',
+		// Data
+		$data = $this->data();
+		$data['title']		= 'Home';
+		$data['content']	= 'Portal PHP Indonesia sedang dalam pembangunan.';
+
+		// Render
+		$this->layout = 'home.tpl';
+		return $this->render($data);
+	}
+
+	protected function data()
+	{
+		// Data menu
+		$data_menu	= array(
+			'menu_top' => array(
+				array('title' => 'Home', 'link' => '/'),
+				array('title' => 'Masuk', 'link' => '/auth/login'),
+				array('title' => 'Daftar', 'link' => '/auth/register'),
+			),
+			'menu_bottom' => array(),
 		);
 
-		return $this->render($data);
+		// Data content
+		$data_content = array(
+			'title'		=> NULL,
+			'content'	=> NULL,
+		);
+
+		// Merge data
+		$data = array_merge($data_menu, $data_content);
+
+		return $data;
 	}
 }

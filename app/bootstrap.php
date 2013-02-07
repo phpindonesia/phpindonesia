@@ -11,9 +11,12 @@
 /**
  * Global Constants
  */
+defined('APPLICATION_DEBUG') OR define('APPLICATION_DEBUG', true);
 defined('APPLICATION_PATH') OR define('APPLICATION_PATH', __DIR__);
+defined('ASSET_PATH') OR define('ASSET_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'public');
+defined('CONFIG_PATH') OR define('CONFIG_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'conf');
 
-require realpath(__DIR__.'/../vendor/autoload.php');
+require realpath(__DIR__ . '/../vendor/autoload.php');
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,10 +43,10 @@ $matcher = new UrlMatcher($routes, $context);
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new RouterListener($matcher));
 $dispatcher->addSubscriber(new ExceptionListener(function (Request $request) {
-    $msg = 'Something went wrong! ('.$request->get('exception')->getMessage().')';
+                    $msg = 'Something went wrong! (' . $request->get('exception')->getMessage() . ')';
 
-    return new Response($msg, 500);
-}));
+                    return new Response($msg, 500);
+                }));
 
 $resolver = new ControllerResolver();
 

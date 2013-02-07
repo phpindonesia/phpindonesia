@@ -1,5 +1,5 @@
 {
-	"autoload": {
+    "autoload": {
         "psr-0": {"app": "."}
     },
 
