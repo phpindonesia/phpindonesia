@@ -18,8 +18,7 @@ class ControllerAuth extends ControllerBase
 	/**
 	 * Handler untuk GET/POST /auth/login
 	 */
-	public function actionLogin()
-	{
+	public function actionLogin() {
 		// @codeCoverageIgnoreStart
 		// Exception untuk PHPUnit, yang secara otomatis selalu melakukan GET request ke / di akhir eksekusi
 		if ($this->request->server->get('PHP_SELF', 'undefined') == 'vendor/bin/phpunit') {
@@ -39,8 +38,7 @@ class ControllerAuth extends ControllerBase
 	/**
 	 * Handler untuk GET/POST /auth/register
 	 */
-	public function actionRegister()
-	{
+	public function actionRegister() {
 		// @codeCoverageIgnoreStart
 		// Exception untuk PHPUnit, yang secara otomatis selalu melakukan GET request ke / di akhir eksekusi
 		if ($this->request->server->get('PHP_SELF', 'undefined') == 'vendor/bin/phpunit') {
@@ -60,8 +58,7 @@ class ControllerAuth extends ControllerBase
 	/**
 	 * Handler untuk GET/POST /auth/forgot
 	 */
-	public function actionForgot()
-	{
+	public function actionForgot() {
 		// @codeCoverageIgnoreStart
 		// Exception untuk PHPUnit, yang secara otomatis selalu melakukan GET request ke / di akhir eksekusi
 		if ($this->request->server->get('PHP_SELF', 'undefined') == 'vendor/bin/phpunit') {
@@ -81,8 +78,7 @@ class ControllerAuth extends ControllerBase
 	/**
 	 * Data
 	 */
-	protected function data()
-	{
+	protected function data() {
 		// Data menu
 		$data_menu	= array(
 			'menu_top' => array(

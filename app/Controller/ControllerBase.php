@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class ControllerBase {
 
     protected $request;
-    public $layout = 'layout.html.tpl';
+    protected $layout = 'layout.html.tpl';
 
     /**
      * Constructor.
