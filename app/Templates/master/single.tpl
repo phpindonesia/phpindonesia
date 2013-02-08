@@ -19,7 +19,7 @@
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114-precomposed.png">
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="/assets/img/favicon/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="/assets/img/favicon/favicon.png">
+        <link rel="shortcut icon" href="/asset/img/favicon/favicon.png">
     {% endblock %}
 </head>
 
@@ -54,7 +54,7 @@
     {######################## Footer ########################}
     {% include "blocks/footer.tpl" %}
 
-    <script src="/assets/js/app.js"></script>
+    <script src="/asset/js/app.js"></script>
 </body>
 
 </html>
