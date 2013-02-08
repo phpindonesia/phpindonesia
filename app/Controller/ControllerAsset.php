@@ -25,15 +25,20 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class ControllerAsset extends ControllerBase 
 {
+	protected $assetFile;
+
+	/**
+	 * beforeAction Hook
+	 */
+	public function beforeAction() {
+		$this->assetFile = $this->request->get('id', 'undefined');
+	}
 
 	/**
 	 * Handler untuk GET /asset/css/somecss.css
 	 */
 	public function actionCss() {
-		// Ambil parameter dari request
-		$id = $this->request->get('id', 'undefined');
-
-		if ($id == 'main.css') {
+		if ($this->assetFile == 'main.css') {
 			// Build CSS from LESS
 			$am = new AssetManager();
 			$fm = new FilterManager();
@@ -55,7 +60,7 @@ class ControllerAsset extends ControllerBase
 		} else {
 			// @codeCoverageIgnoreStart
 			// Validasi file
-			$file = $this->validateAssetFile('css', $id);
+			$file = $this->validateAssetFile('css', $this->assetFile);
 			$mime = $file->getMimeType();
 			// @codeCoverageIgnoreEnd
 		}
@@ -67,10 +72,7 @@ class ControllerAsset extends ControllerBase
 	 * Handler untuk GET /asset/js/somejs.js
 	 */
 	public function actionJs() {
-		// Ambil parameter dari request
-		$id = $this->request->get('id', 'undefined');
-
-		if ($id == 'app.js') {
+		if ($this->assetFile == 'app.js') {
 			// Buatkan kompilasi Bootstrap JS
 			$collection = new AssetCollection();
 			$bootstrap = array(
@@ -96,7 +98,7 @@ class ControllerAsset extends ControllerBase
 			$mime = 'application/javascript';
 		} else {
 			// Validasi file
-			$file = $this->validateAssetFile('js', $id);
+			$file = $this->validateAssetFile('js', $this->assetFile);
 			$mime = $file->getMimeType();
 		}
 
@@ -107,11 +109,8 @@ class ControllerAsset extends ControllerBase
 	 * Handler untuk GET /asset/img/someimage.png
 	 */
 	public function actionImg() {
-		// Ambil parameter dari request
-		$id = $this->request->get('id', 'undefined');
-
 		// Validasi
-		$file = $this->validateAssetFile('img', $id);
+		$file = $this->validateAssetFile('img', $this->assetFile);
 		$mime = $file->getMimeType();
 
 		return $this->renderAsset($mime,$file);
