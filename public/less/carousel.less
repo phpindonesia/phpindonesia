@@ -69,8 +69,8 @@
 
 .carousel-control {
   position: absolute;
-  top: 40%;
-  left: 15px;
+  bottom: 10px;
+  right: 65px;
   width: 40px;
   height: 40px;
   margin-top: -20px;
@@ -82,7 +82,7 @@
   background: @grayDarker;
   border: 3px solid @white;
   .border-radius(23px);
-  .opacity(50);
+  .opacity(70);
 
   // we can't have this transition here
   // because webkit cancels the carousel
@@ -93,7 +93,7 @@
 
   // Reposition the right one
   &.right {
-    left: auto;
+    //left: auto;
     right: 15px;
   }
 
