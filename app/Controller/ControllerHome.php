@@ -29,7 +29,7 @@ class ControllerHome extends ControllerBase
 		// @codeCoverageIgnoreEnd
 
 		// Template configuration
-		$this->layout = 'home.tpl';
+		$this->layout = 'modules/home/index.tpl';
 		$data = ModelBase::factory('Template')->getHomeData();
 
 		// Render
