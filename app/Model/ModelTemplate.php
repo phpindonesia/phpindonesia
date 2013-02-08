@@ -58,6 +58,15 @@ class ModelTemplate extends ModelBase
 	}
 
 	/**
+	 * Mendapat default data
+	 *
+	 * @return array Default data
+	 */
+	public function getDefaultData() {
+		return $this->defaultData;
+	}
+
+	/**
 	 * PrepareData
 	 *
 	 * @param array $data Data default tiap section
