@@ -75,7 +75,16 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 	 * Cek action image
 	 */
 	public function testCekActionImgAppControllerAsset() {
+		// Satu level directory
 		$request = Request::create('/asset/img', 'GET', array('id' => 'glyphicons-halflings-white.png'));
+		$controllerAsset = new ControllerAsset($request);
+		$response = $controllerAsset->actionImg();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals(200, $response->getStatusCode());
+
+		// Lebih dari satu level directory
+		$request = Request::create('/asset/img', 'GET', array('subfolder' => 'favicon','id' => 'favicon.png'));
 		$controllerAsset = new ControllerAsset($request);
 		$response = $controllerAsset->actionImg();
 
@@ -93,6 +102,30 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 			'The file "'.ASSET_PATH.'/img/undefined" does not exist');
 
 		$response = $controllerAsset->actionImg();
+	}
+
+	/**
+	 * Cek action font
+	 */
+	public function testCekActionFontAppControllerAsset() {
+		$request = Request::create('/asset/font', 'GET', array('id' => 'fontawesome-webfont.eot'));
+		$controllerAsset = new ControllerAsset($request);
+		$response = $controllerAsset->actionFont();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals(200, $response->getStatusCode());
+	}
+
+	public function testCekActionFontGagalAppControllerAsset() {
+
+		$request = Request::create('/asset/font');
+		$controllerAsset = new ControllerAsset($request);
+
+		$this->setExpectedException(
+			'Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException',
+			'The file "'.ASSET_PATH.'/font/undefined" does not exist');
+
+		$response = $controllerAsset->actionFont();
 	}
 
 }
