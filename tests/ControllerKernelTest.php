@@ -15,8 +15,7 @@ class ControllerKernelTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek konsistensi controller kernel instance
 	 */
-	public function testCekKonsistensiAppControllerKernel()
-	{
+	public function testCekKonsistensiAppControllerKernel() {
 		$controllerKernel = new ControllerKernel(array(
 			Route::HANDLER_CLASS => 'home',
 			Route::HANDLER_ACTION => 'index',
@@ -28,8 +27,7 @@ class ControllerKernelTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek invalid handler [KOSONG]
 	 */
-	public function testCekInvalidHandlerKosong()
-	{
+	public function testCekInvalidHandlerKosong() {
 		$this->setExpectedException('Exception', 'Invalid handler for this request');
 
 		$controllerKernel = new ControllerKernel(array());
@@ -38,8 +36,7 @@ class ControllerKernelTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek invalid handler [ADA TAPI TIDAK VALID]
 	 */
-	public function testCekInvalidHandlerParameterKey()
-	{
+	public function testCekInvalidHandlerParameterKey() {
 		$request = Request::create('/home/index');
 		$controllerKernel = new ControllerKernel(array(
 			Route::HANDLER_CLASS => NULL,
@@ -54,8 +51,7 @@ class ControllerKernelTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek valid handler dan invalid controller parameter
 	 */
-	public function testCekValidHandlerInvalidControllerParameter()
-	{
+	public function testCekValidHandlerInvalidControllerParameter() {
 		$request = Request::create('/home/index');
 		$controllerKernel = new ControllerKernel(array(
 			Route::HANDLER_CLASS => 'controlleryangtidakada',
@@ -70,8 +66,7 @@ class ControllerKernelTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek valid handler dan invalid action parameter
 	 */
-	public function testCekValidHandlerInvalidAction()
-	{
+	public function testCekValidHandlerInvalidAction() {
 		$request = Request::create('/home/index');
 		$controllerKernel = new ControllerKernel(array(
 			Route::HANDLER_CLASS => 'home',
@@ -86,8 +81,7 @@ class ControllerKernelTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek valid handler dan valid controller
 	 */
-	public function testCekValidHandlerValidControllerParameter()
-	{
+	public function testCekValidHandlerValidControllerParameter() {
 		$request = Request::create('/home/index');
 		$controllerKernel = new ControllerKernel(array(
 			Route::HANDLER_CLASS => 'home',

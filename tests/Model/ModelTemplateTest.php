@@ -13,8 +13,7 @@ class ModelTemplateTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek konsistensi model template instance
 	 */
-	public function testCekKonsistensiModelTemplate()
-	{
+	public function testCekKonsistensiModelTemplate() {
 		$template = ModelBase::factory('Template');
 
 		$this->assertInstanceOf('\app\Model\ModelBase', $template);
@@ -25,8 +24,7 @@ class ModelTemplateTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek get default data
 	 */
-	public function testCekGetDefaultDataTemplate()
-	{
+	public function testCekGetDefaultDataTemplate() {
 		$template = ModelBase::factory('Template');
 		$defaultData = $template->getDefaultData();
 
