@@ -13,8 +13,7 @@ class ModelBaseTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek konsistensi Model Factory
 	 */
-	public function testCekKonsistensiModelFactory()
-	{
+	public function testCekKonsistensiModelFactory() {
 		$template = ModelBase::factory('Template');
 
 		$this->assertInstanceOf('\app\Model\ModelBase', $template);
@@ -27,8 +26,7 @@ class ModelBaseTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek konsistensi ORM Factory
 	 */
-	public function testCekKonsistensiOrmFactory()
-	{
+	public function testCekKonsistensiOrmFactory() {
 		$users = ModelBase::ormFactory('PhpidUsersQuery');
 
 		$this->assertInstanceOf('\app\Model\Orm\om\BasePhpidUsersQuery', $users);

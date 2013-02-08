@@ -34,8 +34,7 @@ class Route extends SymfonyRoute
 	 * @param array  $requirements An array of requirements for parameters (regexes)
 	 * @param array  $options      An array of options
 	 */
-	public function __construct($pattern, array $requirements = array(), array $options = array())
-	{
+	public function __construct($pattern, array $requirements = array(), array $options = array()) {
 		// Default handler class and action
 		$handler = array(self::HANDLER_CLASS => 'home', self::HANDLER_ACTION => 'index');
 

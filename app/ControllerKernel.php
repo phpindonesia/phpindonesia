@@ -26,8 +26,7 @@ class ControllerKernel implements ControllerKernelInterface
 	 *
 	 * @throws \Exception When an Exception occurs during processing
 	 */
-	public function __construct(array $handler)
-	{
+	public function __construct(array $handler) {
 		// Validate the handler
 		if ( !array_key_exists(Route::HANDLER_CLASS, $handler) ||  !array_key_exists(Route::HANDLER_CLASS, $handler)) {
 			throw new \InvalidArgumentException('Invalid handler for this request');
@@ -42,8 +41,7 @@ class ControllerKernel implements ControllerKernelInterface
 	 *
 	 * @param Array $handler A handler description
 	 */
-	public static function make(array $handler)
-	{
+	public static function make(array $handler) {
 		return new static($handler);
 	}
 
@@ -56,8 +54,7 @@ class ControllerKernel implements ControllerKernelInterface
 	 *
 	 * @throws \Exception When an Exception occurs during processing
 	 */
-	public function handle(Request $request)
-	{
+	public function handle(Request $request) {
 		$controllerClass = $this->controller;
 		$action = $this->action;
 
