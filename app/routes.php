@@ -36,9 +36,9 @@ $routes->add('default', new Route('/', array(Route::HANDLER => array(Route::HAND
 
 $routes->add('travis_sync', new Route('/synchronize', array(Route::HANDLER => array(Route::HANDLER_CLASS => 'base', Route::HANDLER_ACTION => 'synchronize'))));
 
-$routes->add('asset', new Route('/{controller}/{action}/{id}', array('controller' => 'asset', 'action' => '(js|css|img)', 'id' => '[a-zA-Z\.\-]+')));
+$routes->add('asset', new Route('/{controller}/{action}/{id}', array('controller' => 'asset', 'action' => '(js|css|img|font)', 'id' => '[a-zA-Z\.\-]+')));
 
-$routes->add('font_inherit_from_asset', new Route('/asset/{type}/{id}', array(Route::HANDLER => array(Route::HANDLER_CLASS => 'asset', Route::HANDLER_ACTION => 'img'), 'type' => 'font', 'id' => '[a-zA-Z\.\-\?\=\#\&]+')));
+$routes->add('asset_subfolder', new Route('/{controller}/{action}/{subfolder}/{id}', array('controller' => 'asset', 'action' => '(js|css|img|font)', 'subfolder' => '[0-9a-zA-Z\_\-]+','id' => '[a-zA-Z\.\-]+')));
 
 $routes->add('universal_route_default', new Route('/{controller}', array('controller' => '[a-z]+')));
 
