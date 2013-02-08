@@ -29,6 +29,11 @@ class ControllerBase {
      */
     public function __construct(Request $request) {
         $this->request = $request;
+
+        // Before action hook
+        if (is_callable(array($this,'beforeAction'))) {
+            $this->beforeAction();
+        }
     }
 
     /**
