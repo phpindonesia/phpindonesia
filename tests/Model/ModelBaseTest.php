@@ -11,9 +11,23 @@ use app\Model\ModelBase;
 class ModelBaseTest extends PHPUnit_Framework_TestCase {
 
 	/**
-	 * Cek konsistensi model base instance
+	 * Cek konsistensi Model Factory
 	 */
-	public function testCekKonsistensiAppControllerBase()
+	public function testCekKonsistensiModelFactory()
+	{
+		$template = ModelBase::factory('Template');
+
+		$this->assertInstanceOf('\app\Model\ModelBase', $template);
+		$this->assertInstanceOf('\app\Model\ModelTemplate', $template);
+		$this->setExpectedException('InvalidArgumentException', 'Model class not found');
+
+		ModelBase::factory('Undefined');
+	}
+
+	/**
+	 * Cek konsistensi ORM Factory
+	 */
+	public function testCekKonsistensiOrmFactory()
 	{
 		$users = ModelBase::ormFactory('PhpidUsersQuery');
 
