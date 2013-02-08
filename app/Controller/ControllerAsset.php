@@ -111,11 +111,15 @@ class ControllerAsset extends ControllerBase
 	}
 
 	/**
-	 * Handler untuk GET /asset/img/someimage.png
+	 * Handler untuk 	GET /asset/img/someimage.png
+	 * 					GET /asset/font/somefont.***
 	 */
 	public function actionImg() {
+		// Tentukan type berdasarkan request
+		$type = $this->request->get('type', 'img');
+
 		// Validasi
-		$file = $this->validateAssetFile('img', $this->assetFile);
+		$file = $this->validateAssetFile($type, $this->assetFile);
 		$mime = $file->getMimeType();
 
 		return $this->renderAsset($mime,$file);
