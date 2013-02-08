@@ -129,8 +129,7 @@ class ControllerAsset extends ControllerBase
 	 *
 	 * @return Response
 	 */
-	protected function renderAsset($mime, $asset)
-	{
+	protected function renderAsset($mime, $asset) {
 		// Default cache adalah 5 menit
 		$age = 60*5;
 
