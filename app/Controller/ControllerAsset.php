@@ -48,7 +48,9 @@ class ControllerAsset extends ControllerBase
 			$factory->setAssetManager($am);
 			$css = $factory->createAsset(
 				array(
-					'less/bootstrap.less', // load every scss files from "/path/to/asset/directory/css/src/"
+					'less/bootstrap.less',
+					'less/custom.less',		// Custom style agar tidak merubah bootstrap default
+					'less/responsive.less'	// Generate responsive
 				), 
 				array(
 					'less', // filter through the filter manager's "scss" filter
@@ -76,6 +78,8 @@ class ControllerAsset extends ControllerBase
 			// Buatkan kompilasi Bootstrap JS
 			$collection = new AssetCollection();
 			$bootstrap = array(
+				'js/jquery-1.9.1.min.js',
+				'js/bootstrap-transition.js',
 				'js/bootstrap-alert.js',
 				'js/bootstrap-modal.js',
 				'js/bootstrap-dropdown.js',
@@ -87,7 +91,8 @@ class ControllerAsset extends ControllerBase
 				'js/bootstrap-collapse.js',
 				'js/bootstrap-carousel.js',
 				'js/bootstrap-typeahead.js',
-				'js/bootstrap-affix.js'
+				'js/bootstrap-affix.js',
+				'js/scripts.js' // Custom JS untuk manajemen keseluruhan JS lainnya
 			);
 
 			foreach ($bootstrap as $js) {
@@ -104,7 +109,7 @@ class ControllerAsset extends ControllerBase
 
 		return $this->renderAsset($mime,$file);
 	}
-	
+
 	/**
 	 * Handler untuk GET /asset/img/someimage.png
 	 */
