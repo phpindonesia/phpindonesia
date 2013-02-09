@@ -82,14 +82,6 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals(200, $response->getStatusCode());
-
-		// Lebih dari satu level directory
-		$request = Request::create('/asset/img', 'GET', array('subfolder' => 'favicon','id' => 'favicon.png'));
-		$controllerAsset = new ControllerAsset($request);
-		$response = $controllerAsset->actionImg();
-
-		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
-		$this->assertEquals(200, $response->getStatusCode());
 	}
 
 	public function testCekActionImgGagalAppControllerAsset() {
