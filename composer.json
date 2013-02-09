@@ -8,8 +8,10 @@
         "symfony/routing": "v2.1.7",
         "propel/propel1": "1.6.7",
         "twig/twig": "v1.12.1",
+        "leafo/lessphp": "v0.3.8",
         "kriswallsmith/assetic": "v1.0.4",
         "phpunit/phpunit": "3.7.13",
-        "phpunit/phpunit-selenium": "1.2.11"
+        "phpunit/phpunit-selenium": "1.2.11",
+        "facebook/php-sdk": "v3.2.1"
     }
 }

@@ -1,0 +1,127 @@
+/**********************************
+Base
+**********************************/
+body{
+	background-image: url('../img/noise.png');
+	background-repeat: repeat;
+}
+
+#toolbar{
+	background-color: darken(#73a0ba, 10%);
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color: #fff;
+}
+
+#header{
+	background-color: #73a0ba;
+	padding-top: 20px;
+	color: #fff;
+	position: relative;
+}
+
+#body{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+@media (max-width: 767px) {
+	#header{
+		padding-left: 20px;
+    	padding-right: 20px;
+		margin: auto -20px;
+	}
+}
+
+/**********************************
+Logo
+**********************************/
+#logo{
+	background-image: url('../img/logo.png');
+	background-repeat: no-repeat;
+	width: 150px;
+	height: 50px;
+	display: block;
+}
+
+
+/**********************************
+HEADER
+**********************************/
+// Slider
+#slider{
+	position: relative;
+	width: 100%;
+	bottom:0;
+	margin-bottom: 0;
+	background-color: #aaa;
+}
+
+// Header Left
+#header-left{
+	padding-bottom: 20px;
+}
+
+
+/**********************************
+Navbar
+**********************************/
+#topnav{
+	margin-bottom: 0;
+	float: right;
+	list-style: none;
+	height: 50px;
+
+	li{
+		float: left;
+		margin: 0 10px;
+
+		a{
+			font-weight: 700;
+			line-height: 50px;
+			color: #ddd;
+
+			&:hover{
+				color: #fff;
+			}
+		}
+	}
+}
+
+/**********************************
+Sticky Footer
+**********************************/
+html,
+body {
+	height: 100%;
+}
+
+#wrap {
+	width: 100%;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -60px;
+}
+
+#push,
+#footer {
+	height: 60px;
+}
+#footer {
+	background-color: #111;
+	color: #aaa;
+}
+
+@media (max-width: 767px) {
+	#footer {
+		margin-left: -20px;
+		margin-right: -20px;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+}
+
+.container .credit {
+	margin: 20px 0;
+}

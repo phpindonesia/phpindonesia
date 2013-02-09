@@ -8,7 +8,11 @@
 
 namespace app\Controller;
 
+<<<<<<< HEAD
 use app\Model\Orm\PhpidNodeQuery;
+=======
+use app\Model\ModelBase;
+>>>>>>> upstream/develop
 
 /**
  * ControllerHome
@@ -20,8 +24,7 @@ class ControllerHome extends ControllerBase
 	/**
 	 * Handler untuk GET/POST /home/index
 	 */
-	public function actionIndex()
-	{
+	public function actionIndex() {
 		// @codeCoverageIgnoreStart
 		// Exception untuk PHPUnit, yang secara otomatis selalu melakukan GET request ke / di akhir eksekusi
 		if ($this->request->server->get('PHP_SELF', 'undefined') == 'vendor/bin/phpunit') {
@@ -29,13 +32,14 @@ class ControllerHome extends ControllerBase
 		}
 		// @codeCoverageIgnoreEnd
 
-		$data = array(
-			'title' => 'PHP Indonesia - Bersama Berkarya Berjaya',
-			'content' => 'Portal PHP Indonesia sedang dalam pembangunan.',
-		);
+		// Template configuration
+		$this->layout = 'modules/home/index.tpl';
+		$data = ModelBase::factory('Template')->getHomeData();
 
+		// Render
 		return $this->render($data);
 	}
+<<<<<<< HEAD
 
 	public function actionLalala()
 	{
@@ -55,3 +59,6 @@ class ControllerHome extends ControllerBase
 		return $this->render($data);
 	}
 }
+=======
+}
+>>>>>>> upstream/develop

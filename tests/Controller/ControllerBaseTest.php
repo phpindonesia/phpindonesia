@@ -14,8 +14,7 @@ class ControllerBaseTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek konsistensi controller base instance
 	 */
-	public function testCekKonsistensiAppControllerBase()
-	{
+	public function testCekKonsistensiAppControllerBase() {
 		$request = Request::create('/home/index');
 		$controllerBase = new ControllerBase($request);
 
@@ -26,8 +25,7 @@ class ControllerBaseTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek redirect
 	 */
-	public function testCekRedirectAppControllerBase()
-	{
+	public function testCekRedirectAppControllerBase() {
 		$request = Request::create('/home/index');
 		$controllerBase = new ControllerBase($request);
 		$response = $controllerBase->redirect('/controller/lain');
@@ -39,8 +37,7 @@ class ControllerBaseTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek render
 	 */
-	public function testCekRenderAppControllerBase()
-	{
+	public function testCekRenderAppControllerBase() {
 		$request = Request::create('/home/index');
 		$controllerBase = new ControllerBase($request);
 		$response = $controllerBase->render('Content');

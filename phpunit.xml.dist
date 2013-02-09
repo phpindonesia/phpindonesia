@@ -11,6 +11,8 @@
 	stopOnSkipped="false">
 	<php>
 		<const name="APPLICATION_PATH" value="app"/>
+		<const name="ASSET_PATH" value="public"/>
+		<const name="CONFIG_PATH" value="conf"/>
 	</php>
 	<testsuites>
 		<testsuite name="PHP Indonesia Test Suite">
