@@ -1,5 +1,5 @@
 {######################## MASTER ########################}
-{% extends "master/single.tpl" %}
+{% extends "layout.tpl" %}
 
 {######################## Title ########################}
 {% block title %} {{title}} {% endblock %}
@@ -23,7 +23,7 @@
 				<hr>
 
 				<button type="submit" class="btn btn-primary">Daftar</button> 
-				<a href="/auth/forgot" class="btn btn-link">Lupa sandi?</a>
+				<a href="/auth/login" class="btn btn-link">Sudah punya akun?</a>
 			</form>
 
 		</div>

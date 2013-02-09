@@ -22,7 +22,7 @@ class ControllerAuth extends ControllerBase
 	 */
 	public function actionLogin() {
 		// Data
-		$this->layout = 'auth.login.tpl';
+		$this->layout = 'modules/auth/login.tpl';
 		$data = ModelBase::factory('Template')->getAuthData(array('title' => 'Masuk'));
 
 		// Render
@@ -34,7 +34,7 @@ class ControllerAuth extends ControllerBase
 	 */
 	public function actionRegister() {
 		// Data
-		$this->layout = 'auth.register.tpl';
+		$this->layout = 'modules/auth/register.tpl';
 		$data = ModelBase::factory('Template')->getAuthData(array('title' => 'Daftar'));
 
 		// Render
@@ -46,7 +46,7 @@ class ControllerAuth extends ControllerBase
 	 */
 	public function actionForgot() {
 		// Data
-		$this->layout = 'auth.forgot.tpl';
+		$this->layout = 'modules/auth/forgot.tpl';
 		$data = ModelBase::factory('Template')->getAuthData(array('title' => 'Lupa Sandi'));
 
 		// Render
