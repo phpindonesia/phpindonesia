@@ -37,7 +37,7 @@ class ModelTemplate extends ModelBase
 	public function getHomeData($otherData = array()) {
 		$data = array(
 			'title'	=> 'Home',
-			'content' => 'Portal PHP Indonesia sedang dalam pembangunan.',
+			'content' => NULL,
 		);
 
 		return $this->prepareData($data, $otherData);
