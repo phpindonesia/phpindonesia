@@ -1,5 +1,5 @@
 {######################## MASTER ########################}
-{% extends "master/single.tpl" %}
+{% extends "layout.tpl" %}
 
 {######################## Title ########################}
 {% block title %} {{title}} {% endblock %}
@@ -20,7 +20,7 @@
 				<hr>
 
 				<button type="submit" class="btn btn-primary">Masuk</button> 
-				<a href="/auth/register" class="btn btn-link">Belum terdaftar?</a>
+				<a href="/auth/forgot" class="btn btn-link">Lupa sandi?</a>
 			</form>
 
 		</div>

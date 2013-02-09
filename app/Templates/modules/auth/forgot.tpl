@@ -1,5 +1,5 @@
 {######################## MASTER ########################}
-{% extends "master/single.tpl" %}
+{% extends "layout.tpl" %}
 
 {######################## Title ########################}
 {% block title %} {{title}} {% endblock %}

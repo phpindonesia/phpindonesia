@@ -10,9 +10,12 @@
 			{######################## Top Menu ########################}
 			<div class="span9">
 				<ul id="topnav">
-					{% for menu in menu_top %}
-						<li><a href="{{ menu.link }}">{{ menu.title }}</a></li>
-					{% endfor %}
+					<li><a href="/">Home</a></li>
+					<li><a href="/">Kalender Acara</a></li>
+					<li><a href="/">Lowongan</a></li>
+					<li><a href="/">Liputan</a></li>
+					<li><a href="/auth/login">Masuk</a></li>
+					<li><a href="/auth/register">Daftar</a></li>
 				</ul>
 			</div>
 			
