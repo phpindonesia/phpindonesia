@@ -16,7 +16,7 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCekActionCssAppControllerAsset() {
 		// Karena main.css sudah didefinisikan, ini akan mendapat response valid
-		$request = Request::create('/asset/css', 'GET', array('id' => 'main.css'));
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'css', 'GET', array('id' => 'main.css'));
 		$controllerAsset = new ControllerAsset($request);
 		$response = $controllerAsset->actionCss();
 
@@ -25,12 +25,12 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testCekActionGagalControllerCssAsset() {
-		$request = Request::create('/asset/css');
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'css');
 		$controllerAsset = new ControllerAsset($request);
 		
 		$this->setExpectedException(
 			'Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException',
-			'The file "'.ASSET_PATH.'/css/undefined" does not exist');
+			'The file "'.ASSET_PATH.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'undefined" does not exist');
 
 
 		$response = $controllerAsset->actionCss();
@@ -41,7 +41,7 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCekActionJsAppControllerAsset() {
 		// Karena app.js sudah didefinisikan maka ini akan mendapat response yang valid
-		$request = Request::create('/asset/js', 'GET', array('id' => 'app.js'));
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'js', 'GET', array('id' => 'app.js'));
 		$controllerAsset = new ControllerAsset($request);
 		$response = $controllerAsset->actionJs();
 
@@ -49,7 +49,7 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(200, $response->getStatusCode());
 
 		// Karena bootstrap-alert.js adalah file yang valid maka ini akan mendapat response yang valid
-		$request = Request::create('/asset/js', 'GET', array('id' => 'bootstrap-alert.js'));
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'js', 'GET', array('id' => 'bootstrap-alert.js'));
 		$controllerAsset = new ControllerAsset($request);
 		$response = $controllerAsset->actionJs();
 
@@ -61,12 +61,12 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 	 * Cek action js gagal
 	 */
 	public function testCekActionJsGagalControllerAsset() {
-		$request = Request::create('/aset/js');
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'js');
 		$controllerAsset = new ControllerAsset($request);
 
 		$this->setExpectedException(
 			'Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException',
-			'The file "'.ASSET_PATH.'/js/undefined" does not exist');
+			'The file "'.ASSET_PATH.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'undefined" does not exist');
 
 		$response = $controllerAsset->actionJs();
 	}
@@ -76,7 +76,7 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCekActionImgAppControllerAsset() {
 		// Satu level directory
-		$request = Request::create('/asset/img', 'GET', array('id' => 'glyphicons-halflings-white.png'));
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'img', 'GET', array('id' => 'glyphicons-halflings-white.png'));
 		$controllerAsset = new ControllerAsset($request);
 		$response = $controllerAsset->actionImg();
 
@@ -86,12 +86,12 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 
 	public function testCekActionImgGagalAppControllerAsset() {
 
-		$request = Request::create('/asset/img');
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'img');
 		$controllerAsset = new ControllerAsset($request);
 
 		$this->setExpectedException(
 			'Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException',
-			'The file "'.ASSET_PATH.'/img/undefined" does not exist');
+			'The file "'.ASSET_PATH.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'undefined" does not exist');
 
 		$response = $controllerAsset->actionImg();
 	}
@@ -100,7 +100,7 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 	 * Cek action font
 	 */
 	public function testCekActionFontAppControllerAsset() {
-		$request = Request::create('/asset/font', 'GET', array('id' => 'fontawesome-webfont.eot'));
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'font', 'GET', array('id' => 'fontawesome-webfont.eot'));
 		$controllerAsset = new ControllerAsset($request);
 		$response = $controllerAsset->actionFont();
 
@@ -110,12 +110,12 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 
 	public function testCekActionFontGagalAppControllerAsset() {
 
-		$request = Request::create('/asset/font');
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'font');
 		$controllerAsset = new ControllerAsset($request);
 
 		$this->setExpectedException(
 			'Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException',
-			'The file "'.ASSET_PATH.'/font/undefined" does not exist');
+			'The file "'.ASSET_PATH.DIRECTORY_SEPARATOR.'font'.DIRECTORY_SEPARATOR.'undefined" does not exist');
 
 		$response = $controllerAsset->actionFont();
 	}
