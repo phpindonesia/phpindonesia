@@ -14,8 +14,7 @@ class ControllerHomeTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek konsistensi controller base instance
 	 */
-	public function testCekKonsistensiAppControllerHome()
-	{
+	public function testCekKonsistensiAppControllerHome() {
 		$request = Request::create('/home/index');
 		$controllerHome = new ControllerHome($request);
 
@@ -27,8 +26,7 @@ class ControllerHomeTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Cek action index
 	 */
-	public function testCekActionIndexAppControllerHome()
-	{
+	public function testCekActionIndexAppControllerHome() {
 		$request = Request::create('/home/index');
 		$controllerHome = new ControllerHome($request);
 		$response = $controllerHome->actionIndex();

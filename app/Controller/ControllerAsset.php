@@ -25,15 +25,25 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class ControllerAsset extends ControllerBase 
 {
+	protected $assetFile;
+	protected $subFolder = '';
+
+	/**
+	 * beforeAction Hook
+	 */
+	public function beforeAction() {
+		$this->assetFile = $this->request->get('id', 'undefined');
+
+		if (($subFolder = $this->request->get('subfolder')) && ! empty($subFolder)) {
+			$this->subFolder = $subFolder . DIRECTORY_SEPARATOR;
+		}
+	}
 
 	/**
 	 * Handler untuk GET /asset/css/somecss.css
 	 */
 	public function actionCss() {
-		// Ambil parameter dari request
-		$id = $this->request->get('id', 'undefined');
-
-		if ($id == 'main.css') {
+		if ($this->assetFile == 'main.css') {
 			// Build CSS from LESS
 			$am = new AssetManager();
 			$fm = new FilterManager();
@@ -43,7 +53,9 @@ class ControllerAsset extends ControllerBase
 			$factory->setAssetManager($am);
 			$css = $factory->createAsset(
 				array(
-					'less/bootstrap.less', // load every scss files from "/path/to/asset/directory/css/src/"
+					'less/bootstrap.less',
+					'less/custom.less',		// Custom style agar tidak merubah bootstrap default
+					'less/responsive.less'	// Generate responsive
 				), 
 				array(
 					'less', // filter through the filter manager's "scss" filter
@@ -55,8 +67,7 @@ class ControllerAsset extends ControllerBase
 		} else {
 			// @codeCoverageIgnoreStart
 			// Validasi file
-			$file = $this->validateAssetFile('css', $id);
-			$mime = $file->getMimeType();
+			list($file, $mime) = $this->getFileAttribute('css');
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -67,13 +78,12 @@ class ControllerAsset extends ControllerBase
 	 * Handler untuk GET /asset/js/somejs.js
 	 */
 	public function actionJs() {
-		// Ambil parameter dari request
-		$id = $this->request->get('id', 'undefined');
-
-		if ($id == 'app.js') {
+		if ($this->assetFile == 'app.js') {
 			// Buatkan kompilasi Bootstrap JS
 			$collection = new AssetCollection();
 			$bootstrap = array(
+				'js/jquery-1.9.1.min.js',
+				'js/bootstrap-transition.js',
 				'js/bootstrap-alert.js',
 				'js/bootstrap-modal.js',
 				'js/bootstrap-dropdown.js',
@@ -85,7 +95,8 @@ class ControllerAsset extends ControllerBase
 				'js/bootstrap-collapse.js',
 				'js/bootstrap-carousel.js',
 				'js/bootstrap-typeahead.js',
-				'js/bootstrap-affix.js'
+				'js/bootstrap-affix.js',
+				'js/scripts.js' // Custom JS untuk manajemen keseluruhan JS lainnya
 			);
 
 			foreach ($bootstrap as $js) {
@@ -96,23 +107,28 @@ class ControllerAsset extends ControllerBase
 			$mime = 'application/javascript';
 		} else {
 			// Validasi file
-			$file = $this->validateAssetFile('js', $id);
-			$mime = $file->getMimeType();
+			list($file,$mime) = $this->getFileAttribute('js');
 		}
 
 		return $this->renderAsset($mime,$file);
 	}
-	
+
 	/**
-	 * Handler untuk GET /asset/img/someimage.png
+	 * Handler untuk /asset/img/someimage.png
 	 */
 	public function actionImg() {
-		// Ambil parameter dari request
-		$id = $this->request->get('id', 'undefined');
-
 		// Validasi
-		$file = $this->validateAssetFile('img', $id);
-		$mime = $file->getMimeType();
+		list($file,$mime) = $this->getFileAttribute('img');
+
+		return $this->renderAsset($mime,$file);
+	}
+
+	/**
+	 * Handler untuk /asset/font/somefont.ttf
+	 */
+	public function actionFont() {
+		// Validasi
+		list($file,$mime) = $this->getFileAttribute('font');
 
 		return $this->renderAsset($mime,$file);
 	}
@@ -125,8 +141,7 @@ class ControllerAsset extends ControllerBase
 	 *
 	 * @return Response
 	 */
-	protected function renderAsset($mime, $asset)
-	{
+	protected function renderAsset($mime, $asset) {
 		// Default cache adalah 5 menit
 		$age = 60*5;
 
@@ -147,6 +162,20 @@ class ControllerAsset extends ControllerBase
 	}
 
 	/**
+	 * Generic method untuk mengambil nama file dan MIME
+	 *
+	 * @param string Asset type
+	 *
+	 * @return array Array berisi masing-masing nama dan MIME, ex : array('somefile.png', 'image/png');
+	 */
+	protected function getFileAttribute($type) {
+		$file = $this->validateAssetFile($type, $this->assetFile);
+		$mime = $file->getMimeType();
+
+		return array($file, $mime);
+	}
+
+	/**
 	 * Validasi ID dan existensi file
 	 *
 	 * @param  string $type [js|css|img]
@@ -158,7 +187,7 @@ class ControllerAsset extends ControllerBase
 	 */
 	protected function validateAssetFile($type, $fileName) {
 		// Dapatkan path dari file
-		return new File(ASSET_PATH . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $fileName, true);
+		return new File(ASSET_PATH . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $this->subFolder . $fileName, true);
 	}
 
 }

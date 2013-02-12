@@ -1,0 +1,6 @@
+$(function () {
+
+	// SLIDER
+	//$('#slider').carousel();
+
+});

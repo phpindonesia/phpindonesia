@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class ControllerBase {
 
     protected $request;
-    public $layout = 'layout.html.tpl';
+    protected $layout = 'layout.html.tpl';
 
     /**
      * Constructor.
@@ -29,6 +29,11 @@ class ControllerBase {
      */
     public function __construct(Request $request) {
         $this->request = $request;
+
+        // Before action hook
+        if (is_callable(array($this,'beforeAction'))) {
+            $this->beforeAction();
+        }
     }
 
     /**

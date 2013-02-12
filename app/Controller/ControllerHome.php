@@ -8,6 +8,8 @@
 
 namespace app\Controller;
 
+use app\Model\ModelBase;
+
 /**
  * ControllerHome
  *
@@ -26,11 +28,11 @@ class ControllerHome extends ControllerBase
 		}
 		// @codeCoverageIgnoreEnd
 
-		$data = array(
-			'title' => 'PHP Indonesia - Bersama Berkarya Berjaya',
-			'content' => 'Portal PHP Indonesia sedang dalam pembangunan.',
-		);
+		// Template configuration
+		$this->layout = 'modules/home/index.tpl';
+		$data = ModelBase::factory('Template')->getHomeData();
 
+		// Render
 		return $this->render($data);
 	}
 }
