@@ -13,6 +13,9 @@
 			<h3>{{title}}</h3>
 			<hr>
 
+			<a href="/" class="btn btn-large"><i class="icon-facebook-sign"></i> Daftar dengan Facebook</a>
+			<hr>
+
 			<form>
 				<input type="text" placeholder="Nama Lengkap" class="span4">
 				<input type="text" placeholder="Email" class="span4">
