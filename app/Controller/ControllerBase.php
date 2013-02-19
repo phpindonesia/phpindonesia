@@ -11,6 +11,8 @@ namespace app\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
+use app\Acl;
 
 /**
  * ControllerBase
@@ -29,6 +31,13 @@ class ControllerBase {
      */
     public function __construct(Request $request) {
         $this->request = $request;
+
+        // Initialize the session
+        if ( ! $this->request->hasPreviousSession()) {
+            $session = new Session();
+            $session->start();
+            $this->request->setSession($session);
+        }
 
         // Before action hook
         if (is_callable(array($this,'beforeAction'))) {
@@ -79,6 +88,9 @@ class ControllerBase {
         // Persiapkan data yang akan di-render
         if (is_array($data) && array_key_exists('title', $data) && array_key_exists('content', $data)) {
             // Data yang dikirim memiliki parameter minimal yakni 'title' dan 'content'
+            // sertakan ACL instance untuk pemrosesan yang diperlukan di view
+            $data['acl'] = new Acl($this->request->getSession());
+
             // yang diperlukan Twig. Load template yang berkaitan dan assign data.
             $twigLoader = new \Twig_Loader_Filesystem(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'Templates');
             $twig = new \Twig_Environment($twigLoader);

@@ -8,10 +8,12 @@
                     <p>
                         Bersama. Berkarya. Berjaya
                     </p>
+                    {% if acl.isLogin == false %}
                     <br/>
                     <p>
                         <a href="" class="btn btn-large"><i class="icon-facebook-sign"></i> Masuk melalui Facebook</a>
                     </p>
+                    {% endif %}
                 </div>
             </div>
 

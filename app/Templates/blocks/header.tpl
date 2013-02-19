@@ -18,7 +18,11 @@
 				</ul>
 			</div>
 			<div class="span2">
+				{% if acl.isLogin == true %}
+				<a href="/auth/logout" class="btn btn-primary pull-right alert-block">Keluar</a>
+				{% else %}
 				<a href="/auth/login" class="btn btn-primary pull-right alert-block">Masuk</a>
+				{% endif %}
 			</div>
 			
 		</div>
