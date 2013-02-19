@@ -8,15 +8,17 @@
 			</div>
 
 			{######################## Top Menu ########################}
-			<div class="span9">
+			<div class="span7">
 				<ul id="topnav">
-					<li><a href="/">Home</a></li>
-					<li><a href="/">Kalender Acara</a></li>
-					<li><a href="/">Lowongan</a></li>
-					<li><a href="/">Liputan</a></li>
-					<li><a href="/auth/login">Masuk</a></li>
-					<li><a href="/auth/register">Daftar</a></li>
+					<li><a href="/">Beranda</a></li>
+					<li><a href="/">Organisasi</a></li>
+					<li><a href="/">Pelatihan</a></li>
+					<li><a href="/">Komunitas</a></li>
+					<li><a href="/">Karir</a></li>
 				</ul>
+			</div>
+			<div class="span2">
+				<a href="/auth/login" class="btn btn-primary pull-right alert-block">Masuk</a>
 			</div>
 			
 		</div>

@@ -3,7 +3,7 @@
 <head>
     {% block head %}
         <meta charset="utf-8">
-        <title>{% block title %}{% endblock %} :: PHP Indonesia - Bersama Berkarya Berjaya</title>
+        <title>{% block title %}{% endblock %} - PHP Indonesia</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
@@ -15,11 +15,11 @@
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="/assets/img/favicon/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="/assets/img/favicon/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/asset/img/favicon/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/asset/img/favicon/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/asset/img/favicon/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="/asset/img/favicon/apple-touch-icon-57-precomposed.png">
+        <link rel="shortcut icon" href="/asset/img/favicon/favicon.png">
     {% endblock %}
 </head>
 
