@@ -8,7 +8,7 @@
 
 namespace app;
 
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Application ACL
@@ -17,15 +17,17 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class Acl
 {
+	protected $request;
 	protected $session;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param Session $session Current session instance
+	 * @param Request $request Current request instance
 	 */
-	public function __construct(Session $session) {
-		$this->session = $session;
+	public function __construct(Request $request) {
+		$this->request = $request;
+		$this->session = $this->request->getSession();
 	}
 
 	/**

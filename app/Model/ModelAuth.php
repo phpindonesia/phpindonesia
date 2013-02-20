@@ -89,6 +89,29 @@ class ModelAuth extends ModelBase
 	}
 
 	/**
+	 * Ambil data user yang sedang login
+	 *
+	 * @param int $id User UID
+	 * @return PhpidUsers 
+	 */
+	public function getUser($id = NULL) {
+		// Silly
+		if (empty($id)) return false;
+
+		// Get user
+		$user = ModelBase::ormFactory('PhpidUsersQuery')->findPK($id);
+
+		if ($user) {
+			// Get other misc data
+			$userData = new Parameter($user->toArray());
+			$userData->set('Avatar', 'https://secure.gravatar.com/avatar/' . md5($userData->get('Mail')));
+			$user = $userData;
+		}
+
+		return $user;
+	}
+
+	/**
 	 * Pengecekan validitas password
 	 *
 	 * @param PhpidUsers $user User object

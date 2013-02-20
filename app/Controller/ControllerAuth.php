@@ -44,7 +44,7 @@ class ControllerAuth extends ControllerBase
 				return $this->redirect('/home');
 			}
 
-			$data['result'] = $loginResult;
+			$this->data->set('result', $loginResult);
 		}
 
 		// Render

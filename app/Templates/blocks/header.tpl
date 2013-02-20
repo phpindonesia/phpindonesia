@@ -8,7 +8,7 @@
 			</div>
 
 			{######################## Top Menu ########################}
-			<div class="span7">
+			<div class="span6">
 				<ul id="topnav">
 					<li><a href="/">Beranda</a></li>
 					<li><a href="/">Organisasi</a></li>
@@ -17,9 +17,18 @@
 					<li><a href="/">Karir</a></li>
 				</ul>
 			</div>
-			<div class="span2">
+			<div class="span3">
 				{% if acl.isLogin == true %}
-				<a href="/auth/logout" class="btn btn-primary pull-right alert-block">Keluar</a>
+				<div class="dropdown pull-right">
+					<div class="btn-group pull-right">
+					<a class="btn btn-primary alert-block" href="/user/profile/{{ user.Uid }}"><img src="{{ user.Avatar }}?s=18&d=retro"/> {{ user.Name }}</a>
+					<a class="btn btn-primary alert-block dropdown-toggle" data-toggle="dropdown" href="#"> <span class="caret"></span></a>
+					<ul id="account" class="dropdown-menu" role="menu" aria-labelledby="drop1">
+						<li><a href="/user/edit/{{ user.Uid }}">Edit Profil</a></li>
+						<li><a href="/auth/logout">Keluar</a></li>
+					</ul>
+					</div>
+				</div>
 				{% else %}
 				<a href="/auth/login" class="btn btn-primary pull-right alert-block">Masuk</a>
 				{% endif %}

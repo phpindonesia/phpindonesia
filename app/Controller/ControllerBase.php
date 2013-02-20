@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use app\Acl;
+use app\Parameter;
+use app\Model\ModelBase;
 
 /**
  * ControllerBase
@@ -22,6 +24,9 @@ use app\Acl;
 class ControllerBase {
 
     protected $request;
+    protected $session;
+    protected $acl;
+    protected $data;
     protected $layout = 'layout.html.tpl';
 
     /**
@@ -34,14 +39,31 @@ class ControllerBase {
 
         // Initialize the session
         if ( ! $this->request->hasPreviousSession()) {
-            $session = new Session();
-            $session->start();
-            $this->request->setSession($session);
+            $this->session = new Session();
+            $this->session->start();
+            $this->request->setSession($this->session);
         }
+
+        // Initialize Acl and Data instances
+        $this->acl = new Acl($this->request);
+        $this->data = new Parameter();
 
         // Before action hook
         if (is_callable(array($this,'beforeAction'))) {
             $this->beforeAction();
+        }
+    }
+
+    /**
+     * beforeAction hook (Global)
+     */
+    public function beforeAction() {
+        // Assign acl object
+        $this->data->set('acl', $this->acl);
+
+        if ($this->acl->isLogin()) {
+            // Assign user data
+            $this->data->set('user', ModelBase::factory('Auth')->getUser($this->session->get('userId')));
         }
     }
 
@@ -88,8 +110,8 @@ class ControllerBase {
         // Persiapkan data yang akan di-render
         if (is_array($data) && array_key_exists('title', $data) && array_key_exists('content', $data)) {
             // Data yang dikirim memiliki parameter minimal yakni 'title' dan 'content'
-            // sertakan ACL instance untuk pemrosesan yang diperlukan di view
-            $data['acl'] = new Acl($this->request->getSession());
+            // sertakan semua global data object yang mungkin diperlukan
+            $data = array_merge($data, $this->data->all());
 
             // yang diperlukan Twig. Load template yang berkaitan dan assign data.
             $twigLoader = new \Twig_Loader_Filesystem(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'Templates');
