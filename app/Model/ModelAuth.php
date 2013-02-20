@@ -229,8 +229,10 @@ class ModelAuth extends ModelBase
 
 		// Get last user
 		$lastUser = ModelBase::ormFactory('PhpidUsersQuery')->orderByUid('desc')->findOne();
+		$uid = empty($lastUser) ? 1 : ($lastUser->getUid() + 1);
+
 		$user = ModelBase::ormFactory('PhpidUsers');
-		$user->setUid($lastUser->getUid()+1);
+		$user->setUid($uid);
 		$user->setName($username);
 		$user->setMail($email);
 		$user->setPass($hashedPassword);
