@@ -90,7 +90,7 @@ class ControllerBase {
 
             if ($_POST) $postData = array_merge($postData, $_POST);
 
-            if ($this->session->get('postData')) {
+            if ($this->session instanceof Session && $this->session->get('postData')) {
                 $postData = array_merge($postData, $this->session->get('postData'));
                 // Unset
                 $this->session->set('postData', NULL);
