@@ -153,6 +153,11 @@ class ControllerAsset extends ControllerBase
 			$lastModified = new \DateTime();
 		}
 
+		// Cache image for a month
+		if (strpos($mime, 'image') !== false) {
+			$age = 60*60*24*31;
+		}
+
 		// Prepare asset response
 		$assetResponse = $this->render($content, 200, array('Content-Type' => $mime));
 		$assetResponse->setLastModified($lastModified);
