@@ -20,6 +20,16 @@ class ControllerBaseTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf('\app\Controller\ControllerBase', $controllerBase);
 		$this->assertObjectHasAttribute('request', $controllerBase);
+
+		// Cek beforeAction
+		$controllerBase->getSession()->set('login', true);
+		$controllerBase->getSession()->set('postData', array('foo' => 'bar'));
+		$controllerBase->beforeAction();
+
+		$this->assertArrayHasKey('foo', $controllerBase->getData()->get('postData'));
+		$this->assertInstanceOf('\app\Acl', $controllerBase->getAcl());
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $controllerBase->handleException());
 	}
 
 	/**

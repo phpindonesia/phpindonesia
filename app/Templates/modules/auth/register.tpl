@@ -24,8 +24,8 @@
 			<form method="POST" action="/auth/register">
 				<input name="username" type="text" placeholder="Username" class="span4" value="{{ postData.username }}">
 				<input name="email" type="text" placeholder="Email" class="span4" value="{{ postData.email }}">
-				<input name="password" type="password" placeholder="Sandi" class="span4">
-				<input name="cpassword" type="password" placeholder="Konfirmasi Sandi" class="span4">
+				<input name="password" type="password" placeholder="Password" class="span4">
+				<input name="cpassword" type="password" placeholder="Konfirmasi Password" class="span4">
 
 				<hr>
 

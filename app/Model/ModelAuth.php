@@ -89,11 +89,13 @@ class ModelAuth extends ModelBase
 			// Cek validitas user
 			$validUser = $this->isUser($username);
 
+			// @codeCoverageIgnoreStart
 			if ( ! $validUser) {
 				// Username tidak ditemukan
 				// Cek email
 				$validUser = $this->isUser($email);
 			}
+			// @codeCoverageIgnoreEnd
 
 			if ($validUser && ! empty($accessToken)) {
 				// User valid, dan disertai access token
@@ -184,7 +186,7 @@ class ModelAuth extends ModelBase
 	 * Ambil data user yang sedang login
 	 *
 	 * @param int $id User UID
-	 * @return PhpidUsers 
+	 * @return Parameter
 	 */
 	public function getUser($id = NULL) {
 		// Silly
@@ -198,11 +200,12 @@ class ModelAuth extends ModelBase
 			$userData = new Parameter($user->toArray());
 			$userCustomData = $userData->get('Data');
 
+			// @codeCoverageIgnoreStart
 			if ( ! empty($userCustomData)) {
 				$userDataSerialized = fread($userCustomData,100000);
 				$userData->set('AdditionalData', unserialize($userDataSerialized));
 			}
-
+			// @codeCoverageIgnoreEnd
 
 			$userData->set('Avatar', 'https://secure.gravatar.com/avatar/' . md5($userData->get('Mail')));
 
@@ -258,6 +261,7 @@ class ModelAuth extends ModelBase
 			$userData = new Parameter($user->toArray());
 			$customData = $userData->get('Data');
 
+			// @codeCoverageIgnoreStart
 			if (empty($customData)) {
 				// Straight forward
 				$user->setData(serialize($data));
@@ -277,6 +281,7 @@ class ModelAuth extends ModelBase
 				// Update custom data
 				$user->setData($customData);
 			}
+			// @codeCoverageIgnoreEnd
 			
 			$user->save();
 
@@ -346,6 +351,10 @@ class ModelAuth extends ModelBase
 
 	/**
 	 * Generate random bytes
+	 *
+	 * @param int 
+	 * @return string 
+	 * @codeCoverageIgnore
 	 */
 	protected function randomBytes($count) {
 		$bytes = '';
@@ -420,22 +429,17 @@ class ModelAuth extends ModelBase
 		// The first 12 characters of an existing hash are its setting string.
 		$setting = substr($setting, 0, 12);
 
-		if ($setting[0] != '$' || $setting[2] != '$') {
-			return FALSE;
-		}
+		if ($setting[0] != '$' || $setting[2] != '$') return FALSE;
 
 		$countLog = $this->passwordGetCountLog($setting);
 
 		// Hashes may be imported from elsewhere
-		if ($countLog < self::MIN_HASH_COUNT || $countLog > self::MAX_HASH_COUNT) {
-			return FALSE;
-		}
+		if ($countLog < self::MIN_HASH_COUNT || $countLog > self::MAX_HASH_COUNT) return FALSE;
 
 		$salt = substr($setting, 4, 8);
+
 		// Hashes must have an 8 character salt.
-		if (strlen($salt) != 8) {
-			return FALSE;
-		}
+		if (strlen($salt) != 8) return FALSE;
 
 		// Convert the base 2 logarithm into an integer.
 		$count = 1 << $countLog;
@@ -479,25 +483,17 @@ class ModelAuth extends ModelBase
 			$value = ord($input[$i++]);
 			$output .= $itoa64[$value & 0x3f];
 			
-			if ($i < $count) {
-				$value |= ord($input[$i]) << 8;
-			}
+			if ($i < $count) $value |= ord($input[$i]) << 8;
 
 			$output .= $itoa64[($value >> 6) & 0x3f];
 
-			if ($i++ >= $count) {
-				break;
-			}
+			if ($i++ >= $count) break;
 
-			if ($i < $count) {
-				$value |= ord($input[$i]) << 16;
-			}
+			if ($i < $count) $value |= ord($input[$i]) << 16;
 
 			$output .= $itoa64[($value >> 12) & 0x3f];
 
-			if ($i++ >= $count) {
-				break;
-			}
+			if ($i++ >= $count) break;
 
 			$output .= $itoa64[($value >> 18) & 0x3f];
 		} while ($i < $count);

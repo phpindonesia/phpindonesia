@@ -22,9 +22,7 @@ class ControllerAuth extends ControllerBase
 	 */
 	public function actionLogin() {
 		// Hanya untuk non-login user
-		if ($this->session->get('login') == true) {
-			return $this->redirect('/home');
-		}
+		if ($this->acl->isLogin()) return $this->redirect('/home');
 
 		// Data
 		$this->layout = 'modules/auth/login.tpl';
@@ -57,6 +55,9 @@ class ControllerAuth extends ControllerBase
 	 * Handler untuk GET/POST /auth/loginfb
 	 */
 	public function actionLoginfb() {
+		// Hanya untuk non-login user
+ 		if ($this->acl->isLogin()) return $this->redirect('/home');
+
 		// Beri flag
 		$this->session->set('loginFacebook', true);
 
@@ -67,11 +68,6 @@ class ControllerAuth extends ControllerBase
 	 * Handler untuk GET/POST /auth/logout
 	 */
 	public function actionLogout() {
-		// Hanya untuk login user
-		if ($this->session->get('login') == false) {
-			return $this->redirect('/auth/login');
-		}
-
 		// Proses permintaan logout
 		$this->session->clear();
 
@@ -83,9 +79,7 @@ class ControllerAuth extends ControllerBase
 	 */
 	public function actionRegister() {
 		// Hanya untuk non-login user
-		if ($this->session->get('login') == true) {
-			return $this->redirect('/home');
-		}
+ 		if ($this->acl->isLogin()) return $this->redirect('/home');
 
 		// Data
 		$this->layout = 'modules/auth/register.tpl';
@@ -118,6 +112,9 @@ class ControllerAuth extends ControllerBase
 	 * Handler untuk GET/POST /auth/registerfb
 	 */
 	public function actionRegisterfb() {
+		// Hanya untuk non-login user
+ 		if ($this->acl->isLogin()) return $this->redirect('/home');
+
 		return $this->redirect('/facebook');
 	}
 
@@ -126,9 +123,7 @@ class ControllerAuth extends ControllerBase
 	 */
 	public function actionForgot() {
 		// Hanya untuk non-login user
-		if ($this->session->get('login') == true) {
-			return $this->redirect('/home');
-		}
+ 		if ($this->acl->isLogin()) return $this->redirect('/home');
 		
 		// Data
 		$this->layout = 'modules/auth/forgot.tpl';

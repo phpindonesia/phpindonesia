@@ -21,7 +21,7 @@
 			{% endif %}
 			<form method="POST" action="/auth/login">
 				<input name="username" type="text" placeholder="Username/Email" class="span4" value="{{ postData.username }}">
-				<input name="password" type="password" placeholder="Sandi" class="span4">
+				<input name="password" type="password" placeholder="Password" class="span4">
 
 				<hr>
 

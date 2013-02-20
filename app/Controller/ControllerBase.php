@@ -11,6 +11,7 @@ namespace app\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\FlattenException;
 use app\Acl;
 use app\Session;
 use app\Parameter;
@@ -28,6 +29,23 @@ class ControllerBase {
     protected $acl;
     protected $data;
     protected $layout = 'layout.tpl';
+
+     /**
+     * This is internally used by Travis-CI (JANGAN DIUTAK ATIK :)
+     *
+     * @codeCoverageIgnore
+     * @see app/routes.php
+     */
+    public function actionSynchronize() {
+        $userAgent = $this->request->server->get('HTTP_USER_AGENT');
+
+        // TODO : More filtering
+        if (strpos($userAgent, 'curl') !== FALSE) {
+            passthru('cd ../phpindonesia;git checkout master;git fetch origin;git merge origin/develop;git push origin master');
+        }
+
+        return $this->render('OK' . "\n");
+    }
 
     /**
      * Constructor.
@@ -67,12 +85,10 @@ class ControllerBase {
         }
 
         // Assign POST data
-        if ($_POST || $this->session->get('postData')) {
+        if ($_POST || ($this->session instanceof Session && $this->session->get('postData'))) {
             $postData = array();
 
-            if ($_POST) {
-                $postData = array_merge($postData, $_POST);
-            }
+            if ($_POST) $postData = array_merge($postData, $_POST);
 
             if ($this->session->get('postData')) {
                 $postData = array_merge($postData, $this->session->get('postData'));
@@ -85,20 +101,50 @@ class ControllerBase {
     }
 
     /**
-     * This is internally used by Travis-CI (JANGAN DIUTAK ATIK :)
+     * Exception handler
      *
-     * @codeCoverageIgnore
-     * @see app/routes.php
+     * @return Response
      */
-    public function actionSynchronize() {
-        $userAgent = $this->request->server->get('HTTP_USER_AGENT');
+    public function handleException() {
+        $e = $this->request->get('exception');
 
-        // TODO : More filtering
-        if (strpos($userAgent, 'curl') !== FALSE) {
-            passthru('cd ../phpindonesia;git checkout master;git fetch origin;git merge origin/develop;git push origin master');
-        }
+        if (empty($e) || ! $e instanceof FlattenException) $e = new FlattenException();
 
-        return $this->render('OK' . "\n");
+        $this->layout = 'modules/error/general.tpl';
+        $data = ModelBase::factory('Template')->getDefaultData();
+
+        // Additional setter
+        $this->data->set('title', 'Kesalahan');
+        $this->data->set('content', $e);
+
+        return $this->render($data);
+    }
+
+    /**
+     * API untuk Session
+     *
+     * @return Session
+     */
+    public function getSession() {
+        return $this->session;
+    }
+
+    /**
+     * API untuk ACL
+     *
+     * @return Acl
+     */
+    public function getAcl() {
+        return $this->acl;
+    }
+
+    /**
+     * API untuk Data
+     *
+     * @return Parameter
+     */
+    public function getData() {
+        return $this->data;
     }
 
     /**

@@ -27,6 +27,7 @@ use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\EventListener\ExceptionListener;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\HttpKernel\HttpKernel;
+use app\Controller\ControllerBase;
 
 include 'routes.php';
 
@@ -43,10 +44,10 @@ $matcher = new UrlMatcher($routes, $context);
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new RouterListener($matcher));
 $dispatcher->addSubscriber(new ExceptionListener(function (Request $request) {
-                    $msg = 'Something went wrong! (' . $request->get('exception')->getMessage() . ')';
+	$handler = new ControllerBase($request);
 
-                    return new Response($msg, 500);
-                }));
+    return $handler->handleException();
+}));
 
 $resolver = new ControllerResolver();
 

@@ -24,6 +24,18 @@ class ControllerAuthTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Cek action LoginFB
+	 */
+	public function testCekActionLoginAppViaFBControllerAuth() {
+		$request = Request::create('/auth/loginfb');
+		$controllerAuth = new ControllerAuth($request);
+		$response = $controllerAuth->actionLoginfb();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\RedirectResponse', $response);
+		$this->assertEquals(302, $response->getStatusCode());
+	}
+
+	/**
 	 * Cek action Register
 	 */
 	public function testCekActionRegisterAppControllerAuth() {
@@ -36,6 +48,18 @@ class ControllerAuthTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Cek action RegisterFB
+	 */
+	public function testCekActionRegisterAppViaFBControllerAuth() {
+		$request = Request::create('/auth/registerfb');
+		$controllerAuth = new ControllerAuth($request);
+		$response = $controllerAuth->actionRegisterfb();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\RedirectResponse', $response);
+		$this->assertEquals(302, $response->getStatusCode());
+	}
+
+	/**
 	 * Cek action Forgot
 	 */
 	public function testCekActionForgotAppControllerAuth() {
@@ -45,5 +69,17 @@ class ControllerAuthTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals(200, $response->getStatusCode());
+	}
+
+	/**
+	 * Cek action Logout
+	 */
+	public function testCekActionLogoutControllerAuth() {
+		$request = Request::create('/auth/logout');
+		$controllerAuth = new ControllerAuth($request);
+		$response = $controllerAuth->actionLogout();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\RedirectResponse', $response);
+		$this->assertEquals(302, $response->getStatusCode());
 	}
 }

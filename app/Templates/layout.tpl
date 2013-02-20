@@ -3,7 +3,15 @@
 <head>
     {% block head %}
         <meta charset="utf-8">
-        <title>{% block title %}{% endblock %} - PHP Indonesia</title>
+
+        {% set _title = block('title') %}
+
+        {% if (_title is not empty) %}
+            <title>{% block title %}{% endblock %} - PHP Indonesia</title>
+        {% else %}
+            <title>{{ title }} - PHP Indonesia</title>
+        {% endif %}
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">

@@ -8,7 +8,7 @@
 
 namespace app\Controller;
 
-use \Facebook as Facebook;
+use app\Facebook;
 use app\Model\ModelBase;
 use app\Parameter;
 
@@ -28,7 +28,9 @@ class ControllerFacebook extends ControllerBase
 	 * beforeAction Hook
 	 */
 	public function beforeAction() {
-		$this->facebook = new Facebook(array(
+		parent::beforeAction();
+
+		$this->facebook = new Facebook($this->request, array(
 		  'appId'  => $this->appId,
 		  'secret' => $this->secret,
 		));
@@ -58,7 +60,9 @@ class ControllerFacebook extends ControllerBase
 
 		// Menentukan user state
 		if ($user) {
+			// @codeCoverageIgnoreStart
 			return $this->redirect('/facebook/update');
+			// @codeCoverageIgnoreEnd
 		} else {
 			$loginUrl = $this->facebook->getLoginUrl($this->scope);
 			return $this->redirect($loginUrl);
@@ -77,6 +81,7 @@ class ControllerFacebook extends ControllerBase
 			return $this->redirect($loginUrl);
 		}
 
+		// @codeCoverageIgnoreStart
 		$fbUserData = $this->facebook->api('/me');
 
 		if ($this->session->get('login') == false) {
@@ -106,5 +111,6 @@ class ControllerFacebook extends ControllerBase
 		} else {
 			return $this->redirect($this->sessin->get('redirectAfterAuthenticated','/home'));
 		}
+		// @codeCoverageIgnoreEnd
 	}
 }
