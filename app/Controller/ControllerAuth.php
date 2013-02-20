@@ -31,6 +31,7 @@ class ControllerAuth extends ControllerBase
 		$data = ModelBase::factory('Template')->getAuthData(array('title' => 'Masuk'));
 
 		// Proses form jika POST terdeteksi
+		// @codeCoverageIgnoreStart
 		if ($_POST) {
 			$loginResult = ModelBase::factory('Auth')->login($_POST);
 
@@ -46,6 +47,7 @@ class ControllerAuth extends ControllerBase
 
 			$this->data->set('result', $loginResult);
 		}
+		// @codeCoverageIgnoreEnd
 
 		// Render
 		return $this->render($data);
@@ -90,6 +92,7 @@ class ControllerAuth extends ControllerBase
 		$data = ModelBase::factory('Template')->getAuthData(array('title' => 'Daftar'));
 
 		// Proses form jika POST terdeteksi
+		// @codeCoverageIgnoreStart
 		if ($_POST) {
 			$registrationResult = ModelBase::factory('Auth')->register($_POST);
 
@@ -105,6 +108,7 @@ class ControllerAuth extends ControllerBase
 
 			$this->data->set('result', $registrationResult);
 		}
+		// @codeCoverageIgnoreEnd
 
 		// Render
 		return $this->render($data);
