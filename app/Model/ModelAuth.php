@@ -277,11 +277,8 @@ class ModelAuth extends ModelBase
 					$currentUserData = $data;
 				}
 
-				fwrite($customData, serialize($currentUserData));
-				fclose($customData);
-
 				// Update custom data
-				$user->setData($customData);
+				$user->setData(serialize($currentUserData));
 			}
 			// @codeCoverageIgnoreEnd
 			
