@@ -40,4 +40,15 @@ class Acl
 
 		return $this->session->get('login', false);
 	}
+
+	/**
+	 * isContainFacebookData
+	 *
+	 * Mengecek apakah user sedang login dengan FB
+	 */
+	public function isContainFacebookData() {
+		if (empty($this->session)) return false;
+
+		return is_array($this->session->get('facebookData'));
+	}
 }

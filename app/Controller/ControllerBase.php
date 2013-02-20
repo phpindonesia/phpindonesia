@@ -27,7 +27,7 @@ class ControllerBase {
     protected $session;
     protected $acl;
     protected $data;
-    protected $layout = 'layout.html.tpl';
+    protected $layout = 'layout.tpl';
 
     /**
      * Constructor.
@@ -64,6 +64,23 @@ class ControllerBase {
         if ($this->acl->isLogin()) {
             // Assign user data
             $this->data->set('user', ModelBase::factory('Auth')->getUser($this->session->get('userId')));
+        }
+
+        // Assign POST data
+        if ($_POST || $this->session->get('postData')) {
+            $postData = array();
+
+            if ($_POST) {
+                $postData = array_merge($postData, $_POST);
+            }
+
+            if ($this->session->get('postData')) {
+                $postData = array_merge($postData, $this->session->get('postData'));
+                // Unset
+                $this->session->set('postData', NULL);
+            }
+
+            $this->data->set('postData', $postData);
         }
     }
 

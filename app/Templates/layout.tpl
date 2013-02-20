@@ -37,32 +37,41 @@
             <div class="container">
                 <div class="row">
 
+                    {% set _content         = block('content') %}
                     {% set _sidebar_left    = block('sidebar_left') %}
                     {% set _sidebar_right   = block('sidebar_right') %}
 
-                    {% if (_sidebar_left is not empty) %}
-                        <div class="span3">
-                            {% block sidebar_left %}{% endblock %}
-                        </div>
-                    {% endif %}
+                    {% if (_content is not empty) %}
 
-                    {% if (_sidebar_left is not empty) or (_sidebar_right is not empty) %}
-                        {% if (_sidebar_left is not empty) and (_sidebar_right is not empty) %}
-                            <div class="span6">
-                        {% else %}
-                            <div class="span9">
+                        {% if (_sidebar_left is not empty) %}
+                            <div class="span3">
+                                {% block sidebar_left %}{% endblock %}
+                            </div>
                         {% endif %}
-                    {% else %}
-                        <div class="span12"> 
-                    {% endif %}
 
-                        {% block content %}{% endblock %}
-                    </div>
+                        {% if (_sidebar_left is not empty) or (_sidebar_right is not empty) %}
+                            {% if (_sidebar_left is not empty) and (_sidebar_right is not empty) %}
+                                <div class="span6">
+                            {% else %}
+                                <div class="span9">
+                            {% endif %}
+                        {% else %}
+                            <div class="span12"> 
+                        {% endif %}
 
-                    {% if (_sidebar_right is not empty) %}
-                        <div class="span3">
-                            {% block sidebar_right %}{% endblock %}
+                            {% block content %}{% endblock %}
                         </div>
+
+                        {% if (_sidebar_right is not empty) %}
+                            <div class="span3">
+                                {% block sidebar_right %}{% endblock %}
+                            </div>
+                        {% endif %}
+
+                    {% else %}
+                    <div class="span12">
+                    {{ content }}
+                    </div>
                     {% endif %}
 
                 </div>
@@ -71,10 +80,7 @@
                 {% block modules %}{% endblock %}
             </div>
         </div>
-
         
-
-        <div id="content"></div>
         <div id="push"></div>
     </div>
 
