@@ -40,19 +40,13 @@ class ModelUserTest extends PHPUnit_Framework_TestCase {
 	 * Cek fetching data
 	 */
 	public function testCekGetAllUser() {
-		$user = new ModelUser();
-
-		// Invalid data (Data kosong)
-		$allUsers = $user->getAllUser();
-
-		$this->assertCount(0, $allUsers);
-
-		// Test valid proses
 		$this->createDummyUser();
 
+		$user = new ModelUser();
+
 		$allUsers = $user->getAllUser();
 
-		$this->assertCount(1, $allUsers);
+		$this->assertTrue(count($allUsers) > 0);
 	}
 
 
