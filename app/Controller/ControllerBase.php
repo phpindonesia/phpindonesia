@@ -109,6 +109,10 @@ class ControllerBase {
         }
 
         if ($currentUrl = $this->request->server->get('PATH_INFO')) {
+
+            // Try workaround on CGI environment
+            if (empty($currentUrl)) $currentUrl = $this->request->server->get('SCRIPT_URL');
+
             $queryUrl = $_GET;
             
             // Exceptions for this keys
