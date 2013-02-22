@@ -119,7 +119,7 @@ class ControllerBase {
             
             // Exceptions for this keys
             $postToGetKeys = array('query');
-            $flashedKeys = array('page');
+            $flashedKeys = array('page', $currentUrl);
 
             // add any detected keys that match exception elements
             foreach ($postToGetKeys as $postToGetKey) {
