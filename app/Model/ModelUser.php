@@ -35,14 +35,10 @@ class ModelUser extends ModelBase
 		$query = ModelBase::ormFactory('PhpidUsersQuery');
 
 		// Limit
-		if ( ! empty($limit)) {
-			$query->limit($limit);
-		}
+		if ( ! empty($limit)) $query->limit($limit);
 
 		// Offset
-		if ( ! empty($page)) {
-			$query->offset(($page-1)*$limit);
-		}
+		if ( ! empty($page)) $query->offset(($page-1)*$limit);
 
 		// Filter
 		if ( ! empty($filter)) {

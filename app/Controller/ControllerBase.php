@@ -61,7 +61,9 @@ class ControllerBase {
             $this->session->start();
             $this->request->setSession($this->session);
         } else {
+            // @codeCoverageIgnoreStart
             $this->session = $this->request->getSession();
+            // @codeCoverageIgnoreEnd
         }
 
         // Initialize Acl and Data instances

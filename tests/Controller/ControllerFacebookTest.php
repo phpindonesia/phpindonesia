@@ -20,6 +20,14 @@ class ControllerFacebookTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tear down
+	 */
+	public function tearDown() {
+		unset($_SERVER['HTTP_HOST']);
+		unset($_SERVER['REQUEST_URI']);
+	}
+
+	/**
 	 * Cek konsistensi controller facebook instance
 	 */
 	public function testCekKonsistensiAppControllerFacebook() {

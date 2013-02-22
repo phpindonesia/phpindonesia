@@ -66,9 +66,8 @@ class ModelBase
 	 	$column = $filter->get('column','Undefined');
 
 	 	if (is_callable(array($query, 'filterBy'.ucfirst($column)), false, $filterBy)) {
-	 		if ($filter->get('chainOrStatement')) {
-	 			$query->_or();
-	 		}
+	 		// Add OR statement while necessary
+	 		if ($filter->get('chainOrStatement')) $query->_or();
 	 		
 	 		$query = call_user_func_array(array($query, $filterBy), array($filter->get('value','')));
 		}
@@ -92,6 +91,7 @@ class ModelBase
 	 	// Get total entity
 	 	$query = self::ormFactory($ormClassName);
 
+	 	// @codeCoverageIgnoreStart
 	 	if ( ! empty($filter)) {
 	 		foreach ($filter as $where) {
 				if ( ! $where instanceof Parameter) {
@@ -135,6 +135,7 @@ class ModelBase
 
 	 		$pages[] = $page;
 	 	}
+	 	// @codeCoverageIgnoreEnd
 
 	 	$result->set('data', $objectCollection);
 	 	$result->set('pages', $pages);
