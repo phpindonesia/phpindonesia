@@ -108,11 +108,13 @@ class ControllerBase {
             $this->data->set('getData', $_GET);
         }
 
-        if ($currentUrl = $this->request->server->get('PATH_INFO')) {
+        // Detect path information
+        $currentUrl = $this->request->server->get('PATH_INFO');
 
-            // Try workaround on CGI environment
-            if (empty($currentUrl)) $currentUrl = $this->request->server->get('SCRIPT_URL');
+        // Try workaround on CGI environment
+        if (empty($currentUrl)) $currentUrl = $this->request->server->get('SCRIPT_URL');
 
+        if ( ! empty($currentUrl)) {
             $queryUrl = $_GET;
             
             // Exceptions for this keys
