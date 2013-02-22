@@ -44,6 +44,23 @@ class ModelTemplate extends ModelBase
 	}
 
 	/**
+	 * Provider untuk template User
+	 *
+	 * @param array $otherData Data dari model lain
+	 *
+	 * @return array $finalData
+	 * @see ModelTemplate::finalData
+	 */
+	public function getUserData($otherData = array()) {
+		$data = array(
+			'title'	=> 'Pengguna',
+			'content' => NULL,
+		);
+
+		return $this->prepareData($data, $otherData);
+	}
+
+	/**
 	 * Provider untuk template Auth
 	 *
 	 * @param array $otherData Data dari model lain

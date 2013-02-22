@@ -1,3 +1,9 @@
+//
+// Variables
+// --------------------------------------------------
+@bluishOot:			#73a0ba;
+@greyishOot:		#aaa;
+
 /**********************************
 Base
 **********************************/
@@ -7,22 +13,32 @@ body{
 }
 
 #toolbar{
-	background-color: darken(#73a0ba, 10%);
+	background-color: darken(@bluishOot, 10%);
 	padding-top: 10px;
 	padding-bottom: 10px;
-	color: #fff;
+	color: @white;
 }
 
 #header{
-	background-color: #73a0ba;
+	background-color: @bluishOot;
 	padding-top: 20px;
-	color: #fff;
+	color: @white;
 	position: relative;
 }
 
 #body{
 	padding-top: 20px;
 	padding-bottom: 20px;
+}
+
+#sidebar{
+	margin: 0 auto;
+	padding: 5px;
+	background-color: white;
+	border: 1px solid #DDD;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
 }
 
 @media (max-width: 767px) {
@@ -81,7 +97,7 @@ Navbar
 			color: #ddd;
 
 			&:hover{
-				color: #fff;
+				color: @white;
 			}
 		}
 	}
@@ -93,7 +109,7 @@ Navbar
     display: inline-block;
     border-left:   7px solid transparent;
     border-right:  7px solid transparent;
-    border-bottom: 7px solid #ccc;
+    border-bottom: 7px solid @navbarInverseSearchPlaceholderColor;
     border-bottom-color: @dropdownBorder;
     position: absolute;
     top: -7px;
@@ -132,8 +148,8 @@ body {
 	height: 60px;
 }
 #footer {
-	background-color: #111;
-	color: #aaa;
+	background-color: @navbarInverseBackground;
+	color: @greyishOot;
 }
 
 @media (max-width: 767px) {

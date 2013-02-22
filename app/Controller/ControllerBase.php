@@ -60,6 +60,8 @@ class ControllerBase {
             $this->session = new Session();
             $this->session->start();
             $this->request->setSession($this->session);
+        } else {
+            $this->session = $this->request->getSession();
         }
 
         // Initialize Acl and Data instances
@@ -85,18 +87,51 @@ class ControllerBase {
         }
 
         // Assign POST data
-        if ($_POST || ($this->session instanceof Session && $this->session->get('postData'))) {
+        if ($_POST || $this->session->get('postData')) {
             $postData = array();
 
             if ($_POST) $postData = array_merge($postData, $_POST);
 
-            if ($this->session instanceof Session && $this->session->get('postData')) {
+            if ($this->session->get('postData')) {
                 $postData = array_merge($postData, $this->session->get('postData'));
                 // Unset
                 $this->session->set('postData', NULL);
             }
 
             $this->data->set('postData', $postData);
+        }
+
+        // Assign GET data
+        if ($_GET) {
+            $this->data->set('getData', $_GET);
+        }
+
+        if ($currentUrl = $this->request->server->get('PATH_INFO')) {
+            $queryUrl = $_GET;
+            
+            // Exceptions for this keys
+            $postToGetKeys = array('query');
+            $flashedKeys = array('page');
+
+            // add any detected keys that match exception elements
+            foreach ($postToGetKeys as $postToGetKey) {
+                if (isset($_POST[$postToGetKey])) $queryUrl[$postToGetKey] = $_POST[$postToGetKey];
+            }
+
+            // remove any flashed keys
+            foreach($flashedKeys as $flashedKey) {
+                if (isset($queryUrl[$flashedKey])) unset($queryUrl[$flashedKey]);
+            }
+
+            $currentQueryUrl = $currentUrl.'?';
+
+            if ( ! empty($queryUrl)) {
+                $currentQueryUrl .= http_build_query($queryUrl).'&';
+            }
+
+            // Set common URL variable
+            $this->data->set('currentUrl', $currentUrl);
+            $this->data->set('currentQueryUrl', $currentQueryUrl);
         }
     }
 

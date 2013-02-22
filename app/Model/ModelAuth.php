@@ -189,30 +189,7 @@ class ModelAuth extends ModelBase
 	 * @return Parameter
 	 */
 	public function getUser($id = NULL) {
-		// Silly
-		if (empty($id)) return false;
-
-		// Get user
-		$user = ModelBase::ormFactory('PhpidUsersQuery')->findPK($id);
-
-		if ($user) {
-			// Get other misc data
-			$userData = new Parameter($user->toArray());
-			$userCustomData = $userData->get('Data');
-
-			// @codeCoverageIgnoreStart
-			if ( ! empty($userCustomData)) {
-				$userDataSerialized = fread($userCustomData,100000);
-				$userData->set('AdditionalData', unserialize($userDataSerialized));
-			}
-			// @codeCoverageIgnoreEnd
-
-			$userData->set('Avatar', 'https://secure.gravatar.com/avatar/' . md5($userData->get('Mail')));
-
-			$user = $userData;
-		}
-		
-		return $user;
+		return ModelBase::factory('User')->getUser($id);
 	}
 
 	/**
@@ -226,21 +203,8 @@ class ModelAuth extends ModelBase
 	public function createUser($username, $email, $password) {
 		// Generate password hash
 		$hashedPassword = $this->hashPassword($password);
-
-		// Get last user
-		$lastUser = ModelBase::ormFactory('PhpidUsersQuery')->orderByUid('desc')->findOne();
-		$uid = empty($lastUser) ? 1 : ($lastUser->getUid() + 1);
-
-		$user = ModelBase::ormFactory('PhpidUsers');
-		$user->setUid($uid);
-		$user->setName($username);
-		$user->setMail($email);
-		$user->setPass($hashedPassword);
-		$user->setData(serialize(array()));
-
-		$user->save();
-
-		return $user;
+		
+		return ModelBase::factory('User')->createUser($username, $email, $hashedPassword);
 	}
 
 	/**

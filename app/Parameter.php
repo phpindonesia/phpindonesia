@@ -24,6 +24,6 @@ class Parameter extends ParameterBag
 		// If try to get parameter key
 		if (empty($arguments) && ($attribute = $this->get($method)) && ! empty($attribute)) return $this->get($method);
 
-		throw new \InvalidArgumentException('Method not found in this parameter');
+		throw new \InvalidArgumentException('Method not found in this parameter['.$method.']');
 	}
 }

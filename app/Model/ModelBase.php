@@ -8,6 +8,9 @@
 
 namespace app\Model;
 
+use app\Parameter;
+use \ModelCriteria;
+
 /**
  * ModelBase
  *
@@ -51,4 +54,98 @@ class ModelBase
 
 		return new $ormClass();
 	}
+
+	/**
+	 * Filter method for Propel Query
+	 *
+	 * @param Parameter Filter array
+	 * @param ModelCriteria the query instance
+	 * @return ModelCriteria filtered query instance
+	 */
+	public static function filterQuery(ModelCriteria $query, Parameter $filter) {
+	 	$column = $filter->get('column','Undefined');
+
+	 	if (is_callable(array($query, 'filterBy'.ucfirst($column)), false, $filterBy)) {
+	 		if ($filter->get('chainOrStatement')) {
+	 			$query->_or();
+	 		}
+	 		
+	 		$query = call_user_func_array(array($query, $filterBy), array($filter->get('value','')));
+		}
+
+		return $query;
+	 }
+
+	 /**
+	  * Build pagination information based some query object
+	  *
+	  * @param array the query instance
+	  * @param string the related query class name
+	  * @param array the related query filter
+	  * @param int current page
+	  * @param int total item per/page
+	  * @return Parameter contain all pagination information
+	  */
+	 public static function buildPagination($objectCollection = array(), $ormClassName, $filter = array(), $currentPage = 1, $perPage = 10) {
+	 	$result = new Parameter();
+
+	 	// Get total entity
+	 	$query = self::ormFactory($ormClassName);
+
+	 	if ( ! empty($filter)) {
+	 		foreach ($filter as $where) {
+				if ( ! $where instanceof Parameter) {
+					$where = new Parameter($where);
+				}
+
+		 		$query = self::filterQuery($query, $where);
+			}
+	 	}
+
+	 	$totalCount = $query->count();
+	 	$currentCount = count($objectCollection);
+
+	 	$totalPage = (int) ceil($totalCount/$perPage);
+	 	$previousPage = ($currentPage == 1) ? $currentPage : $currentPage-1;
+	 	$nextPage = ($currentPage == $totalPage) ? $currentPage : $currentPage+1;
+
+	 	// Building Page collection
+	 	$pages = array();
+	 	$maxPage = ($totalPage > 11) ? 11 : $totalPage;
+	 	$medianPage = (($totalPage/2) > 6) ? 6 : 0;
+
+	 	for ($i=1; $i < ($maxPage+1); $i++) { 
+	 		if ($i == $medianPage) {
+		 		$page = new Parameter(array(
+		 			'number' => '...',
+		 			'class' => ' ',
+		 		));
+	 		} elseif ($i > $medianPage && $maxPage < $totalPage) {
+	 			$iRevert = ($totalPage+$i)-($totalPage/2);
+	 			$page = new Parameter(array(
+		 			'number' => $iRevert,
+		 			'class' => ($iRevert == $currentPage) ? 'disabled' : ' ',
+		 		));
+	 		}else {
+	 			$page = new Parameter(array(
+		 			'number' => $i,
+		 			'class' => ($i == $currentPage) ? 'disabled' : ' ',
+		 		));
+	 		}
+
+	 		$pages[] = $page;
+	 	}
+
+	 	$result->set('data', $objectCollection);
+	 	$result->set('pages', $pages);
+	 	$result->set('currentPage', $currentPage);
+	 	$result->set('previousPage', $previousPage);
+	 	$result->set('nextPage', $nextPage);
+	 	$result->set('totalPage', $totalPage);
+	 	$result->set('currentCount', $currentCount);
+	 	$result->set('totalCount', $totalCount);
+	 	$result->set('totalText', ' '.$totalCount.' ');
+
+	 	return $result;
+	 }
 }
