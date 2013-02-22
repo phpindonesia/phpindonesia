@@ -7,6 +7,7 @@
  */
 
 use app\Controller\ControllerUser;
+use app\Model\ModelBase;
 use Symfony\Component\HttpFoundation\Request;
 
 class ControllerUserTest extends PHPUnit_Framework_TestCase {
@@ -28,6 +29,8 @@ class ControllerUserTest extends PHPUnit_Framework_TestCase {
 	public function tearDown() {
 		unset($_GET['page']);
 		unset($_POST['query']);
+
+		$this->deleteDummyUser();
 	}
 
 	/**
@@ -52,5 +55,34 @@ class ControllerUserTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals(200, $response->getStatusCode());
+	}
+
+	/**
+	 * Cek action profile
+	 */
+	public function testCekActionProfileAppControllerUser() {
+		$request = Request::create('/user', 'GET', array('id' => 1));
+		$controllerUser = new ControllerUser($request);
+		$response = $controllerUser->actionProfile();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals(200, $response->getStatusCode());
+	}
+
+	/**
+	 * Create dummy user
+	 */
+	protected function createDummyUser() {
+		$auth = ModelBase::factory('Auth');
+		$auth->createUser('dummy', 'dummy@oot.com', 'secret');
+	}
+
+	/**
+	 * Delete dummy user
+	 */
+	protected function deleteDummyUser() {
+		if (($dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('dummy')) && ! empty($dummyUser)) {
+			$dummyUser->delete();
+		}
 	}
 }

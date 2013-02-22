@@ -23,7 +23,5 @@ class Parameter extends ParameterBag
 	public function __call($method, $arguments = array()) {
 		// If try to get parameter key
 		if (empty($arguments) && ($attribute = $this->get($method)) && ! empty($attribute)) return $this->get($method);
-
-		throw new \InvalidArgumentException('Method not found in this parameter['.$method.']');
 	}
 }

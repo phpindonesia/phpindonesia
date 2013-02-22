@@ -54,4 +54,26 @@ class ControllerUser extends ControllerBase
 		// Render
 		return $this->render($data);
 	}
+
+	/**
+	 * Handler untuk GET/POST /user/profile
+	 */
+	public function actionProfile() {
+		$item = ModelBase::factory('User')->getUser($this->request->get('id'));
+		$tabs = ModelBase::factory('User')->buildTabs($this->request->get('id'));
+
+		// Check one or other mandatory fields
+		// @codeCoverageIgnoreStart
+		if ( empty($item) || ! $item->get('Mail') || ! $item->get('Name')) {
+			throw new \LogicException('Maaf, ada yang salah dengan user_'.$this->request->get('id'));
+		}
+		// @codeCoverageIgnoreEnd
+
+		// Template configuration
+		$this->layout = 'modules/user/profile.tpl';
+		$data = ModelBase::factory('Template')->getUserData(compact('item', 'tabs'));
+
+		// Render
+		return $this->render($data);
+	}
 }

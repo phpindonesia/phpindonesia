@@ -89,11 +89,14 @@ class ModelUser extends ModelBase
 			// @codeCoverageIgnoreStart
 			if ( ! empty($userCustomData)) {
 				$userDataSerialized = fread($userCustomData,100000);
-				$userData->set('AdditionalData', unserialize($userDataSerialized));
+				$additionalData = unserialize($userDataSerialized);
+				$userData->set('AdditionalData', $additionalData);
+				$userData->set('Fullname', isset($additionalData['fullname']) ? $additionalData['fullname'] : '-');
 			}
 			// @codeCoverageIgnoreEnd
 
 			$userData->set('Avatar', 'https://secure.gravatar.com/avatar/' . md5($userData->get('Mail')));
+			$userData->set('Date', 'Sejak '.date('M d, Y', $userData->get('Created')));
 
 			$user = $userData;
 		}
@@ -125,4 +128,33 @@ class ModelUser extends ModelBase
 
 		return $user;
 	}
+
+	/**
+	 * Build tabs data
+	 *
+	 * @param id $uid
+	 * @return Parameter 
+	 */
+	public function buildTabs($uid = NULL) {
+		$tabs = array(
+			// Aktifitas tab
+			new Parameter(array(
+				'id' => 'activity', 
+				'link' => 'Aktifitas', 
+				'liClass' => 'active', 
+				'tabClass' => 'active in', 
+				'data' => new Parameter())),
+
+			// Artikel tab
+			new Parameter(array(
+				'id' => 'article', 
+				'link' => 'Artikel', 
+				'liClass' => ' ', 
+				'tabClass' => ' ', 
+				'data' => new Parameter())),
+		);
+
+		return $tabs;
+	}
+	
 }

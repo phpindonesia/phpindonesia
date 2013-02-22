@@ -18,9 +18,6 @@ class ParameterTest extends PHPUnit_Framework_TestCase {
 		$parameter = new Parameter(array('foo' => 'bar'));
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\ParameterBag', $parameter);
 		$this->assertEquals('bar', $parameter->foo());
-
-		$this->setExpectedException('InvalidArgumentException', 'Method not found in this parameter');
-
-		$parameter->undefined();
+		$this->assertEmpty($parameter->undefined());
 	}
 }
