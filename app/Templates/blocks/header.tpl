@@ -24,7 +24,7 @@
 					<a class="btn btn-primary alert-block" href="/user/profile/{{ user.Uid }}"><img src="{{ user.Avatar }}?s=18&d=retro"/> {{ user.Name }}</a>
 					<a class="btn btn-primary alert-block dropdown-toggle" data-toggle="dropdown" href="#"> <span class="caret"></span></a>
 					<ul id="account" class="dropdown-menu" role="menu" aria-labelledby="drop1">
-						<li><a href="/user/edit/{{ user.Uid }}">Edit Profil</a></li>
+						<li><a href="/setting">Setelan</a></li>
 						<li><a href="/auth/logout">Keluar</a></li>
 					</ul>
 					</div>
