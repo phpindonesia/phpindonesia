@@ -24,6 +24,17 @@ class ModelBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Cek gracefully method
+	 */
+	public function testCekGracefulModelMethod() {
+		$template = ModelBase::factory('Template');
+
+		$this->setExpectedException('BadMethodCallException', get_class($template) . ' did not contain getUndefinedMethod');
+
+		$template->getUndefinedMethod();
+	}
+
+	/**
 	 * Cek konsistensi ORM Factory
 	 */
 	public function testCekKonsistensiOrmFactory() {
