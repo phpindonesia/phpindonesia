@@ -150,4 +150,13 @@ class ModelBase
 
 	 	return $result;
 	 }
+
+	 /**
+	  * Overide method for gracefully fail bad method
+	  */
+	 public function __call($method, $arguments) {
+	 	if ( ! method_exists($this, $method)) {
+	 		throw new \BadMethodCallException(__CLASS__ . ' did not contain '.$method);
+	 	}
+	 }
 }
