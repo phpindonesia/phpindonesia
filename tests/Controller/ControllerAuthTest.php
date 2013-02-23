@@ -82,4 +82,28 @@ class ControllerAuthTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\RedirectResponse', $response);
 		$this->assertEquals(302, $response->getStatusCode());
 	}
+
+	/**
+	 * Cek action Reconfirmation
+	 */
+	public function testCekActionReconfirmationControllerAuth() {
+		$request = Request::create('/auth/reconfirmation');
+		$controllerAuth = new ControllerAuth($request);
+		$response = $controllerAuth->actionReconfirmation();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\RedirectResponse', $response);
+		$this->assertEquals(302, $response->getStatusCode());
+	}
+
+	/**
+	 * Cek action Confirm
+	 */
+	public function testCekActionConfirmationControllerAuth() {
+		$request = Request::create('/auth/confirmation');
+		$controllerAuth = new ControllerAuth($request);
+
+		$this->setExpectedException('InvalidArgumentException', 'Token konfirmasi tidak ditemukan!');
+
+		$controllerAuth->actionConfirmation();
+	}
 }

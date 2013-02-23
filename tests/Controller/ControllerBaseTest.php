@@ -7,7 +7,9 @@
  */
 
 use app\Controller\ControllerBase;
+use app\Session as AppSession;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class ControllerBaseTest extends PHPUnit_Framework_TestCase {
 
@@ -42,6 +44,43 @@ class ControllerBaseTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\RedirectResponse', $response);
 		$this->assertEquals(302, $response->getStatusCode());
+	}
+
+	/**
+	 * Cek set alert
+	 */
+	public function testCekSetAlertAppControllerBase() {
+		// Test alert flow
+		$session = new AppSession();
+
+		$session->start();
+
+		$sessionId = $session->getName();
+		$cookies = array($sessionId => TRUE);
+
+		$request = Request::create('/home/index', 'GET', array(), $cookies);
+
+		if ( ! $request->hasPreviousSession()) {
+			$request->setSession($session);
+		} 
+
+		$request->getSession()->set('alert', serialize(array(
+			'alertType' => 'success',
+			'alertMessage' => 'Something to say...',
+		)));
+
+		$controllerBase = new ControllerBase($request);
+
+		// Cek data 
+		$this->assertEquals('success', $controllerBase->getData()->get('alertType'));
+		$this->assertEquals('Something to say...', $controllerBase->getData()->get('alertMessage'));
+
+		// Set new alert
+		$controllerBase->setAlert('error', 'Some warning...');
+
+		// Cek data 
+		$this->assertEquals('error', $controllerBase->getData()->get('alertType'));
+		$this->assertEquals('Some warning...', $controllerBase->getData()->get('alertMessage'));
 	}
 
 	/**

@@ -80,10 +80,13 @@ class ModelAuthTest extends PHPUnit_Framework_TestCase {
 		// Test valid proses
 		$this->deleteDummyUser();
 
-		$data = array('username' => 'dummy', 'email' => 'taufan.aditya@yahoo.com', 'password' => 'secret', 'cpassword' => 'secret');
+		$data = array('username' => 'dummy', 'email' => 'frei.denken@facebook.com', 'password' => 'secret', 'cpassword' => 'secret');
 		$hasilRegister = $auth->register($data);
 
 		$this->assertTrue($hasilRegister->get('success'));
+
+		// Cek konfirmasi
+		$this->assertFalse($auth->isConfirmed($hasilRegister->get('data')));
 	}
 
 	/**
@@ -159,6 +162,27 @@ class ModelAuthTest extends PHPUnit_Framework_TestCase {
 		$dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('dummy');
 
 		$this->assertTrue($auth->updateUserData($dummyUser->getUid(), array('realname' => 'Dummy User')));
+	}
+
+	/**
+	 * Cek konfirmasi
+	 */
+	public function testCekConfirmModelAuth() {
+		$auth = ModelBase::factory('Auth');
+
+		$this->createDummyUser();
+		$dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('dummy');
+		$dummyUserUid = $dummyUser->getUid();
+		$dummyUserToken = $dummyUser->getPass();
+
+		// Cek sebelum konfirmasi
+		$this->assertFalse($auth->isConfirmed($dummyUserUid));
+
+		// Do confirm
+		$auth->confirm($dummyUserToken);
+
+		// Cek setelah konfirmasi
+		$this->assertTrue($auth->isConfirmed($dummyUserUid));
 	}
 
 	/**
