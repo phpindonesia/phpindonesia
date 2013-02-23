@@ -73,19 +73,19 @@ class ModelTemplate extends ModelBase
      */
     public function getSettingData($otherData = array()) {
         $data = array(
-            'title' => 'Setting',
+            'title' => 'Setelan',
             'content' => NULL,
             'menus' => array(
                 new Parameter(array(
                     'liClass' => 'nav-header',
-                    'text' => 'Setting',
+                    'text' => 'Setelan',
                 )),
 
                 new Parameter(array('liClass' => 'divider')),
 
                 new Parameter(array(
                     'liClass' => 'nav-header',
-                    'text' => 'Profile',
+                    'text' => 'Profil',
                 )),
                 new Parameter(array(
                     'liClass' => '',
