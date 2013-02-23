@@ -153,10 +153,12 @@ class ModelBase
 
 	 /**
 	  * Overide method for gracefully fail bad method
+	  *
+	  * @codeCoverageIgnore
 	  */
 	 public function __call($method, $arguments) {
 	 	if ( ! method_exists($this, $method)) {
-	 		throw new \BadMethodCallException(__CLASS__ . ' did not contain '.$method);
+	 		throw new \BadMethodCallException(get_class($this) . ' did not contain '.$method);
 	 	}
 	 }
 }
