@@ -25,17 +25,18 @@ class ModelBase
 	 * Factory method to manufactoring app\Models easier
 	 *
 	 * @param string $class Model Class Suffix ('Template' will be translated to 'ModelTemplate')
+	 * @param Parameter $parameter Parameter that needed to instantiate the model
 	 *
 	 * @throws InvalidArgumentException if Model class doesn't exists
 	 */
-	public static function factory($class) {
+	public static function factory($class, $parameter = NULL) {
 		$class = __NAMESPACE__ . '\\' . self::PREFIX . $class;
 
 		if ( ! class_exists($class)) {
 			throw new \InvalidArgumentException('Model class not found');
 		}
 
-		return new $class();
+		return ($parameter instanceof Parameter) ? new $class($parameter) : new $class();
 	}
 
 	/**
