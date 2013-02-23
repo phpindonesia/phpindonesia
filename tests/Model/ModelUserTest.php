@@ -49,6 +49,38 @@ class ModelUserTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(count($allUsers) > 0);
 	}
 
+	/**
+	 * Cek update user
+	 */
+	public function testCekUpdateUserModelUser() {
+		$auth = new ModelUser();
+
+		$this->assertFalse($auth->updateUser(NULL, array()));
+		$this->assertFalse($auth->updateUser(010101010, array()));
+
+		// Valid update
+		$this->createDummyUser();
+		$dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('dummy');
+
+		$this->assertInstanceOf('\app\Parameter',$auth->updateUser($dummyUser->getUid(), array('name' => 'Not Dummy Anymore')));
+	}
+
+	/**
+	 * Cek update user custom data
+	 */
+	public function testCekUpdateUserCustomModelUser() {
+		$auth = new ModelUser();
+
+		$this->assertFalse($auth->updateUserData(NULL, array()));
+		$this->assertFalse($auth->updateUserData(010101010, array()));
+
+		// Valid update
+		$this->createDummyUser();
+		$dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('dummy');
+
+		$this->assertInstanceOf('\app\Parameter',$auth->updateUserData($dummyUser->getUid(), array('realname' => 'Dummy User')));
+	}
+
 
 	/**
 	 * Create dummy user
@@ -63,6 +95,8 @@ class ModelUserTest extends PHPUnit_Framework_TestCase {
 	 */
 	protected function deleteDummyUser() {
 		if (($dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('dummy')) && ! empty($dummyUser)) {
+			$dummyUser->delete();
+		} elseif (($dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('Not Dummy Anymore')) && ! empty($dummyUser)) {
 			$dummyUser->delete();
 		}
 	}

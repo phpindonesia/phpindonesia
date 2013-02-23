@@ -22,7 +22,7 @@ class ControllerSetting extends ControllerBase
 
 		// All setting actions only accessible from logged-in user
 		if ( ! $this->acl->isLogin()) {
-			throw new \BadMethodCallException('Anda harus login untuk melanjutkan');
+			throw new \BadMethodCallException('Anda harus login untuk melanjutkan!');
 		}
 	}
 
@@ -44,9 +44,7 @@ class ControllerSetting extends ControllerBase
 	public function actionInfo() {
 		$content = ModelBase::factory('Setting')->handleInfo($this->data);
 
-		if ($content->get('updated')) {
-			$this->setAlert('info', 'Informasi terupdate!');
-		}
+		if ($content->get('updated')) $this->setAlert('info', 'Informasi terupdate!');
 
 		// Template configuration
 		$this->layout = 'modules/setting/index.tpl';
@@ -62,9 +60,7 @@ class ControllerSetting extends ControllerBase
 	public function actionMail() {
 		$content = ModelBase::factory('Setting')->handleMail($this->data);
 
-		if ($content->get('updated')) {
-			$this->setAlert('info', 'Email terupdate!');
-		}
+		if ($content->get('updated')) $this->setAlert('info', 'Email terupdate!');
 
 		// Template configuration
 		$this->layout = 'modules/setting/index.tpl';
@@ -80,9 +76,7 @@ class ControllerSetting extends ControllerBase
 	public function actionPassword() {
 		$content = ModelBase::factory('Setting')->handlePassword($this->data);
 
-		if ($content->get('updated')) {
-			$this->setAlert('info', 'Password terupdate!');
-		}
+		if ($content->get('updated')) $this->setAlert('info', 'Password terupdate!');
 
 		// Template configuration
 		$this->layout = 'modules/setting/index.tpl';

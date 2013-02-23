@@ -33,6 +33,7 @@ class ModelSetting extends ModelBase
         $user = $data->get('user');
         $post = new Parameter($data->get('postData', array()));
 
+        // @codeCoverageIgnoreStart
         if ($post->get('fullname') || $post->get('signature')) {
             $uid = $user->get('Uid');
 
@@ -57,6 +58,7 @@ class ModelSetting extends ModelBase
                 }
             }
         }
+        // @codeCoverageIgnoreEnd
 
         $fullName = str_replace('-', '', $user->get('Fullname'));
         $signature = $user->get('Signature');
@@ -101,6 +103,7 @@ class ModelSetting extends ModelBase
         $user = $data->get('user');
         $post = new Parameter($data->get('postData', array()));
 
+        // @codeCoverageIgnoreStart
         if ($post->get('email')) {
             $email = filter_var($post->get('email'), FILTER_VALIDATE_EMAIL);
 
@@ -119,6 +122,7 @@ class ModelSetting extends ModelBase
                 $content->set('error', 'Email tidak valid!');
             }
         }
+        // @codeCoverageIgnoreEnd
 
         $email = $user->get('Mail');
 
@@ -155,6 +159,7 @@ class ModelSetting extends ModelBase
         $user = $data->get('user');
         $post = new Parameter($data->get('postData', array()));
 
+        // @codeCoverageIgnoreStart
         if ($post->get('password') || $post->get('cpassword')) {
 
             $password = $post->get('password');
@@ -178,6 +183,7 @@ class ModelSetting extends ModelBase
                 }
             }
         }
+        // @codeCoverageIgnoreEnd
 
         // Build inputs
         $inputs = array(

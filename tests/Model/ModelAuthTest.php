@@ -164,22 +164,6 @@ class ModelAuthTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Cek update user
-	 */
-	public function testCekUpdateUserModelAuth() {
-		$auth = new ModelAuth();
-
-		$this->assertFalse($auth->updateUserData(NULL, array()));
-		$this->assertFalse($auth->updateUserData(010101010, array()));
-
-		// Valid update
-		$this->createDummyUser();
-		$dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('dummy');
-
-		$this->assertTrue($auth->updateUserData($dummyUser->getUid(), array('realname' => 'Dummy User')));
-	}
-
-	/**
 	 * Cek konfirmasi
 	 */
 	public function testCekConfirmModelAuth() {
