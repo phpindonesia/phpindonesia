@@ -102,7 +102,7 @@ class ControllerAuthTest extends PHPUnit_Framework_TestCase {
 		$request = Request::create('/auth/confirmation');
 		$controllerAuth = new ControllerAuth($request);
 
-		$this->setExpectedException('InvalidArgumentException', 'Token konfirmasi tidak ditemukan!');
+		$this->setExpectedException('InvalidArgumentException', 'Token tidak ditemukan!');
 
 		$controllerAuth->actionConfirmation();
 	}

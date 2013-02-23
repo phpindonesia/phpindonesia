@@ -213,9 +213,9 @@ class ControllerBase {
 	 */
 	public function getToken() {
 		$token = $this->data->get('getData[token]','',true);
-
+		
 		if (empty($token)) {
-			throw new \InvalidArgumentException('Token konfirmasi tidak ditemukan!');
+			throw new \InvalidArgumentException('Token tidak ditemukan!');
 		}
 
 		return $token;

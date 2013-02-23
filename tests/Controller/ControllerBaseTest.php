@@ -102,4 +102,23 @@ class ControllerBaseTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(200, $response->getStatusCode());
 		$this->assertEquals('Content', $response->getContent());
 	}
+
+	/**
+	 * Cek token
+	 */
+	public function testCekTokenAppControllerBase() {
+		// Token exists
+		$request = Request::create('/confirmation');
+		$controllerBase = new ControllerBase($request);
+		$getData = array('token' => 'somehashtoken');
+		$controllerBase->getData()->set('getData', $getData);
+		$this->assertEquals('somehashtoken', $controllerBase->getToken());
+
+		$request = Request::create('/confirmation');
+		$controllerBase = new ControllerBase($request);
+
+		$this->setExpectedException('InvalidArgumentException', 'Token tidak ditemukan!');
+		
+		$controllerBase->getToken();
+	}
 }
