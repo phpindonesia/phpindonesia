@@ -37,7 +37,7 @@ class ModelTemplate extends ModelBase
      *
      * @return string HTML representation
      */
-    public static function render($template, $data) {
+    public static function render($template, $data = array()) {
         // Inisialisasi Twig. Load template yang berkaitan dan assign data.
         $loader = new Twig_Loader_Filesystem(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'Templates');
         $templateEngine = new Twig_Environment($loader);
