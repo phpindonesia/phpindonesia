@@ -78,6 +78,13 @@ class ModelTemplate extends ModelBase
             'menus' => array(
                 new Parameter(array(
                     'liClass' => 'nav-header',
+                    'text' => 'Setting',
+                )),
+
+                new Parameter(array('liClass' => 'divider')),
+
+                new Parameter(array(
+                    'liClass' => 'nav-header',
                     'text' => 'Profile',
                 )),
                 new Parameter(array(
