@@ -70,8 +70,9 @@ class ControllerUser extends ControllerBase
 		// @codeCoverageIgnoreEnd
 
 		// Template configuration
+		$title = $item->get('Name');
 		$this->layout = 'modules/user/profile.tpl';
-		$data = ModelBase::factory('Template')->getUserData(compact('item', 'tabs'));
+		$data = ModelBase::factory('Template')->getUserData(compact('item', 'tabs', 'title'));
 
 		// Render
 		return $this->render($data);
