@@ -132,4 +132,53 @@ class ControllerAuth extends ControllerBase
 		// Render
 		return $this->render($data);
 	}
+
+	/**
+	 * Handler untuk GET/POST /auth/reconfirmation
+	 */
+	public function actionReconfirmation() {
+		// @codeCoverageIgnoreStart
+		// Hanya untuk login user
+ 		if ($this->acl->isLogin()) {
+			// Resend
+			$currentUser = $this->data->get('user');
+			ModelBase::factory('Auth')->sendConfirmation($currentUser->get('Uid'));
+ 		}
+		// @codeCoverageIgnoreEnd
+
+		// Render
+		return $this->redirect('/home');
+	}
+
+	/**
+	 * Handler untuk GET/POST /auth/confirmation
+	 */
+	public function actionConfirmation() {
+		// Cari di GET
+		$token = $this->data->get('getData[token]','',true);
+
+		if (empty($token)) {
+			throw new \InvalidArgumentException('Token konfirmasi tidak ditemukan!');
+		}
+
+		// @codeCoverageIgnoreStart
+		// cek hasil konfirmasi
+		$confirmationResult = ModelBase::factory('Auth')->confirm($token);
+
+		if ($confirmationResult->get('success') == false) {
+			throw new \InvalidArgumentException('Token konfirmasi tidak valid!');
+		} else {
+			$message = 'Konfirmasi akun anda berhasil';
+			$alert = ModelBase::factory('Template')->render('blocks/alert/success.tpl', compact('message'));
+			$this->setAlert('info', $alert,5000,true);
+
+			// Login jika belum
+			$this->session->set('login', true);
+			$this->session->set('userId', $confirmationResult->get('data'));
+		}
+
+		// Render
+		return $this->redirect('/home');
+		// @codeCoverageIgnoreEnd
+	}
 }

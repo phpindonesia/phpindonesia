@@ -152,14 +152,7 @@ class ModelAuth extends ModelBase
 					$validUser = $this->createUser($username,$email,$password);
 
 					// Send confirmation link
-					$confirmationLink = '/auth/confirmation?token='.urlencode($validUser->getPass());
-
-					$emailParameter = new Parameter(array(
-						'toName' => $validUser->getName(),
-						'toEmail' => $validUser->getMail(),
-					));
-
-					ModelBase::factory('Mailer', $emailParameter)->sendRegisterConfirmation($confirmationLink);
+					$this->sendConfirmation($validUser->getUid());
 
 					// Login
 					$result->set('success', true);
@@ -190,6 +183,38 @@ class ModelAuth extends ModelBase
 		}
 
 		return $user;
+	}
+
+	/**
+	 * Pengecekan validitas user berdasarkan konfirmasi
+	 *
+	 * @param int $uid UID user
+	 * @return mixed FALSE jika belum konfirmasi
+	 */
+	public function isConfirmed($uid = 0) {
+		if ($user = $this->getUser($uid)) {
+			if (empty($user)) return false;
+
+			return $user->get('Status') == 1;
+		}
+	}
+
+	/**
+	 * Pengecekan validitas password
+	 *
+	 * @param PhpidUsers $user User object
+	 * @param string $password Flat password yang dikirim
+	 * @return bool
+	 */
+	public function isValidPassword(PhpidUsers $user, $password = '') {
+		// Ambil stored hash
+		$storedHash = $user->getPass();
+
+		// Generate hash untuk dikomparasikan
+		$hash = $this->passwordCrypt('sha512', $password, $storedHash);
+
+		// Cek
+		return ($hash && $storedHash == $hash);;
 	}
 
 	/**
@@ -265,21 +290,46 @@ class ModelAuth extends ModelBase
 	}
 
 	/**
-	 * Pengecekan validitas password
+	 * Do confirmation
 	 *
-	 * @param PhpidUsers $user User object
-	 * @param string $password Flat password yang dikirim
-	 * @return bool
+	 * @param string $token User token
+	 * @return Parameter berisi 'success' dan 'data'
 	 */
-	public function isValidPassword(PhpidUsers $user, $password = '') {
-		// Ambil stored hash
-		$storedHash = $user->getPass();
+	public function confirm($token) {
+		$result = new Parameter(array('success' => false, 'error' => NULL));
+		$relatedUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByPass($token);
 
-		// Generate hash untuk dikomparasikan
-		$hash = $this->passwordCrypt('sha512', $password, $storedHash);
+		if ($relatedUser) {
+			// Set the status
+			$relatedUser->setStatus(1);
+			$relatedUser->save();
+				
+			$result->set('success', true);
+			$result->set('data', $relatedUser->getUid());
+		}
 
-		// Cek
-		return ($hash && $storedHash == $hash);;
+		return $result;
+	}
+
+	/**
+	 * Send registration confirmation link
+	 *
+	 * @param int $uid User uid
+	 */
+	public function sendConfirmation($uid = 0) {
+		$validUser = ModelBase::ormFactory('PhpidUsersQuery')->findPK($uid);
+
+		// Only send to valid user
+		if ($validUser) {
+			$confirmationLink = '/auth/confirmation?token='.urlencode($validUser->getPass());
+
+			$emailParameter = new Parameter(array(
+				'toName' => $validUser->getName(),
+				'toEmail' => $validUser->getMail(),
+			));
+
+			ModelBase::factory('Mailer', $emailParameter)->sendRegisterConfirmation($confirmationLink);
+		}
 	}
 
 	/**
