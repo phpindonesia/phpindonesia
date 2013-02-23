@@ -2015,7 +2015,7 @@
     <column name="value" phpName="Value" type="FLOAT" required="true" defaultValue="0"/>
     <column name="value_type" phpName="ValueType" type="VARCHAR" size="64" required="true" defaultValue="percent"/>
     <column name="tag" phpName="Tag" type="VARCHAR" size="64" required="true" defaultValue="vote"/>
-    <column name="function" phpName="Functions" type="VARCHAR" size="64" required="true" defaultValue=""/>
+    <column name="functions" phpName="Functions" type="VARCHAR" size="64" required="true" defaultValue=""/>
     <column name="timestamp" phpName="Timestamp" type="INTEGER" size="10" sqlType="int(10) unsigned" required="true" defaultValue="0"/>
     <index name="content">
       <index-column name="entity_type"/>
