@@ -61,7 +61,9 @@ class ControllerUserTest extends PHPUnit_Framework_TestCase {
 	 * Cek action profile
 	 */
 	public function testCekActionProfileAppControllerUser() {
-		$request = Request::create('/user', 'GET', array('id' => 1));
+		$user = $this->createDummyUser();
+
+		$request = Request::create('/user', 'GET', array('id' => $user->getUid()));
 		$controllerUser = new ControllerUser($request);
 		$response = $controllerUser->actionProfile();
 
@@ -74,7 +76,7 @@ class ControllerUserTest extends PHPUnit_Framework_TestCase {
 	 */
 	protected function createDummyUser() {
 		$auth = ModelBase::factory('Auth');
-		$auth->createUser('dummy', 'dummy@oot.com', 'secret');
+		return $auth->createUser('dummy', 'dummy@oot.com', 'secret');
 	}
 
 	/**
