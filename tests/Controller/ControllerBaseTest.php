@@ -87,7 +87,7 @@ class ControllerBaseTest extends PHPUnit_Framework_TestCase {
 
 		// Cek data 
 		$this->assertEquals('error', $controllerBase->getData()->get('alertType'));
-		$this->assertEquals('Some warning...', $controllerBase->getData()->get('alertMessage'));
+		$this->assertTrue(strpos($controllerBase->getData()->get('alertMessage'),'Some warning...') !== false);
 	}
 
 	/**

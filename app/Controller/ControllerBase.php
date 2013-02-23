@@ -232,8 +232,10 @@ class ControllerBase {
 	 */
 	public function setAlert($type = NULL, $message = NULL, $timeout = 0, $next = false) {
 		// Prepare message alert
+		// @codeCoverageIgnoreStart
 		switch ($type) {
 			case 'confirmation':
+				$type = 'info';
 				$alertMessage = ModelBase::factory('Template')->render('blocks/alert/confirmation.tpl');
 				break;
 			
@@ -245,6 +247,7 @@ class ControllerBase {
 				$alertMessage = ModelBase::factory('Template')->render('blocks/alert/general.tpl', compact('message'));
 				break;
 		}
+		// @codeCoverageIgnoreEnd
 
 		// Build alert element
 		$alert = array(

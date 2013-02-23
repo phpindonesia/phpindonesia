@@ -118,15 +118,22 @@ class ModelMailer extends ModelBase
 		if ( ! empty($this->attachmentFile) && file_exists($this->attachmentFile)) {
 			$message->attach(Swift_Attachment::fromPath($this->attachmentFile)); 
 		}
+		// @codeCoverageIgnoreEnd
 		  
 		//Send the message
+		if (defined('STDIN')) {
+			// Avoid sending email from unit-testing
+			return true;
+		}
+
+		// @codeCoverageIgnoreStart
 		try {
 			$result = $mailer->send($message); 
 		} catch (\Exception $e) {
 			$result = false;
 		}
-		// @codeCoverageIgnoreEnd
 
 		return $result;
+		// @codeCoverageIgnoreEnd
 	}
 }
