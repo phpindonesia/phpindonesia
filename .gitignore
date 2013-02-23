@@ -5,6 +5,7 @@ buildtime.xml
 connection.xml
 vendor/*
 app/Model/Orm/*
+app/Controller/ControllerSandbox.php
 conf/*
 sql/*
 migrations/*
