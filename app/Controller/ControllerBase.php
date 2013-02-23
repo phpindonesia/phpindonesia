@@ -86,12 +86,10 @@ class ControllerBase {
 			$this->data->set('user', ModelBase::factory('Auth')->getUser($this->session->get('userId')));
 
 			// Periksa status konfirmasi
-			// @codeCoverageIgnoreStart
 			if ( ! ModelBase::factory('Auth')->isConfirmed($this->session->get('userId'))) {
 				$alert = ModelBase::factory('Template')->render('blocks/alert/confirmation.tpl');
 				$this->setAlert('info', $alert, 6000);
 			}
-			// @codeCoverageIgnoreIgnore
 		}
 
 		// Assign POST data

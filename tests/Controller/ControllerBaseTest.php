@@ -75,7 +75,14 @@ class ControllerBaseTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('success', $controllerBase->getData()->get('alertType'));
 		$this->assertEquals('Something to say...', $controllerBase->getData()->get('alertMessage'));
 
-		// Set new alert
+		// Set new alert for next request
+		$controllerBase->setAlert('error', 'Some warning for next request...', 1000, true);
+
+		// Cek data, seharusnya tidak berubah dari sebelumnya
+		$this->assertEquals('success', $controllerBase->getData()->get('alertType'));
+		$this->assertEquals('Something to say...', $controllerBase->getData()->get('alertMessage'));
+
+		// Set new alert for current request
 		$controllerBase->setAlert('error', 'Some warning...');
 
 		// Cek data 
