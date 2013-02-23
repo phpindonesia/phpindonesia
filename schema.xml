@@ -62,12 +62,18 @@
       <index-column name="nid"/>
     </index>
   </table>
-  <table name="phpid_acl_user" phpName="PhpidAclUser" idMethod="native">
+  <table name="phpid_acl_user" phpName="PhpidAclUser" idMethod="native" isCrossRef="true">
     <column name="acl_id" phpName="AclId" type="INTEGER" primaryKey="true" required="true" defaultValue="0"/>
     <column name="uid" phpName="Uid" type="INTEGER" primaryKey="true" required="true" defaultValue="0"/>
     <index name="uid">
       <index-column name="uid"/>
     </index>
+    <foreign-key foreignTable="phpid_users">
+      <reference local="uid" foreign="uid"/>
+    </foreign-key>
+    <foreign-key foreignTable="phpid_acl">
+      <reference local="acl_id" foreign="acl_id"/>
+    </foreign-key>
   </table>
   <table name="phpid_actions" phpName="PhpidActions" idMethod="native">
     <column name="aid" phpName="Aid" type="VARCHAR" size="255" primaryKey="true" required="true" defaultValue="0"/>
@@ -1961,12 +1967,18 @@
       <index-column name="picture"/>
     </index>
   </table>
-  <table name="phpid_users_roles" phpName="PhpidUsersRoles" idMethod="native">
+  <table name="phpid_users_roles" phpName="PhpidUsersRoles" idMethod="native" isCrossRef="true">
     <column name="uid" phpName="Uid" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" required="true" defaultValue="0"/>
     <column name="rid" phpName="Rid" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" required="true" defaultValue="0"/>
     <index name="rid">
       <index-column name="rid"/>
     </index>
+    <foreign-key foreignTable="phpid_users">
+      <reference local="uid" foreign="uid"/>
+    </foreign-key>
+    <foreign-key foreignTable="phpid_role">
+      <reference local="rid" foreign="rid"/>
+    </foreign-key>
   </table>
   <table name="phpid_variable" phpName="PhpidVariable" idMethod="native">
     <column name="name" phpName="Name" type="VARCHAR" size="128" primaryKey="true" required="true" defaultValue=""/>
@@ -2003,7 +2015,7 @@
     <column name="value" phpName="Value" type="FLOAT" required="true" defaultValue="0"/>
     <column name="value_type" phpName="ValueType" type="VARCHAR" size="64" required="true" defaultValue="percent"/>
     <column name="tag" phpName="Tag" type="VARCHAR" size="64" required="true" defaultValue="vote"/>
-    <column name="functions" phpName="Functions" type="VARCHAR" size="64" required="true" defaultValue=""/>
+    <column name="function" phpName="Functions" type="VARCHAR" size="64" required="true" defaultValue=""/>
     <column name="timestamp" phpName="Timestamp" type="INTEGER" size="10" sqlType="int(10) unsigned" required="true" defaultValue="0"/>
     <index name="content">
       <index-column name="entity_type"/>
