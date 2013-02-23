@@ -138,9 +138,7 @@ class ControllerAuth extends ControllerBase
 
 				if ($sent) {
 					// Redirect ke halaman utama
-					$message = 'Link terkirim, periksa email anda!';
-					$alert = ModelBase::factory('Template')->render('blocks/alert/success.tpl', compact('message'));
-					$this->setAlert('info', $alert ,2000,true);
+					$this->setAlert('info', $message ,2000,true);
 					return $this->redirect('/home');
 				} else {
 					$resetResult->set('error', 'Email yang anda masukan belum terdaftar!');

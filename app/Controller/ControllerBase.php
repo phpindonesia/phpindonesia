@@ -87,8 +87,7 @@ class ControllerBase {
 
 			// Periksa status konfirmasi
 			if ( ! ModelBase::factory('Auth')->isConfirmed($this->session->get('userId'))) {
-				$alert = ModelBase::factory('Template')->render('blocks/alert/confirmation.tpl');
-				$this->setAlert('info', $alert, 6000);
+				$this->setAlert('confirmation', NULL, 6000);
 			}
 		}
 
@@ -232,10 +231,25 @@ class ControllerBase {
 	 * @return void
 	 */
 	public function setAlert($type = NULL, $message = NULL, $timeout = 0, $next = false) {
+		// Prepare message alert
+		switch ($type) {
+			case 'confirmation':
+				$alertMessage = ModelBase::factory('Template')->render('blocks/alert/confirmation.tpl');
+				break;
+			
+			case 'info':
+				$alertMessage = ModelBase::factory('Template')->render('blocks/alert/success.tpl', compact('message'));
+				break;
+
+			default:
+				$alertMessage = ModelBase::factory('Template')->render('blocks/alert/general.tpl', compact('message'));
+				break;
+		}
+
 		// Build alert element
 		$alert = array(
 			'alertType' => $type,
-			'alertMessage' => $message,
+			'alertMessage' => $alertMessage,
 			'alertTimeout' => $timeout,
 		);
 
