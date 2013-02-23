@@ -176,9 +176,7 @@ class ControllerAuth extends ControllerBase
 			$this->session->set('userId', $authResult->get('data'));
  		} 
 
- 		$this->setAlert(NULL, 'Pilih \'Password\' untuk mengubah password anda', 2000, true);
-
- 		return $this->redirect('/setting');
+ 		return $this->redirect('/setting/password');
 	}
 
 	/**

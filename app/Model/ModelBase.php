@@ -18,6 +18,7 @@ use \ModelCriteria;
  */
 class ModelBase 
 {
+	static $stream = false;
 	const PREFIX = 'Model';
 	const ORM = 'Orm';
 
@@ -47,6 +48,11 @@ class ModelBase
 	 * @throws InvalidArgumentException if ORM class doesn't exists
 	 */
 	public static function ormFactory($class) {
+		// Initialize stream once
+		if ( ! ModelBase::$stream) {
+			ModelBase::$stream = new Parameter();
+		}
+
 		$ormClass = __NAMESPACE__ . '\\' . self::ORM . '\\' . $class;
 
 		if ( ! class_exists($ormClass)) {

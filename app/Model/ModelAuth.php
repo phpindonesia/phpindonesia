@@ -99,7 +99,7 @@ class ModelAuth extends ModelBase
 
 			if ($validUser && ! empty($accessToken)) {
 				// User valid, dan disertai access token
-				$this->updateUserData($validUser->getUid(),array(
+				ModelBase::factory('User')->updateUserData($validUser->getUid(),array(
 					'fb_uid' => $parameter->get('id'),
 					'fb_access_token' => $accessToken,
 				));
@@ -243,53 +243,6 @@ class ModelAuth extends ModelBase
 	}
 
 	/**
-	 * Update custom data user
-	 *
-	 * @param int $id User UID
-	 * @param array $data Custom data
-	 *
-	 * @return bool 
-	 */
-	public function updateUserData($id = NULL, $data = array()) {
-		// Silly
-		if (empty($id)) return false;
-
-		// Get user
-		$user = ModelBase::ormFactory('PhpidUsersQuery')->findPK($id);
-
-		if ($user) {
-			// Get custom data
-			$userData = new Parameter($user->toArray());
-			$customData = $userData->get('Data');
-
-			// @codeCoverageIgnoreStart
-			if (empty($customData)) {
-				// Straight forward
-				$user->setData(serialize($data));
-			} else {
-				$userDataSerialized = fread($customData,10000);
-
-				try {
-					$currentUserData = unserialize($userDataSerialized);
-					$currentUserData = array_merge($currentUserData, $data);
-				} catch (\Exception $e) {
-					$currentUserData = $data;
-				}
-
-				// Update custom data
-				$user->setData(serialize($currentUserData));
-			}
-			// @codeCoverageIgnoreEnd
-			
-			$user->save();
-
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
 	 * Do confirmation
 	 *
 	 * @param string $token User token
@@ -361,7 +314,7 @@ class ModelAuth extends ModelBase
 	 *
 	 * @param string The plain-text password
 	 */
-	protected function hashPassword($password) {
+	public function hashPassword($password) {
 		// Use the standard iteration count.
 	    $countLog = self::HASH_COUNT;
 		$hashedPassword = $this->passwordCrypt('sha512', $password, $this->generateSalt($countLog));

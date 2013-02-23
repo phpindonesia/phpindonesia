@@ -8,6 +8,7 @@
 
 namespace app\Model;
 
+use app\Parameter;
 use \Twig_Loader_Filesystem;
 use \Twig_Environment;
 
@@ -57,6 +58,54 @@ class ModelTemplate extends ModelBase
         $data = array(
             'title' => 'Home',
             'content' => NULL,
+        );
+
+        return $this->prepareData($data, $otherData);
+    }
+
+     /**
+     * Provider untuk template Setting
+     *
+     * @param array $otherData Data dari model lain
+     *
+     * @return array $finalData
+     * @see ModelTemplate::finalData
+     */
+    public function getSettingData($otherData = array()) {
+        $data = array(
+            'title' => 'Setting',
+            'content' => NULL,
+            'menus' => array(
+                new Parameter(array(
+                    'liClass' => 'nav-header',
+                    'text' => 'Profile',
+                )),
+                new Parameter(array(
+                    'liClass' => '',
+                    'text' => 'Informasi',
+                    'link' => '/setting/info',
+                    'icon' => 'icon-info-sign',
+                )),
+
+                new Parameter(array('liClass' => 'divider')),
+
+                new Parameter(array(
+                    'liClass' => 'nav-header',
+                    'text' => 'Akun',
+                )),
+                new Parameter(array(
+                    'liClass' => '',
+                    'text' => 'Email',
+                    'link' => '/setting/mail',
+                    'icon' => 'icon-envelope',
+                )),
+                 new Parameter(array(
+                    'liClass' => '',
+                    'text' => 'Password',
+                    'link' => '/setting/password',
+                    'icon' => 'icon-key',
+                )),
+            ),
         );
 
         return $this->prepareData($data, $otherData);
