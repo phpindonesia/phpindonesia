@@ -61,9 +61,7 @@ class ControllerBase {
 			$this->session->start();
 			$this->request->setSession($this->session);
 		} else {
-			// @codeCoverageIgnoreStart
 			$this->session = $this->request->getSession();
-			// @codeCoverageIgnoreEnd
 		}
 
 		// Initialize Acl and Data instances
@@ -86,6 +84,14 @@ class ControllerBase {
 		if ($this->acl->isLogin()) {
 			// Assign user data
 			$this->data->set('user', ModelBase::factory('Auth')->getUser($this->session->get('userId')));
+
+			// Periksa status konfirmasi
+			// @codeCoverageIgnoreStart
+			if ( ! ModelBase::factory('Auth')->isConfirmed($this->session->get('userId'))) {
+				$alert = ModelBase::factory('Template')->render('blocks/alert/confirmation.tpl');
+				$this->setAlert('info', $alert, 6000);
+			}
+			// @codeCoverageIgnoreIgnore
 		}
 
 		// Assign POST data
@@ -146,12 +152,12 @@ class ControllerBase {
 		if ($this->session->get('alert')) {
 			// Get and unset the alert
 			$alert = new Parameter(unserialize($this->session->get('alert')));
-			//var_dumP($alert);die;
-			$this->session->set('alert',NULL);
 
 			$this->data->set('alertType', $alert->get('alertType', NULL));
 			$this->data->set('alertMessage', $alert->get('alertMessage', NULL));
 			$this->data->set('alertTimeout', $alert->get('alertTimeout', NULL));
+
+			$this->session->set('alert',NULL);
 		}
 	}
 
