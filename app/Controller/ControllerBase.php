@@ -141,6 +141,18 @@ class ControllerBase {
 			$this->data->set('currentUrl', $currentUrl);
 			$this->data->set('currentQueryUrl', $currentQueryUrl);
 		}
+
+		// Check for flash message
+		if ($this->session->get('alert')) {
+			// Get and unset the alert
+			$alert = new Parameter(unserialize($this->session->get('alert')));
+			//var_dumP($alert);die;
+			$this->session->set('alert',NULL);
+
+			$this->data->set('alertType', $alert->get('alertType', NULL));
+			$this->data->set('alertMessage', $alert->get('alertMessage', NULL));
+			$this->data->set('alertTimeout', $alert->get('alertTimeout', NULL));
+		}
 	}
 
 	/**
@@ -188,6 +200,35 @@ class ControllerBase {
 	 */
 	public function getData() {
 		return $this->data;
+	}
+
+	/**
+	 * Set alert message to either current data or session if necessary
+	 *
+	 * @param string $type Alert type
+	 * @param string $message Alert message
+	 * @param int $timeout Alert timeout
+	 * @param bool $next 
+	 *
+	 * @return void
+	 */
+	public function setAlert($type = NULL, $message = NULL, $timeout = 0, $next = false) {
+		// Build alert element
+		$alert = array(
+			'alertType' => $type,
+			'alertMessage' => $message,
+			'alertTimeout' => $timeout,
+		);
+
+		if ($next) {
+			// Save to session
+			$this->session->set('alert', serialize($alert));
+		} else {
+			// Save to data
+			foreach ($alert as $key => $value) {
+				$this->data->set($key,$value);
+			}
+		}
 	}
 
 	/**

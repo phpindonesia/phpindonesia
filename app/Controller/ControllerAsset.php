@@ -96,6 +96,7 @@ class ControllerAsset extends ControllerBase
 				'js/bootstrap-carousel.js',
 				'js/bootstrap-typeahead.js',
 				'js/bootstrap-affix.js',
+				'js/bootstrap-notify.js',
 				'js/scripts.js' // Custom JS untuk manajemen keseluruhan JS lainnya
 			);
 

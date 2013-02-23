@@ -32,7 +32,7 @@
 </head>
 
 <body>
-
+    <div class="notifications top-left"></div>
     <div id="wrap">
 
         {######################## Header ########################}
@@ -96,6 +96,9 @@
     {% include "blocks/footer.tpl" %}
 
     <script src="/asset/js/app.js"></script>
+    <script>
+    {% include "inline.tpl" %}
+    </script>
 </body>
 
 </html>
