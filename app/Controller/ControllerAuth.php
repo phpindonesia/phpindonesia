@@ -8,6 +8,7 @@
 
 namespace app\Controller;
 
+use app\Parameter;
 use app\Model\ModelBase;
 
 /**
@@ -124,6 +125,31 @@ class ControllerAuth extends ControllerBase
 	public function actionForgot() {
 		// Hanya untuk non-login user
  		if ($this->acl->isLogin()) return $this->redirect('/home');
+
+ 		// Proses form jika POST terdeteksi
+		// @codeCoverageIgnoreStart
+		if ($_POST) {
+			$resetResult = new Parameter(array('success' => false));
+
+			if ( ! isset($_POST['email']) || empty($_POST['email'])) {
+				$resetResult->set('error', 'Masukan email anda!');
+			} else {
+				$sent = ModelBase::factory('Auth')->sendReset($_POST['email']);
+
+				if ($sent) {
+					// Redirect ke halaman utama
+					$message = 'Link terkirim, periksa email anda!';
+					$alert = ModelBase::factory('Template')->render('blocks/alert/success.tpl', compact('message'));
+					$this->setAlert('info', $alert ,2000,true);
+					return $this->redirect('/home');
+				} else {
+					$resetResult->set('error', 'Email yang anda masukan belum terdaftar!');
+				}
+			}
+
+			$this->data->set('result', $resetResult);
+		}
+		// @codeCoverageIgnoreEnd
 		
 		// Data
 		$this->layout = 'modules/auth/forgot.tpl';

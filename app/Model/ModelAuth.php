@@ -333,6 +333,30 @@ class ModelAuth extends ModelBase
 	}
 
 	/**
+	 * Send reset password link
+	 *
+	 * @param string $email User email
+	 * @return bool
+	 */
+	public function sendReset($email) {
+		$validUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByMail($email);
+
+		// Only send to valid user
+		if ( ! $validUser) return false;
+
+		$resetLink = '/auth/reset?token='.urlencode($validUser->getPass());
+
+		$emailParameter = new Parameter(array(
+			'toName' => $validUser->getName(),
+			'toEmail' => $validUser->getMail(),
+		));
+
+		ModelBase::factory('Mailer', $emailParameter)->sendResetPassword($resetLink);
+
+		return true;
+	}
+
+	/**
 	 * Hash a user password
 	 *
 	 * @param string The plain-text password

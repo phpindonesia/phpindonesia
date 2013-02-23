@@ -90,6 +90,21 @@ class ModelAuthTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Cek reset password
+	 */
+	public function testCekKirimResetModelAuth() {
+		$auth = new ModelAuth();
+
+		// Invalid user
+		$this->assertFalse($auth->sendReset('undefined'));
+
+		$auth->createUser('dummy', 'frei.denken@facebook.com', 'secret');
+
+		// Valid user
+		$this->assertTrue($auth->sendReset('frei.denken@facebook.com'));
+	}
+
+	/**
 	 * Cek Login
 	 */
 	public function testCekLoginModelAuth() {

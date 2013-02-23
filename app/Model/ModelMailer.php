@@ -70,6 +70,31 @@ class ModelMailer extends ModelBase
 		return $this->send();
 	}
 
+	/**
+	 * Send register confirmation
+	 *
+	 * @param string $link URL untuk konfirmasi
+	 */
+	public function sendResetPassword($link = '') {
+		// Sily
+		if (empty($link)) return false;
+
+		// Kumpulkan data
+		$data = array(
+			'title' => 'Reset Password',
+			'content' => 'Baru-baru ini terdapat request untuk mereset password anda. Jika anda tidak merasa melakukan permintaan ini, acuhkan pesan ini. Jika anda memang ingin mengubah password anda, silahkan kunjungi link di bawah ini.',
+			'link' => $link,
+			'linkText' => 'Reset Password',
+		);
+
+		// Message parameter
+		$this->subject = 'Reset Password';
+		$this->messageType = 'text/html';
+		$this->messageBody = ModelBase::factory('Template')->render('email.tpl', $data);
+
+		return $this->send();
+	}
+
     /**
      * Send the message
      *
