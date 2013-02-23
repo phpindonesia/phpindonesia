@@ -151,6 +151,16 @@ class ModelAuth extends ModelBase
 				} else {
 					$validUser = $this->createUser($username,$email,$password);
 
+					// Send confirmation link
+					$confirmationLink = '/auth/confirmation?token='.urlencode($validUser->getPass());
+
+					$emailParameter = new Parameter(array(
+						'toName' => $validUser->getName(),
+						'toEmail' => $validUser->getMail(),
+					));
+
+					ModelBase::factory('Mailer', $emailParameter)->sendRegisterConfirmation($confirmationLink);
+
 					// Login
 					$result->set('success', true);
 					$result->set('data', $validUser->getUid());

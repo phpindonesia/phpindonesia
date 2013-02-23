@@ -80,7 +80,7 @@ class ModelAuthTest extends PHPUnit_Framework_TestCase {
 		// Test valid proses
 		$this->deleteDummyUser();
 
-		$data = array('username' => 'dummy', 'email' => 'dummy@oot.com', 'password' => 'secret', 'cpassword' => 'secret');
+		$data = array('username' => 'dummy', 'email' => 'taufan.aditya@yahoo.com', 'password' => 'secret', 'cpassword' => 'secret');
 		$hasilRegister = $auth->register($data);
 
 		$this->assertTrue($hasilRegister->get('success'));
