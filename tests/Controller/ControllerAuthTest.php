@@ -94,7 +94,7 @@ class ControllerAuthTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\RedirectResponse', $response);
 		$this->assertEquals(302, $response->getStatusCode());
 	}
-
+	
 	/**
 	 * Cek action Confirm
 	 */

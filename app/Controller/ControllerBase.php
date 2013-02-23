@@ -207,6 +207,21 @@ class ControllerBase {
 	}
 
 	/**
+	 * Pencarian token dalam GET
+	 *
+	 * @return string
+	 */
+	public function getToken() {
+		$token = $this->data->get('getData[token]','',true);
+
+		if (empty($token)) {
+			throw new \InvalidArgumentException('Token konfirmasi tidak ditemukan!');
+		}
+
+		return $token;
+	}
+
+	/**
 	 * Set alert message to either current data or session if necessary
 	 *
 	 * @param string $type Alert type

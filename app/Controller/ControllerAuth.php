@@ -160,6 +160,30 @@ class ControllerAuth extends ControllerBase
 	}
 
 	/**
+	 * Handler untuk GET/POST /auth/reset
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function actionReset() {
+ 		if ( ! $this->acl->isLogin() && ($token = $this->getToken())) {
+			// cek token reset
+			$authResult = ModelBase::factory('Auth')->confirm($token);
+
+			if ($authResult->get('success') == false) {
+				throw new \InvalidArgumentException('Token reset tidak valid!');
+			} 
+
+			// Login
+			$this->session->set('login', true);
+			$this->session->set('userId', $authResult->get('data'));
+ 		} 
+
+ 		$this->setAlert(NULL, 'Pilih \'Password\' untuk mengubah password anda', 2000, true);
+
+ 		return $this->redirect('/setting');
+	}
+
+	/**
 	 * Handler untuk GET/POST /auth/reconfirmation
 	 */
 	public function actionReconfirmation() {
@@ -180,12 +204,8 @@ class ControllerAuth extends ControllerBase
 	 * Handler untuk GET/POST /auth/confirmation
 	 */
 	public function actionConfirmation() {
-		// Cari di GET
-		$token = $this->data->get('getData[token]','',true);
-
-		if (empty($token)) {
-			throw new \InvalidArgumentException('Token konfirmasi tidak ditemukan!');
-		}
+		// Ambil token
+		$token = $this->getToken();
 
 		// @codeCoverageIgnoreStart
 		// cek hasil konfirmasi
