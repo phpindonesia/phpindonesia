@@ -32,7 +32,7 @@
 </head>
 
 <body>
-    <div class="notifications top-left"></div>
+    <div class="notifications transparent-75 bottom-right"></div>
     <div id="wrap">
 
         {######################## Header ########################}

@@ -1,5 +1,5 @@
 {% if alertMessage is not empty %}
-$('.top-left').notify({
+$('.notifications').notify({
 
 	{% if alertType is not empty %}
 	type: '{{ alertType }}',
