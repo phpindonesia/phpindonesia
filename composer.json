@@ -12,6 +12,7 @@
         "kriswallsmith/assetic": "v1.0.4",
         "phpunit/phpunit": "3.7.13",
         "phpunit/phpunit-selenium": "1.2.11",
-        "facebook/php-sdk": "v3.2.1"
+        "facebook/php-sdk": "v3.2.1",
+        "swiftmailer/swiftmailer": "v4.3.0"
     }
 }
