@@ -4,6 +4,7 @@
     },
 
     "require": {
+        "doctrine/annotations": "v1.0",
         "symfony/http-kernel": "v2.1.7",
         "symfony/routing": "v2.1.7",
         "propel/propel1": "1.6.7",
