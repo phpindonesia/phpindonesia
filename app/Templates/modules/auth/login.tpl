@@ -17,7 +17,7 @@
 			<hr>
 
 			{% if result.error %}
-			   <div class="alert alert-error"><a href="#" class="close" data-dismiss="alert">&times;</a>{{ result.error }}</div>
+			   <div class="alert alert-error"><a href="#" class="close" data-dismiss="alert">&times;</a>{{ result.error|raw }}</div>
 			{% endif %}
 			<form method="POST" action="/auth/login">
 				<input name="username" type="text" placeholder="Username/Email" class="span4" value="{{ postData.username }}">

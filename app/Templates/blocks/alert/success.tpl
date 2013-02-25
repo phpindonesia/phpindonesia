@@ -1,1 +1,1 @@
-<h3>Sukses!</h3><small>{{ message }}</small><br/>
+<h4>Sukses!</h4><small>{{ message }}</small><br/>

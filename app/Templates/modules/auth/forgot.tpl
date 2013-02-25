@@ -14,7 +14,7 @@
 			<hr>
 
 			{% if result.error %}
-			   <div class="alert alert-error"><a href="#" class="close" data-dismiss="alert">&times;</a>{{ result.error }}</div>
+			   <div class="alert alert-error"><a href="#" class="close" data-dismiss="alert">&times;</a>{{ result.error|raw }}</div>
 			{% endif %}
 			<form method="POST" action="/auth/forgot">
 				<input name="email" type="text" placeholder="Email anda" class="span4">

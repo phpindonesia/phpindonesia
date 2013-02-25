@@ -12,7 +12,7 @@
 	<hr>
 
 	{% if content.error %}
-	   <div class="alert alert-error"><a href="#" class="close" data-dismiss="alert">&times;</a>{{ content.error }}</div>
+	   <div class="alert alert-error"><a href="#" class="close" data-dismiss="alert">&times;</a>{{ content.error|raw }}</div>
 	{% endif %}
 	<form method="POST" action="{{ currentUrl }}">
 		{% for input in content.inputs %}
