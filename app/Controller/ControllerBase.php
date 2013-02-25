@@ -8,6 +8,7 @@
 
 namespace app\Controller;
 
+use Doctrine\Common\Annotations\AnnotationReader as Reader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -56,6 +57,9 @@ class ControllerBase {
 	public function __construct(Request $request) {
 		$this->request = $request;
 
+		// Flag the position
+		$this->request->attributes->set('class', get_class($this));
+
 		// Initialize the session
 		if ( ! $this->request->hasPreviousSession()) {
 			$this->session = new Session();
@@ -66,7 +70,7 @@ class ControllerBase {
 		}
 
 		// Initialize Acl and Data instances
-		$this->acl = new Acl($this->request);
+		$this->acl = new Acl($this->request, new Reader());
 		$this->data = new Parameter();
 
 		// Before action hook
