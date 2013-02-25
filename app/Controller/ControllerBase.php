@@ -24,6 +24,7 @@ use app\Model\ModelBase;
  */
 class ControllerBase {
 
+	const BEFORE_ACTION = 'beforeAction';
 	protected $request;
 	protected $session;
 	protected $acl;
@@ -69,7 +70,7 @@ class ControllerBase {
 		$this->data = new Parameter();
 
 		// Before action hook
-		if (is_callable(array($this,'beforeAction'))) {
+		if (is_callable(array($this, self::BEFORE_ACTION))) {
 			$this->beforeAction();
 		}
 	}
