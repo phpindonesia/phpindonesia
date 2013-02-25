@@ -10,11 +10,11 @@
 			{######################## Top Menu ########################}
 			<div class="span6">
 				<ul id="topnav">
-					<li><a href="/">Beranda</a></li>
-					<li><a href="/">Organisasi</a></li>
-					<li><a href="/">Pelatihan</a></li>
-					<li><a href="/">Komunitas</a></li>
-					<li><a href="/">Karir</a></li>
+					<li><a href="/home">Beranda</a></li>
+					<li><a href="/organization">Organisasi</a></li>
+					<li><a href="/training">Pelatihan</a></li>
+					<li><a href="/community">Komunitas</a></li>
+					<li><a href="/career">Karir</a></li>
 				</ul>
 			</div>
 			<div class="span3">
