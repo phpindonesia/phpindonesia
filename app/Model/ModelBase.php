@@ -9,6 +9,7 @@
 namespace app\Model;
 
 use app\Parameter;
+use app\Inspector;
 use \ModelCriteria;
 
 /**
@@ -18,9 +19,37 @@ use \ModelCriteria;
  */
 class ModelBase 
 {
-	static $stream = false;
+	const SET_UP = 'setUp';
 	const PREFIX = 'Model';
 	const ORM = 'Orm';
+	protected $inspector;
+	static $stream = false;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		$this->inspector = new Inspector();
+
+		// Add common validator method
+		$this->inspector->addValidator('empty', function($value) {
+		  return empty($value);
+		});
+
+		// Before hook
+		if (is_callable(array($this, self::SET_UP))) {
+			$this->setUp();
+		}
+	}
+
+	/**
+	 * API untuk Inspector
+	 *
+	 * @return Inspector
+	 */
+	public function getInspector() {
+		return $this->inspector;
+	}
 
 	/**
 	 * Factory method to manufactoring app\Models easier
@@ -163,7 +192,7 @@ class ModelBase
 	  * @codeCoverageIgnore
 	  */
 	 public function __call($method, $arguments) {
-	 	if ( ! method_exists($this, $method)) {
+	 	if ( ! method_exists($this, $method) && $method !== self::SET_UP) {
 	 		throw new \BadMethodCallException(get_class($this) . ' did not contain '.$method);
 	 	}
 	 }
