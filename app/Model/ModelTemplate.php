@@ -136,6 +136,23 @@ class ModelTemplate extends ModelBase
     }
 
     /**
+     * Provider untuk template CommunityArticle
+     *
+     * @param array $otherData Data dari model lain
+     *
+     * @return array $finalData
+     * @see ModelTemplate::finalData
+     */
+    public function getComArticleData($otherData = array()) {
+        $data = array(
+            'title' => 'Tulisan',
+            'content' => NULL,
+        );
+
+        return $this->prepareData($data, $otherData);
+    }
+
+    /**
      * Provider untuk template Auth
      *
      * @param array $otherData Data dari model lain
