@@ -27,12 +27,16 @@ use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\EventListener\ExceptionListener;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\HttpKernel\HttpKernel;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use app\Controller\ControllerBase;
 
 include 'routes.php';
 
 // Setting Propel
 Propel::init(str_replace('app', 'conf', APPLICATION_PATH) . DIRECTORY_SEPARATOR . 'connection.php');
+
+// Setting Doctrine Component
+AnnotationRegistry::registerAutoloadNamespace('app', realpath(__DIR__.'/../'));
 
 $request = Request::createFromGlobals();
 
