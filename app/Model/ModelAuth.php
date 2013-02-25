@@ -25,6 +25,39 @@ class ModelAuth extends ModelBase
 	const ALNUM = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 	/**
+	 * Before hook
+	 */
+	public function setUp() {
+		// Siapkan proses/callback
+		$this->inspector->setProperty('auth', $this);
+
+		$this->inspector->addValidator('validusername',function($value, $inspector) {
+			$validUser = false;
+
+			if ($inspector instanceof \app\Inspector) {
+				$validUser = $inspector->auth->isUser($value);
+
+				$inspector->setProperty('validUser', $validUser);
+			}
+
+			return (bool) $validUser;
+		});
+
+		$this->inspector->addValidator('validpassword', function($value, $inspector) {
+			$validPassword = false;
+
+			if ($inspector instanceof \app\Inspector) {
+				if ($inspector->hasProperty('validUser') && $inspector->validUser instanceof \app\Model\Orm\PhpidUsers) {
+					$validUser = $inspector->getProperty('validUser');
+					$validPassword = $inspector->auth->isValidPassword($validUser, $value);
+				}
+			}
+
+			return $validPassword;
+		});
+	}
+
+	/**
 	 * Metode authentifikasi
 	 *
 	 * @param array POST data containing username and password
@@ -34,35 +67,21 @@ class ModelAuth extends ModelBase
 	public function login($userData = array()) {
 		// Inisialisasi
 		$result = new Parameter(array('success' => false, 'error' => NULL));
-		$parameter = new Parameter($userData);
 
-		// Get username/email and password
-		$identifier = $parameter->get('username', '');
-		$password = $parameter->get('password', '');
+		// Inspect the data
+		$this->inspector->setSubstance($userData);
+		$this->inspector->ensure('username')->notEmpty('username harus diisi')
+		                                    ->isValidUsername('username tidak ditemukan');
+		$this->inspector->ensure('password')->notEmpty('password harus diisi')
+		                                    ->isValidPassword('password tidak cocok');
 
-		if (empty($identifier) || empty($password)) {
+		if ($this->inspector->hasErrors() || ! $this->inspector->hasProperty('validUser')) {
 			// Data tidak valid
-			$result->set('error', 'Isi username/email dan password!');
+			$result->set('error', $this->inspector->compileErrors('Data tidak valid', '<br/>', true));
 		} else {
-			// Cek validitas user
-			$validUser = $this->isUser($identifier);
-
-			if ( ! $validUser) {
-				// User tidak ditemukan
-				$result->set('error', 'Username/email yang anda masukkan belum terdaftar!');
-			} else {
-				// Cek password
-				$validPassword = $this->isValidPassword($validUser, $password);
-
-				if ( ! $validPassword) {
-					// Password tidak cocok
-					$result->set('error', 'Password yang anda masukkan tidak cocok!');
-				} else {
-					// Password cocok
-					$result->set('success', true);
-					$result->set('data', $validUser->getUid());
-				}
-			}
+			$validUser = $this->inspector->validUser;
+			$result->set('success', true);
+			$result->set('data', $validUser->getUid());
 		}
 
 		return $result;
@@ -122,43 +141,36 @@ class ModelAuth extends ModelBase
 	public function register($userData = array()) {
 		// Inisialisasi
 		$result = new Parameter(array('success' => false, 'error' => NULL));
-		$parameter = new Parameter($userData);
 
-		// Get username/email and password
-		$username = $parameter->get('username', '');
-		$email = $parameter->get('email', '');
-		$password = $parameter->get('password', '');
-		$passwordConfirmation = $parameter->get('cpassword', '');
+		// Inspect the data
+		$this->inspector->setSubstance($userData);
+		$this->inspector->ensure('username')->notEmpty('username harus diisi')
+		                                    ->isMin(5, 'username terlalu pendek')
+		                                    ->isAlpha('username hanya boleh berisi alpanumerik')
+		                                    ->notValidUsername('username sudah terdaftar');
+		$this->inspector->ensure('email')->notEmpty('email harus diisi')
+		                                 ->isEmail('email anda tidak valid')
+		                                 ->notValidUsername('email sudah terdaftar');
+		$this->inspector->ensure('password')->notEmpty('password harus diisi')
+		                                    ->isSameAs('cpassword', 'konfirmasi password tidak cocok');
 
-		if (empty($username) || empty($email) || empty($password) || empty($passwordConfirmation)) {
+		if ($this->inspector->hasErrors()) {
 			// Data tidak valid
-			$result->set('error', 'Isi username,email dan password!');
-		} elseif ($password !== $passwordConfirmation) {
-			// Password tidak cocok
-			$result->set('error', 'Password tidak sama!');
+			$result->set('error', $this->inspector->compileErrors('Data tidak valid', '<br/>', true));
 		} else {
-			// Cek validitas user
-			$validUser = $this->isUser($username);
+			// Get username/email and password from inspector
+			$username = $this->inspector->getSubstance('username');
+			$email = $this->inspector->getSubstance('email');
+			$password = $this->inspector->getSubstance('password');
 
-			if ($validUser) {
-				// Username ditemukan
-				$result->set('error', 'Username sudah terdaftar!');
-			} else {
-				$validUser = $this->isUser($email);
-				if ($validUser) {
-					// Email ditemukan
-					$result->set('error', 'Email sudah terdaftar!');
-				} else {
-					$validUser = $this->createUser($username,$email,$password);
+			$validUser = $this->createUser($username,$email,$password);
 
-					// Send confirmation link
-					$this->sendConfirmation($validUser->getUid());
+			// Send confirmation link
+			$this->sendConfirmation($validUser->getUid());
 
-					// Login
-					$result->set('success', true);
-					$result->set('data', $validUser->getUid());
-				}
-			}
+			// Login
+			$result->set('success', true);
+			$result->set('data', $validUser->getUid());
 		}
 
 		return $result;

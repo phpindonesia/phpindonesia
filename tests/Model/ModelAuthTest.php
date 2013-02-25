@@ -46,41 +46,45 @@ class ModelAuthTest extends PHPUnit_Framework_TestCase {
 	 * Cek Register
 	 */
 	public function testCekRegisterModelAuth() {
-		$auth = new ModelAuth();
-
 		// Invalid data
+		$auth = new ModelAuth();
 		$data = array();
 		$hasilRegister = $auth->register($data);
 
 		$this->assertFalse($hasilRegister->get('success'));
-		$this->assertEquals('Isi username,email dan password!', $hasilRegister->get('error'));
+		$this->assertNotEmpty($auth->getInspector()->getErrors());
 
 		// Password tidak cocok
+		$auth = new ModelAuth();
 		$data = array('username' => 'foo', 'email' => 'foo@bar.com','password' => 'aman', 'cpassword' => 'tidak aman');
 		$hasilRegister = $auth->register($data);
 
 		$this->assertFalse($hasilRegister->get('success'));
-		$this->assertEquals('Password tidak sama!', $hasilRegister->get('error'));
+		$this->assertArrayHasKey('password', $auth->getInspector()->getErrors());
 
 		// Test exists username/email
+		$auth = new ModelAuth();
 		$this->createDummyUser();
 
 		$data = array('username' => 'dummy', 'email' => 'valid@oot.com', 'password' => 'secret', 'cpassword' => 'secret');
 		$hasilRegister = $auth->register($data);
 
 		$this->assertFalse($hasilRegister->get('success'));
-		$this->assertEquals('Username sudah terdaftar!', $hasilRegister->get('error'));
+		$this->assertArrayHasKey('username', $auth->getInspector()->getErrors());
 
+		$auth = new ModelAuth();
 		$data = array('username' => 'valid', 'email' => 'dummy@oot.com', 'password' => 'secret', 'cpassword' => 'secret');
 		$hasilRegister = $auth->register($data);
 
 		$this->assertFalse($hasilRegister->get('success'));
-		$this->assertEquals('Email sudah terdaftar!', $hasilRegister->get('error'));
+		$this->assertArrayHasKey('email', $auth->getInspector()->getErrors());
 
 		// Test valid proses
 		$this->deleteDummyUser();
 
 		$data = array('username' => 'dummy', 'email' => 'frei.denken@facebook.com', 'password' => 'secret', 'cpassword' => 'secret');
+
+		$auth = new ModelAuth();
 		$hasilRegister = $auth->register($data);
 
 		$this->assertTrue($hasilRegister->get('success'));
@@ -115,25 +119,23 @@ class ModelAuthTest extends PHPUnit_Framework_TestCase {
 		$hasilLogin = $auth->login($data);
 
 		$this->assertFalse($hasilLogin->get('success'));
-		$this->assertEquals('Isi username/email dan password!', $hasilLogin->get('error'));
 
 		// Belum terdaftar
 		$data = array('username' => 'undefined', 'password' => 'tidakvalid');
 		$hasilLogin = $auth->login($data);
 
 		$this->assertFalse($hasilLogin->get('success'));
-		$this->assertEquals('Username/email yang anda masukkan belum terdaftar!', $hasilLogin->get('error'));
 
 		// Username/email valid, tapi password tidak cocok
 		$this->createDummyUser();
-
+		$auth = new ModelAuth();
 		$data = array('username' => 'dummy', 'password' => 'oot');
 		$hasilLogin = $auth->login($data);
 
 		$this->assertFalse($hasilLogin->get('success'));
-		$this->assertEquals('Password yang anda masukkan tidak cocok!', $hasilLogin->get('error'));
 
 		// Valid user
+		$auth = new ModelAuth();
 		$data = array('username' => 'dummy', 'password' => 'secret');
 		$hasilLogin = $auth->login($data);
 
@@ -156,6 +158,7 @@ class ModelAuthTest extends PHPUnit_Framework_TestCase {
 
 		// Valid user
 		$this->createDummyUser();
+		$auth = new ModelAuth();
 
 		$data = array('username' => 'dummy', 'email' => 'dummy@oot.com', 'id' => 123);
 		$hasilLoginFacebook = $auth->loginFacebook($data, $token);
