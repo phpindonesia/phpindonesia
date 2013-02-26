@@ -43,13 +43,14 @@ class ControllerUser extends ControllerBase
 			);
 		}
 			
+		$searchQuery = $query;
 
 		$users = ModelBase::factory('User')->getAllUser(10, $page, $filter);
 		$pagination = ModelBase::buildPagination($users,'PhpidUsersQuery', $filter, $page);
 
 		// Template configuration
 		$this->layout = 'modules/user/index.tpl';
-		$data = ModelBase::factory('Template')->getUserData(compact('users','listTitle', 'listPage','pagination'));
+		$data = ModelBase::factory('Template')->getUserData(compact('users','listTitle', 'listPage','pagination','searchQuery'));
 
 		// Render
 		return $this->render($data);
@@ -60,7 +61,6 @@ class ControllerUser extends ControllerBase
 	 */
 	public function actionProfile() {
 		$item = ModelBase::factory('User')->getUser($this->request->get('id'));
-		$tabs = ModelBase::factory('User')->buildTabs($this->request->get('id'));
 
 		// Check one or other mandatory fields
 		// @codeCoverageIgnoreStart
@@ -68,6 +68,15 @@ class ControllerUser extends ControllerBase
 			throw new \LogicException('Maaf, ada yang salah dengan user_'.$this->request->get('id'));
 		}
 		// @codeCoverageIgnoreEnd
+
+		// Inisialisasi article tab
+		$articleTab = ModelBase::factory('User')->buildArticleTab($item, $this->data);
+
+		// Inisialisasi activity tab
+		$activityTab = NULL;
+
+		// Finalisasi tabs
+		$tabs = ModelBase::factory('User')->buildTabs($item->get('id'),$activityTab,$articleTab);
 
 		// Template configuration
 		$title = $item->get('Name');
