@@ -3,7 +3,7 @@
 	<p class="subtitle">oleh <a href="{{ article.AuthorLink }}">{{ article.Uid|toUserFullName }}</a> pada {{ article.pubDate }}</p>	
 	<hr/>
 	<div>
-	{{ article.body|displayArticleBody|raw }}
+	{{ article|displayArticleBody|raw }}
 	</div>
 	<hr/>
 </div>

@@ -17,6 +17,11 @@
         <meta name="author" content="">
 
         <link href="/asset/css/main.css" rel="stylesheet">
+
+        {% if parseCode == true %}
+        <link href="/asset/css/code.css" rel="stylesheet">
+        <script src="/asset/js/code.js"></script>
+        {% endif %}
         
 
         <!--[if lt IE 9]>

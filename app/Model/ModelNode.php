@@ -114,6 +114,7 @@ class ModelNode extends ModelBase
 			$articleData->set('previewTitle', ModelTemplate::formatText($articleData->get('Title'), $maxTitle));
 			
 			$articleData->set('body',$articleBodyData->get('BodyValue'));
+			$articleData->set('bodyFormat',$articleBodyData->get('BodyFormat'));
 			$articleData->set('previewText', ModelTemplate::formatText($articleBodyData->get('BodyValue'), $maxText, true));
 			$articleData->set('previewMediumText', ModelTemplate::formatText($articleBodyData->get('BodyValue'), $maxMediumText,true));
 		}

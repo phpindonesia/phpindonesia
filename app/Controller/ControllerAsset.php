@@ -64,6 +64,18 @@ class ControllerAsset extends ControllerBase
 
 			$file = $css->dump();
 			$mime = 'text/css';
+		} elseif ($this->assetFile == 'code.css') {
+			$file = '';
+			$codeCss = array(
+				'css/codemirror.css',
+				'css/codemirror-monokai.css',
+			);
+
+			foreach ($codeCss as $css) {
+				$file .= file_get_contents(ASSET_PATH.DIRECTORY_SEPARATOR.$css);
+			}
+
+			$mime = 'text/css';
 		} else {
 			// @codeCoverageIgnoreStart
 			// Validasi file
@@ -105,6 +117,19 @@ class ControllerAsset extends ControllerBase
 			}
 
 			$file = $collection->dump();
+			$mime = 'application/javascript';
+		} elseif ($this->assetFile == 'code.js') {
+			$file = '';
+			$codeJs = array(
+				'js/codemirror.js',
+				'js/codemirror-php.js',
+				//'js/codemirror-javascript.js',
+			);
+
+			foreach ($codeJs as $js) {
+				$file .= file_get_contents(ASSET_PATH.DIRECTORY_SEPARATOR.$js);
+			}
+
 			$mime = 'application/javascript';
 		} else {
 			// Validasi file

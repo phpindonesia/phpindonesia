@@ -281,12 +281,25 @@ class ModelTemplate extends ModelBase
     /**
      * Custom Twig filter untuk mendisplay body value
      *
-     * @param string Semua body value
+     * @param object Document object bundled with Parameter
      * @return string Parsed body
      * @codeCoverageIgnore
      */
-    public function parseDocument($bodyRawText) {
-        $bodyText = $bodyRawText;
+    public function parseDocument(Parameter $param) {
+        $type = $param->get('bodyFormat');
+
+        // Validate type
+        if ($type == 'markdown') {
+            $type = strpos($param->get('body'), '<p') === false ? 'markdown' : 'full_html';
+        }
+
+        if ($type == 'full_html') {
+            // Take care code tag
+            $bodyText = str_replace(array('<code>','</code>'), array('<textarea class="codeParseable">','</textarea>'), $param->get('body'));
+        } else {
+            // @TODO : Markdown parser if necessary
+            $bodyText = strip_tags($param->get('body'));
+        }
 
         return $bodyText;
     }

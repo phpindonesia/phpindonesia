@@ -15,3 +15,15 @@ $('.notifications').notify({
 
 }).show();
 {% endif %}
+
+{% if parseCode == true %}
+var codeParseable = document.getElementsByClassName('codeParseable');
+
+for (i=0;i<codeParseable.length;i++) {
+	var codeParseableElem = codeParseable[i];
+	var editor = CodeMirror.fromTextArea(codeParseableElem, {
+		lineNumbers: false
+	});
+	editor.setOption('theme', 'monokai');
+}
+{% endif %}

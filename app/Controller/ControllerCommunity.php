@@ -84,6 +84,7 @@ class ControllerCommunity extends ControllerBase
 	public function actionArticle() {
 		// Inisialisasi
 		$id = $this->request->get('id');
+		$this->data->set('parseCode', true);
 
 		if (empty($id)) {
 			// Inisialisasi article section
