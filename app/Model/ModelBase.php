@@ -157,7 +157,7 @@ class ModelBase
 		 			'class' => ' ',
 		 		));
 	 		} elseif ($i > $medianPage && $maxPage < $totalPage) {
-	 			$iRevert = ($totalPage+$i)-($totalPage/2);
+	 			$iRevert = (($totalPage-$medianPage)+$i)-floor($maxPage/2);
 	 			$page = new Parameter(array(
 		 			'number' => $iRevert,
 		 			'class' => ($iRevert == $currentPage) ? 'disabled' : ' ',
