@@ -8,7 +8,7 @@
 	{% for tab in tabs %}
 	<div class="tab-pane fade {{ tab.tabClass }}" id="{{ tab.id }}">
 		{% if (tab.data is not empty) %}
-		{{ tab.data }}
+		{{ tab.data|raw }}
 		{% else %}
 		<div class="well"><center><small>Tidak ada data</small></center></div>
 		{% endif %}
