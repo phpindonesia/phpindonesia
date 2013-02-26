@@ -9,6 +9,7 @@
 namespace app\Model;
 
 use app\Parameter;
+use \Twig_SimpleFilter;
 use \Twig_Loader_Filesystem;
 use \Twig_Environment;
 
@@ -42,6 +43,17 @@ class ModelTemplate extends ModelBase
         // Inisialisasi Twig. Load template yang berkaitan dan assign data.
         $loader = new Twig_Loader_Filesystem(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'Templates');
         $templateEngine = new Twig_Environment($loader);
+
+        // Filter declaration
+        $filters = array(
+            new Twig_SimpleFilter('toUserName', array(__CLASS__, 'getUserNameFromId')),
+            new Twig_SimpleFilter('toUserFullName', array(__CLASS__, 'getUserFullnameFromId')),
+            new Twig_SimpleFilter('toUserAvatar', array(__CLASS__, 'getUserAvatarFromId')),
+            new Twig_SimpleFilter('displayArticleBody', array(__CLASS__, 'parseDocument')),
+        );
+
+        // Register filter
+        foreach ($filters as $filter) $templateEngine->addFilter($filter);
         
         return $templateEngine->render($template, $data);
     }
@@ -135,6 +147,23 @@ class ModelTemplate extends ModelBase
         return $this->prepareData($data, $otherData);
     }
 
+     /**
+     * Provider untuk template CommunityIndex
+     *
+     * @param array $otherData Data dari model lain
+     *
+     * @return array $finalData
+     * @see ModelTemplate::finalData
+     */
+    public function getComIndexData($otherData = array()) {
+        $data = array(
+            'title' => 'Komunitas',
+            'content' => NULL,
+        );
+
+        return $this->prepareData($data, $otherData);
+    }
+
     /**
      * Provider untuk template CommunityArticle
      *
@@ -173,6 +202,69 @@ class ModelTemplate extends ModelBase
      */
     public function getDefaultData() {
         return $this->defaultData;
+    }
+
+     /**
+     * Custom Twig filter untuk mendapat nama lengkap user
+     *
+     * @param int ID
+     * @return mixed
+     * @codeCoverageIgnore
+     */
+    public function getUserFullnameFromId($id) {
+        return ModelBase::factory('Template')->getUserNameFromId($id, 200);
+    }
+
+    /**
+     * Custom Twig filter untuk mendapat nama user
+     *
+     * @param int ID
+     * @param int Limit text
+     * @return mixed
+     * @codeCoverageIgnore
+     */
+    public function getUserNameFromId($id, $limitLen = 10) {
+        $userData = ModelBase::factory('User')->getUser($id);
+
+        if (empty($userData)) {
+            $name = 'Tak diketahui';
+        } else {
+            $name = substr($userData->get('Name'), 0, $limitLen).($limitLen <= 10 ? '...' : '');
+        }
+
+        return $name;
+    }
+
+    /**
+     * Custom Twig filter untuk mendapat avatar
+     *
+     * @param int ID
+     * @return mixed
+     * @codeCoverageIgnore
+     */
+    public function getUserAvatarFromId($id) {
+        $userData = ModelBase::factory('User')->getUser($id);
+
+        if (empty($userData)) {
+            $avatar = 'https://secure.gravatar.com/avatar/'.md5('Tak diketahui');
+        } else {
+            $avatar = $userData->get('Avatar');
+        }
+
+        return $avatar;
+    }
+
+    /**
+     * Custom Twig filter untuk mendisplay body value
+     *
+     * @param string Semua body value
+     * @return string Parsed body
+     * @codeCoverageIgnore
+     */
+    public function parseDocument($bodyRawText) {
+        $bodyText = $bodyRawText;
+
+        return strip_tags($bodyText);
     }
 
     /**
