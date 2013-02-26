@@ -8,6 +8,7 @@
 
 namespace app\Model;
 
+use app\Model\ModelTemplate;
 use app\Model\Orm\PhpidNode;
 use app\Parameter;
 
@@ -104,17 +105,17 @@ class ModelNode extends ModelBase
 			$articleBodyData = new Parameter(ModelBase::ormFactory('PhpidFieldDataBodyQuery')->findOneByEntityTypeAndEntityId('node',$articleData->get('Nid'))->toArray());
 
 			// Get author and set appropriate pub date
-			$maxTitle = strlen($articleData->get('Title')) > 20 ? 20 : NULL;
-			$maxText = strlen($articleBodyData->get('BodyValue')) > 60 ? 60 : NULL;
-			$maxMediumText = strlen($articleBodyData->get('BodyValue')) > 200 ? 200 : NULL;
+			$maxTitle = 20;
+			$maxText = 60;
+			$maxMediumText = 200;
 			$articleData->set('Link', '/community/article/'.$articleData->get('Nid'));
 			$articleData->set('AuthorLink', '/user/profile/'.$articleData->get('Uid'));
 			$articleData->set('pubDate', date('d M, Y',$articleData->get('Created')));
-			$articleData->set('previewTitle', substr($articleData->get('Title'), 0, $maxTitle).( ! empty($maxTitle) ? '...' : ''));
+			$articleData->set('previewTitle', ModelTemplate::formatText($articleData->get('Title'), $maxTitle));
 			
 			$articleData->set('body',$articleBodyData->get('BodyValue'));
-			$articleData->set('previewText', substr(strip_tags($articleBodyData->get('BodyValue')), 0, $maxText).( ! empty($maxText) ? '...' : ''));
-			$articleData->set('previewMediumText', substr(strip_tags($articleBodyData->get('BodyValue')), 0, $maxMediumText).( ! empty($maxMediumText) ? '...' : ''));
+			$articleData->set('previewText', ModelTemplate::formatText($articleBodyData->get('BodyValue'), $maxText, true));
+			$articleData->set('previewMediumText', ModelTemplate::formatText($articleBodyData->get('BodyValue'), $maxMediumText,true));
 		}
 		
 		return $articleData;

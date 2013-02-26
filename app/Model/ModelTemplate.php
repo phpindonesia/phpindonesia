@@ -59,6 +59,30 @@ class ModelTemplate extends ModelBase
     }
 
     /**
+     * Helper untuk parsing text 
+     *
+     * @param string $text
+     * @param int $maxLength
+     * @param bool $stripped
+     * @return string $text Formatted text
+     */
+    public static function formatText($text = '', $maxLength = 0, $stripped = TRUE) {
+        // Perlu escape?
+        if ($stripped) {
+            $text = strip_tags($text);
+        }
+
+        // Format
+        if ($maxLength > 0) {
+            if (strlen($text) > $maxLength) {
+                $text = substr($text, 0, ($maxLength-3)).'...';
+            }
+        }
+        
+        return $text;
+    }
+
+    /**
      * Provider untuk template Home
      *
      * @param array $otherData Data dari model lain
@@ -229,7 +253,7 @@ class ModelTemplate extends ModelBase
         if (empty($userData)) {
             $name = 'Tak diketahui';
         } else {
-            $name = substr($userData->get('Name'), 0, $limitLen).($limitLen <= 10 ? '...' : '');
+            $name = ModelTemplate::formatText($userData->get('Name'), $limitLen);
         }
 
         return $name;
@@ -264,7 +288,7 @@ class ModelTemplate extends ModelBase
     public function parseDocument($bodyRawText) {
         $bodyText = $bodyRawText;
 
-        return strip_tags($bodyText);
+        return $bodyText;
     }
 
     /**
