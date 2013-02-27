@@ -9,6 +9,9 @@
 namespace app;
 
 use app\CacheManagerInterface;
+use Doctrine\Common\Cache\ApcCache;
+use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\FilesystemCache;
 
 /**
  * Application Cache Manager
@@ -17,6 +20,23 @@ use app\CacheManagerInterface;
  */
 class CacheManager implements CacheManagerInterface
 {
+	protected $cacheProvider;
+
+	/**
+	 * Constructor
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function __construct() {
+		if (defined('STDIN')) {
+			$this->cacheProvider = new ArrayCache();
+		} elseif (extension_loaded('apc')) {
+			$this->cacheProvider = new ApcCache();
+		} else {
+			$this->cacheProvider = new FilesystemCache();
+		}
+	}
+
 	/**
 	 * Check cache
 	 *
@@ -24,7 +44,7 @@ class CacheManager implements CacheManagerInterface
 	 * @return bool
 	 */
 	public function has($key) {
-		return $this->get($key) !== false;
+		return $this->cacheProvider->contains($key);
 	}
 
 	/**
@@ -34,9 +54,7 @@ class CacheManager implements CacheManagerInterface
 	 * @return mixed False when fail, string when success
 	 */
 	public function get($key) {
-		$value = apc_fetch($key, $success);
-
-		return $success ? $value : false;
+		return $this->cacheProvider->fetch($key);
 	}
 
 	/**
@@ -50,7 +68,7 @@ class CacheManager implements CacheManagerInterface
 	public function set($key, $value, $lifetime) {
 		$lifetime = empty($lifetime) || !is_int($lifetime) ? 0 : $lifetime;
 
-		apc_store($key, $value, $lifetime);
+		return $this->cacheProvider->save($key, $value);
 	}
 
 	/**
@@ -60,17 +78,13 @@ class CacheManager implements CacheManagerInterface
 	 * @return  boolean  TRUE on success, FALSE otherwise
 	 */
 	public function remove($key) {
-		return apc_delete($key);
+		return $this->cacheProvider->delete($key);
 	}
 
 	/**
 	 * Clear all cache
 	 */
 	public function clear() {
-		$info = apc_cache_info('user');
-
-		foreach ($info['cache_list'] as $obj) {
-			apc_delete($obj['info']);
-		}
+		return $this->cacheProvider->deleteAll();
 	}
 }
