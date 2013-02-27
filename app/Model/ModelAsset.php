@@ -160,6 +160,7 @@ class ModelAsset extends ModelBase
 	 * Provider for asset collection
 	 */
 	public function buildCollection($assets = array(), $type = 'js') {
+
 		// Only process if necessary
 		if ($this->checkCollectionCacheVersion($assets)) {
 			return new CacheBundle($this->getCollectionCacheVersion($assets));
@@ -184,10 +185,13 @@ class ModelAsset extends ModelBase
 					break;
 			}
 
-
-
-			$collection = new AssetCollection($assets, $filters);
-			$this->assetModifiedTime = $collection->getLastModified();
+			// Only for browser eye
+			// @codeCoverageIgnoreStart
+			if (!defined('STDIN')) {
+				$collection = new AssetCollection($assets, $filters);
+				$this->assetModifiedTime = $collection->getLastModified();
+			}
+			// @codeCoverageIgnoreEnd
 		}
 
 		return !isset($collection) ? new CacheBundle() : $collection;

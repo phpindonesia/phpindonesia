@@ -273,6 +273,16 @@ class ControllerBase {
 	}
 
 	/**
+	 * Not modified response
+	 *
+	 * @return Response
+	 * @codeCoverageIgnore
+	 */
+	public function notModified() {
+		return Response::create()->setNotModified();
+	}
+
+	/**
 	 * Redirect response.
 	 *
 	 * @param string $url URL Path

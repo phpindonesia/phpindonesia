@@ -162,6 +162,27 @@ class ControllerAsset extends ControllerBase
 		// Default cache adalah 5 menit
 		$age = 60*5;
 
+		// Handle modified time and Etag
+		$lastModified = new \DateTime();
+		$lastModified->setTimestamp($this->modelAsset->getLastModified());
+		$etag = '"'.md5($this->assetFile.''.$this->modelAsset->getLastModified()).'"';
+
+		// Check for request parameters
+		if($this->request->server->get('HTTP_IF_MODIFIED_SINCE') || $this->request->server->get('HTTP_IF_NONE_MATCH')) {
+			$reqLastModified = $this->request->server->get('HTTP_IF_MODIFIED_SINCE');
+			$reqEtag = $this->request->server->get('HTTP_IF_NONE_MATCH');
+
+			$lastDate = clone $lastModified;
+			$lastDate->setTimezone(new \DateTimeZone('UTC'));
+			$lastModifiedDate = $lastDate->format('D, d M Y H:i:s').' GMT';
+
+			if ($etag == $reqEtag || $lastModifiedDate == $reqLastModified) {
+				// Not changes from last response
+				return $this->notModified();
+			}
+		}
+
+		// Generate asset
 		if ($content instanceof File) {
 			$content = file_get_contents($content);
 		} elseif ($content instanceof CacheBundle || $content instanceof AssetCollection) {
@@ -173,14 +194,11 @@ class ControllerAsset extends ControllerBase
 			$age = 60*60*24*31;
 		}
 
-		// Handle modified time
-		$lastModified = new \DateTime();
-		$lastModified->setTimestamp($this->modelAsset->getLastModified());
-
 		// Prepare asset response
 		$assetResponse = $this->render($content, 200, array('Content-Type' => $mime));
 		$assetResponse->setLastModified($lastModified);
 		$assetResponse->setMaxAge($age);
+		$assetResponse->setEtag($etag);
 
 		return $assetResponse;
 	}
