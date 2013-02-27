@@ -163,23 +163,22 @@ class ModelAsset extends ModelBase
 		if (in_array($type,array('js','css','less'))) {
 			$filters = array();
 
-			// Load the filters if possible
-			if ($this->yuiSupport == true) {
-				switch ($type) {
-					case 'less':
-						$filters = array($this->filter['less'], $this->filter['css']);
-						break;
-					
-					case 'css':
-						$filters = array($this->filter['css']);
-						break;
+			switch ($type) {
+				// Strip the YUI filters if not possible
+				case 'less':
+					$filters = $this->yuiSupport ? array($this->filter['less'], $this->filter['css']) : array($this->filter['less']);
+					break;
+				
+				case 'css':
+					$filters = $this->yuiSupport ? array($this->filter['css']) : array();
+					break;
 
-					case 'js':
-						$filters = array($this->filter['js']);
-						break;
-				}
+				case 'js':
+					$filters = $this->yuiSupport ? array($this->filter['js']) : array();
+					break;
 			}
-			
+
+
 
 			$collection = new AssetCollection($assets, $filters);
 			$this->assetModifiedTime = $collection->getLastModified();
