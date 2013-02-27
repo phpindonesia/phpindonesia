@@ -34,6 +34,7 @@ class ModelAsset extends ModelBase
 	protected $assetModifiedTime;
 	protected $filter = array();
 	protected $subFolder = '';
+	private $yuiSupport = false;
 
 	/**
 	 * Constructor
@@ -162,20 +163,23 @@ class ModelAsset extends ModelBase
 		if (in_array($type,array('js','css','less'))) {
 			$filters = array();
 
-			// Load the filters
-			switch ($type) {
-				case 'less':
-					$filters = array($this->filter['less'], $this->filter['css']);
-					break;
-				
-				case 'css':
-					$filters = array($this->filter['css']);
-					break;
+			// Load the filters if possible
+			if ($this->yuiSupport == true) {
+				switch ($type) {
+					case 'less':
+						$filters = array($this->filter['less'], $this->filter['css']);
+						break;
+					
+					case 'css':
+						$filters = array($this->filter['css']);
+						break;
 
-				case 'js':
-					$filters = array($this->filter['js']);
-					break;
+					case 'js':
+						$filters = array($this->filter['js']);
+						break;
+				}
 			}
+			
 
 			$collection = new AssetCollection($assets, $filters);
 			$this->assetModifiedTime = $collection->getLastModified();
