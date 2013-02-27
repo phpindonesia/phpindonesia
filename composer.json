@@ -11,7 +11,7 @@
         "propel/propel1": "1.6.7",
         "twig/twig": "v1.12.1",
         "kriswallsmith/assetic": "v1.0.4",
-        "toopay/assetic-minifier": "dev-master",
+        "toopay/assetic-minifier": "v0.0.1",
         "leafo/lessphp": "v0.3.8",
         "phpunit/phpunit": "3.7.13",
         "phpunit/phpunit-selenium": "1.2.11",
