@@ -219,22 +219,4 @@ class ControllerAuth extends ControllerBase
 		return $this->redirect('/home');
 		// @codeCoverageIgnoreEnd
 	}
-
-	/**
-	 * Login setter
-	 *
-	 * @param $id User ID
-	 * @codeCoverageIgnore
-	 */
-	protected function setLogin($id) {
-		// Catat waktu login
-		$currentUser = ModelBase::ormFactory('PhpidUsersQuery')->findPK($id);
-		$currentUser->setLogin(time());
-		$currentUser->save();
-
-		// Set login status
-		$this->session->set('login', true);
-		$this->session->set('userId', $id);
-		$this->session->set('role', 'member');
-	}
 }

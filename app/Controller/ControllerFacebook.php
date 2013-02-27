@@ -97,8 +97,7 @@ class ControllerFacebook extends ControllerBase
 
 			if ($loginResult instanceof Parameter && $loginResult->get('success') == true) {
 				// User valid, proses authentifikasi berhasil
-				$this->session->set('login', true);
-				$this->session->set('userId', $loginResult->get('data'));
+				$this->setLogin($loginResult->get('data'));
 
 				return $this->redirect($this->session->get('redirectAfterLogin', '/home'));
 			} else {

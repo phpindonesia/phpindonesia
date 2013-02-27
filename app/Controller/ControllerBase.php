@@ -226,6 +226,24 @@ class ControllerBase {
 	}
 
 	/**
+	 * Login setter
+	 *
+	 * @param $id User ID
+	 * @codeCoverageIgnore
+	 */
+	public function setLogin($id) {
+		// Catat waktu login
+		$currentUser = ModelBase::ormFactory('PhpidUsersQuery')->findPK($id);
+		$currentUser->setLogin(time());
+		$currentUser->save();
+
+		// Set login status
+		$this->session->set('login', true);
+		$this->session->set('userId', $id);
+		$this->session->set('role', 'member');
+	}
+
+	/**
 	 * Set alert message to either current data or session if necessary
 	 *
 	 * @param string $type Alert type
