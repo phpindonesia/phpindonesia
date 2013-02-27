@@ -11,7 +11,7 @@ namespace app;
 use app\CacheManagerInterface;
 use Doctrine\Common\Cache\ApcCache;
 use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\Common\Cache\FilesystemCache;
+use Doctrine\Common\Cache\PhpFileCache;
 
 /**
  * Application Cache Manager
@@ -33,7 +33,7 @@ class CacheManager implements CacheManagerInterface
 		} elseif (extension_loaded('apc')) {
 			$this->cacheProvider = new ApcCache();
 		} else {
-			$this->cacheProvider = new FilesystemCache(CACHE_PATH);
+			$this->cacheProvider = new PhpFileCache(CACHE_PATH);
 		}
 	}
 
@@ -68,7 +68,7 @@ class CacheManager implements CacheManagerInterface
 	public function set($key, $value, $lifetime) {
 		$lifetime = empty($lifetime) || !is_int($lifetime) ? 0 : $lifetime;
 
-		return $this->cacheProvider->save($key, $value);
+		return $this->cacheProvider->save($key, $value, $lifetime);
 	}
 
 	/**
