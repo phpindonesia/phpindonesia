@@ -8,13 +8,9 @@
 
 namespace app\Controller;
 
-use Assetic\FilterManager;
-use Assetic\Filter\LessphpFilter;
-use Assetic\Factory\AssetFactory;
-use Assetic\Extension\Twig\AsseticExtension;
-use Assetic\AssetManager;
-use Assetic\Asset\FileAsset;
-use Assetic\Asset\GlobAsset;
+use app\Parameter;
+use app\CacheBundle;
+use app\Model\ModelBase;
 use Assetic\Asset\AssetCollection;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -26,17 +22,21 @@ use Symfony\Component\HttpFoundation\File\File;
 class ControllerAsset extends ControllerBase 
 {
 	protected $assetFile;
-	protected $subFolder = '';
 
 	/**
 	 * beforeAction Hook
 	 */
 	public function beforeAction() {
-		$this->assetFile = $this->request->get('id', 'undefined');
+		$file = $this->request->get('id', 'undefined');
+		$path = ASSET_PATH . DIRECTORY_SEPARATOR;
+		$folder = '';
 
 		if (($subFolder = $this->request->get('subfolder')) && ! empty($subFolder)) {
-			$this->subFolder = $subFolder . DIRECTORY_SEPARATOR;
+			$folder = $subFolder . DIRECTORY_SEPARATOR;
 		}
+
+		$this->modelAsset = ModelBase::factory('Asset', new Parameter(compact('file','path','folder')));
+		$this->assetFile = $file;
 	}
 
 	/**
@@ -45,41 +45,33 @@ class ControllerAsset extends ControllerBase
 	public function actionCss() {
 		if ($this->assetFile == 'main.css') {
 			// Build CSS from LESS
-			$am = new AssetManager();
-			$fm = new FilterManager();
-			$fm->set('less', new LessphpFilter());
-			$factory = new AssetFactory(ASSET_PATH);
-			$factory->setFilterManager($fm);
-			$factory->setAssetManager($am);
-			$css = $factory->createAsset(
-				array(
-					'less/bootstrap.less',
-					'less/custom.less',		// Custom style agar tidak merubah bootstrap default
-					'less/responsive.less'	// Generate responsive
-				), 
-				array(
-					'less', // filter through the filter manager's "scss" filter
-				)
-			);
+			$less = array(
+				$this->modelAsset->setFile('less/variables.less'),
+				$this->modelAsset->setFile('less/bootstrap.less'),
+				$this->modelAsset->setFile('less/responsive.less'),		// Generate responsive
+				$this->modelAsset->setFile('less/custom.style.less'),	// Custom style agar tidak merubah bootstrap default
+			); 
 
-			$file = $css->dump();
+			$file = $this->modelAsset->buildCollection($less,'less');
 			$mime = 'text/css';
+
+			// Set the cache version
+			$this->modelAsset->setCollectionCacheVersion($less, $file);
 		} elseif ($this->assetFile == 'code.css') {
-			$file = '';
 			$codeCss = array(
-				'css/codemirror.css',
-				'css/codemirror-monokai.css',
+				$this->modelAsset->setFile('css/codemirror.css'),
+				$this->modelAsset->setFile('css/codemirror-monokai.css'),
 			);
 
-			foreach ($codeCss as $css) {
-				$file .= file_get_contents(ASSET_PATH.DIRECTORY_SEPARATOR.$css);
-			}
-
+			$file = $this->modelAsset->buildCollection($codeCss,'css');
 			$mime = 'text/css';
+
+			// Set the cache version
+			$this->modelAsset->setCollectionCacheVersion($codeCss, $file);
 		} else {
 			// @codeCoverageIgnoreStart
 			// Validasi file
-			list($file, $mime) = $this->getFileAttribute('css');
+			list($file, $mime) = $this->modelAsset->getFileAttribute('css');
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -92,48 +84,45 @@ class ControllerAsset extends ControllerBase
 	public function actionJs() {
 		if ($this->assetFile == 'app.js') {
 			// Buatkan kompilasi Bootstrap JS
-			$collection = new AssetCollection();
 			$bootstrap = array(
-				'js/jquery-1.9.1.min.js',
-				'js/bootstrap-transition.js',
-				'js/bootstrap-alert.js',
-				'js/bootstrap-modal.js',
-				'js/bootstrap-dropdown.js',
-				'js/bootstrap-scrollspy.js',
-				'js/bootstrap-tab.js',
-				'js/bootstrap-tooltip.js',
-				'js/bootstrap-popover.js',
-				'js/bootstrap-button.js',
-				'js/bootstrap-collapse.js',
-				'js/bootstrap-carousel.js',
-				'js/bootstrap-typeahead.js',
-				'js/bootstrap-affix.js',
-				'js/bootstrap-notify.js',
-				'js/scripts.js' // Custom JS untuk manajemen keseluruhan JS lainnya
+				$this->modelAsset->setFile('js/jquery-1.9.1.min.js'),
+				$this->modelAsset->setFile('js/bootstrap-transition.js'),
+				$this->modelAsset->setFile('js/bootstrap-alert.js'),
+				$this->modelAsset->setFile('js/bootstrap-modal.js'),
+				$this->modelAsset->setFile('js/bootstrap-dropdown.js'),
+				$this->modelAsset->setFile('js/bootstrap-scrollspy.js'),
+				$this->modelAsset->setFile('js/bootstrap-tab.js'),
+				$this->modelAsset->setFile('js/bootstrap-tooltip.js'),
+				$this->modelAsset->setFile('js/bootstrap-popover.js'),
+				$this->modelAsset->setFile('js/bootstrap-button.js'),
+				$this->modelAsset->setFile('js/bootstrap-collapse.js'),
+				$this->modelAsset->setFile('js/bootstrap-carousel.js'),
+				$this->modelAsset->setFile('js/bootstrap-typeahead.js'),
+				$this->modelAsset->setFile('js/bootstrap-affix.js'),
+				$this->modelAsset->setFile('js/bootstrap-notify.js'),
+				$this->modelAsset->setFile('js/scripts.js'), // Custom JS untuk manajemen keseluruhan JS lainnya
 			);
 
-			foreach ($bootstrap as $js) {
-				$collection->add(new FileAsset(ASSET_PATH . DIRECTORY_SEPARATOR . $js));
-			}
-
-			$file = $collection->dump();
+			$file = $this->modelAsset->buildCollection($bootstrap, 'js');
 			$mime = 'application/javascript';
+
+			// Set the cache version
+			$this->modelAsset->setCollectionCacheVersion($bootstrap, $file);
 		} elseif ($this->assetFile == 'code.js') {
-			$file = '';
 			$codeJs = array(
-				'js/codemirror.js',
-				'js/codemirror-php.js',
+				$this->modelAsset->setFile('js/codemirror.js'),
+				$this->modelAsset->setFile('js/codemirror-php.js'),
 				//'js/codemirror-javascript.js',
 			);
 
-			foreach ($codeJs as $js) {
-				$file .= file_get_contents(ASSET_PATH.DIRECTORY_SEPARATOR.$js);
-			}
-
+			$file = $this->modelAsset->buildCollection($codeJs, 'js');
 			$mime = 'application/javascript';
+
+			// Set the cache version
+			$this->modelAsset->setCollectionCacheVersion($codeJs, $file);
 		} else {
 			// Validasi file
-			list($file,$mime) = $this->getFileAttribute('js');
+			list($file,$mime) = $this->modelAsset->getFileAttribute('js');
 		}
 
 		return $this->renderAsset($mime,$file);
@@ -144,7 +133,7 @@ class ControllerAsset extends ControllerBase
 	 */
 	public function actionImg() {
 		// Validasi
-		list($file,$mime) = $this->getFileAttribute('img');
+		list($file,$mime) = $this->modelAsset->getFileAttribute('img');
 
 		return $this->renderAsset($mime,$file);
 	}
@@ -154,7 +143,7 @@ class ControllerAsset extends ControllerBase
 	 */
 	public function actionFont() {
 		// Validasi
-		list($file,$mime) = $this->getFileAttribute('font');
+		list($file,$mime) = $this->modelAsset->getFileAttribute('font');
 
 		return $this->renderAsset($mime,$file);
 	}
@@ -168,21 +157,25 @@ class ControllerAsset extends ControllerBase
 	 * @return Response
 	 */
 	protected function renderAsset($mime, $asset) {
+		// Default content
+		$content = '';
 		// Default cache adalah 5 menit
 		$age = 60*5;
 
 		if ($asset instanceof File) {
 			$content = file_get_contents($asset);
-			$lastModified = new \DateTime(date('Y-m-d\TH:i:sP',$asset->getMTime()));
-		} else {
-			$content = $asset;
-			$lastModified = new \DateTime();
+		} elseif ($asset instanceof CacheBundle || $asset instanceof AssetCollection) {
+			$content = $asset->dump();
 		}
 
 		// Cache image for a month
 		if (strpos($mime, 'image') !== false) {
 			$age = 60*60*24*31;
 		}
+
+		// Handle modified time
+		$lastModified = new \DateTime();
+		$lastModified->setTimestamp($this->modelAsset->getLastModified());
 
 		// Prepare asset response
 		$assetResponse = $this->render($content, 200, array('Content-Type' => $mime));
@@ -191,34 +184,4 @@ class ControllerAsset extends ControllerBase
 
 		return $assetResponse;
 	}
-
-	/**
-	 * Generic method untuk mengambil nama file dan MIME
-	 *
-	 * @param string Asset type
-	 *
-	 * @return array Array berisi masing-masing nama dan MIME, ex : array('somefile.png', 'image/png');
-	 */
-	protected function getFileAttribute($type) {
-		$file = $this->validateAssetFile($type, $this->assetFile);
-		$mime = $file->getMimeType();
-
-		return array($file, $mime);
-	}
-
-	/**
-	 * Validasi ID dan existensi file
-	 *
-	 * @param  string $type [js|css|img]
-	 * @param  string $fileName Nama file
-	 *
-	 * @return string $file Path
-	 *
-	 * @return InvalidArgumentException kalau file tidak ditemukan
-	 */
-	protected function validateAssetFile($type, $fileName) {
-		// Dapatkan path dari file
-		return new File(ASSET_PATH . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $this->subFolder . $fileName, true);
-	}
-
 }
