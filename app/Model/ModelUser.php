@@ -109,6 +109,7 @@ class ModelUser extends ModelBase
 		$user->setName($username);
 		$user->setMail($email);
 		$user->setPass($password);
+		$user->setCreated(time());
 		$user->setData(serialize(array()));
 
 		$user->save();
