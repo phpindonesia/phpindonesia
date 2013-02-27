@@ -9,7 +9,7 @@
 use app\Controller\ControllerAsset;
 use Symfony\Component\HttpFoundation\Request;
 
-class ControllerAssetTest extends PHPUnit_Framework_TestCase {
+class ControllerAssetTest extends PhpindonesiaTestCase {
 
 	/**
 	 * Cek action css

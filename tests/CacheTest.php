@@ -9,7 +9,7 @@
 use app\CacheBundle;
 use app\CacheManager;
 
-class CacheTest extends PHPUnit_Framework_TestCase {
+class CacheTest extends PhpindonesiaTestCase {
 
 	/**
 	 * Cek konsistensi cache components instance

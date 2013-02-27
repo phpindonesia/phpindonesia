@@ -10,27 +10,23 @@ use app\Controller\ControllerUser;
 use app\Model\ModelBase;
 use Symfony\Component\HttpFoundation\Request;
 
-class ControllerUserTest extends PHPUnit_Framework_TestCase {
+class ControllerUserTest extends PhpindonesiaTestCase {
+	protected $needDatabase = true;
 
 	/**
 	 * Set up
 	 */
-	public function setUp() {
+	public function before() {
 		$_GET['page'] = '1';
 		$_POST['query'] = 'facebook';
-
-		// Setting Propel
-		Propel::init(str_replace('app', 'conf', APPLICATION_PATH) . DIRECTORY_SEPARATOR . 'connection.php');
 	}
 
 	/**
 	 * Tear down
 	 */
-	public function tearDown() {
+	public function after() {
 		unset($_GET['page']);
 		unset($_POST['query']);
-
-		$this->deleteDummyUser();
 	}
 
 	/**
@@ -61,6 +57,7 @@ class ControllerUserTest extends PHPUnit_Framework_TestCase {
 	 * Cek action profile
 	 */
 	public function testCekActionProfileAppControllerUser() {
+		$this->deleteDummyUser();
 		$user = $this->createDummyUser();
 
 		$request = Request::create('/user', 'GET', array('id' => $user->getUid()));
@@ -69,22 +66,5 @@ class ControllerUserTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals(200, $response->getStatusCode());
-	}
-
-	/**
-	 * Create dummy user
-	 */
-	protected function createDummyUser() {
-		$auth = ModelBase::factory('Auth');
-		return $auth->createUser('dummy', 'dummy@oot.com', 'secret');
-	}
-
-	/**
-	 * Delete dummy user
-	 */
-	protected function deleteDummyUser() {
-		if (($dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('dummy')) && ! empty($dummyUser)) {
-			$dummyUser->delete();
-		}
 	}
 }

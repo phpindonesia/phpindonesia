@@ -8,7 +8,7 @@
 
 use app\Parameter;
 
-class ParameterTest extends PHPUnit_Framework_TestCase {
+class ParameterTest extends PhpindonesiaTestCase {
 
 	/**
 	 * Cek konsistensi parameter instance

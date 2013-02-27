@@ -11,7 +11,7 @@ use app\Session as AppSession;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-class ControllerBaseTest extends PHPUnit_Framework_TestCase {
+class ControllerBaseTest extends PhpindonesiaTestCase {
 
 	/**
 	 * Cek konsistensi controller base instance

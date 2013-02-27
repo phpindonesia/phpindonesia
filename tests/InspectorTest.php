@@ -8,7 +8,7 @@
 
 use app\Inspector;
 
-class InspectorTest extends PHPUnit_Framework_TestCase {
+class InspectorTest extends PhpindonesiaTestCase {
 
 	/**
 	 * Cek konsistensi inspector instance

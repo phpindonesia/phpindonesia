@@ -11,14 +11,14 @@ use app\Model\ModelBase;
 use app\Controller\ControllerSetting;
 use Symfony\Component\HttpFoundation\Request;
 
-class ControllerSettingTest extends PHPUnit_Framework_TestCase {
-
+class ControllerSettingTest extends PhpindonesiaTestCase {
+	protected $needDatabase = true;
 	protected $request;
 
 	/**
 	 * Set up
 	 */
-	public function setUp() {
+	public function before() {
 		// Emulate logged in user
 		$session = new AppSession();
 
@@ -34,16 +34,6 @@ class ControllerSettingTest extends PHPUnit_Framework_TestCase {
 
 		$request->getSession()->set('login', true);
 		$this->request = $request;
-
-		// Setting Propel
-		Propel::init(str_replace('app', 'conf', APPLICATION_PATH) . DIRECTORY_SEPARATOR . 'connection.php');
-	}
-
-	/**
-	 * Tear Down hook
-	 */
-	public function tearDown() {
-		$this->deleteDummyUser();
 	}
 
 	/**
@@ -121,24 +111,5 @@ class ControllerSettingTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals(200, $response->getStatusCode());
-	}
-
-	/**
-	 * Create dummy user
-	 */
-	protected function createDummyUser() {
-		$user = ModelBase::factory('User');
-		$user->createUser('dummy', 'dummy@oot.com', 'secret');
-	}
-
-	/**
-	 * Delete dummy user
-	 */
-	protected function deleteDummyUser() {
-		if (($dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('dummy')) && ! empty($dummyUser)) {
-			$dummyUser->delete();
-		} elseif (($dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('Not Dummy Anymore')) && ! empty($dummyUser)) {
-			$dummyUser->delete();
-		}
 	}
 }

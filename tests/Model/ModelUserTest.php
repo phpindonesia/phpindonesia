@@ -9,22 +9,8 @@
 use app\Model\ModelBase;
 use app\Model\ModelUser;
 
-class ModelUserTest extends PHPUnit_Framework_TestCase {
-
-	/**
-	 * Set Up hook
-	 */
-	public function setUp() {
-		// Setting Propel
-		Propel::init(str_replace('app', 'conf', APPLICATION_PATH) . DIRECTORY_SEPARATOR . 'connection.php');
-	}
-
-	/**
-	 * Tear Down hook
-	 */
-	public function tearDown() {
-		$this->deleteDummyUser();
-	}
+class ModelUserTest extends PhpindonesiaTestCase {
+	protected $needDatabase = true;
 
 	/**
 	 * Cek konsistensi model User instance
@@ -79,25 +65,5 @@ class ModelUserTest extends PHPUnit_Framework_TestCase {
 		$dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('dummy');
 
 		$this->assertInstanceOf('\app\Parameter',$auth->updateUserData($dummyUser->getUid(), array('realname' => 'Dummy User')));
-	}
-
-
-	/**
-	 * Create dummy user
-	 */
-	protected function createDummyUser() {
-		$user = new ModelUser();
-		$user->createUser('dummy', 'dummy@oot.com', 'secret');
-	}
-
-	/**
-	 * Delete dummy user
-	 */
-	protected function deleteDummyUser() {
-		if (($dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('dummy')) && ! empty($dummyUser)) {
-			$dummyUser->delete();
-		} elseif (($dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('Not Dummy Anymore')) && ! empty($dummyUser)) {
-			$dummyUser->delete();
-		}
 	}
 }

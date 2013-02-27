@@ -9,23 +9,21 @@
 use app\Controller\ControllerCommunity;
 use Symfony\Component\HttpFoundation\Request;
 
-class ControllerCommunityTest extends PHPUnit_Framework_TestCase {
+class ControllerCommunityTest extends PhpindonesiaTestCase {
+	protected $needDatabase = true;
 
 	/**
 	 * Set up
 	 */
-	public function setUp() {
+	public function before() {
 		$_GET['page'] = '1';
 		$_POST['query'] = 'tulis';
-
-		// Setting Propel
-		Propel::init(str_replace('app', 'conf', APPLICATION_PATH) . DIRECTORY_SEPARATOR . 'connection.php');
 	}
 
 	/**
 	 * Tear down
 	 */
-	public function tearDown() {
+	public function after() {
 		unset($_GET['page']);
 		unset($_POST['query']);
 	}

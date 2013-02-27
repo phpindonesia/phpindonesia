@@ -10,3 +10,4 @@ defined('APPLICATION_PATH') OR define('APPLICATION_PATH', realpath(__DIR__.'/../
 defined('ASSET_PATH') OR define('ASSET_PATH', realpath(__DIR__.'/../public'));
 defined('CONFIG_PATH') OR define('CONFIG_PATH', realpath(__DIR__.'/../conf'));
 require realpath(__DIR__.'/../vendor/autoload.php');
+require __DIR__.'/PhpindonesiaTestCase.php';

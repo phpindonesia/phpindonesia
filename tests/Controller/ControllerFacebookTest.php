@@ -9,12 +9,12 @@
 use app\Controller\ControllerFacebook;
 use Symfony\Component\HttpFoundation\Request;
 
-class ControllerFacebookTest extends PHPUnit_Framework_TestCase {
+class ControllerFacebookTest extends PhpindonesiaTestCase {
 
 	/**
 	 * Set up
 	 */
-	public function setUp() {
+	public function before() {
 		$_SERVER['HTTP_HOST'] = 'dev.phpindonesia.net';
 		$_SERVER['REQUEST_URI'] = '/facebook';
 	}
@@ -22,7 +22,7 @@ class ControllerFacebookTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Tear down
 	 */
-	public function tearDown() {
+	public function after() {
 		unset($_SERVER['HTTP_HOST']);
 		unset($_SERVER['REQUEST_URI']);
 	}

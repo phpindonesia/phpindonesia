@@ -9,22 +9,8 @@
 use app\Model\ModelBase;
 use app\Model\ModelAuth;
 
-class ModelAuthTest extends PHPUnit_Framework_TestCase {
-
-	/**
-	 * Set Up hook
-	 */
-	public function setUp() {
-		// Setting Propel
-		Propel::init(str_replace('app', 'conf', APPLICATION_PATH) . DIRECTORY_SEPARATOR . 'connection.php');
-	}
-
-	/**
-	 * Tear Down hook
-	 */
-	public function tearDown() {
-		$this->deleteDummyUser();
-	}
+class ModelAuthTest extends PhpindonesiaTestCase {
+	protected $needDatabase = true;
 
 	/**
 	 * Cek konsistensi model Auth instance
@@ -185,22 +171,5 @@ class ModelAuthTest extends PHPUnit_Framework_TestCase {
 
 		// Cek setelah konfirmasi
 		$this->assertTrue($auth->isConfirmed($dummyUserUid));
-	}
-
-	/**
-	 * Create dummy user
-	 */
-	protected function createDummyUser() {
-		$auth = new ModelAuth();
-		$auth->createUser('dummy', 'dummy@oot.com', 'secret');
-	}
-
-	/**
-	 * Delete dummy user
-	 */
-	protected function deleteDummyUser() {
-		if (($dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('dummy')) && ! empty($dummyUser)) {
-			$dummyUser->delete();
-		}
 	}
 }

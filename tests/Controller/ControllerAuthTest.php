@@ -9,7 +9,7 @@
 use app\Controller\ControllerAuth;
 use Symfony\Component\HttpFoundation\Request;
 
-class ControllerAuthTest extends PHPUnit_Framework_TestCase {
+class ControllerAuthTest extends PhpindonesiaTestCase {
 
 	/**
 	 * Cek action Login

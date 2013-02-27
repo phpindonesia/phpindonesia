@@ -13,14 +13,14 @@ use Doctrine\Common\Annotations\AnnotationReader as Reader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\HttpFoundation\Request;
 
-class AclTest extends PHPUnit_Framework_TestCase {
+class AclTest extends PhpindonesiaTestCase {
 
 	protected $reader, $request;
 
 	/**
 	 * Setup
 	 */
-	public function setUp() {
+	public function before() {
 
 		$session = new Session();
 		$this->reader = new Reader();

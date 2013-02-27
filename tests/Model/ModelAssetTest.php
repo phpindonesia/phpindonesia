@@ -9,14 +9,14 @@
 use app\Parameter;
 use app\Model\ModelBase;
 
-class ModelAssetTest extends PHPUnit_Framework_TestCase {
+class ModelAssetTest extends PhpindonesiaTestCase {
 
 	protected $modelAsset;
 
 	/**
 	 * Setup
 	 */
-	public function setUp() {
+	public function before() {
 		$file = 'undefined';
 		$path = ASSET_PATH . DIRECTORY_SEPARATOR;
 		$folder = '';

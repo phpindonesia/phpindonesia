@@ -8,7 +8,7 @@
 
 use app\Model\ModelBase;
 
-class ModelBaseTest extends PHPUnit_Framework_TestCase {
+class ModelBaseTest extends PhpindonesiaTestCase {
 
 	/**
 	 * Cek konsistensi Model Factory

@@ -10,7 +10,7 @@ use app\Route;
 use app\ControllerKernel;
 use Symfony\Component\HttpFoundation\Request;
 
-class ControllerKernelTest extends PHPUnit_Framework_TestCase {
+class ControllerKernelTest extends PhpindonesiaTestCase {
 
 	/**
 	 * Cek konsistensi controller kernel instance
