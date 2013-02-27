@@ -18,6 +18,9 @@ use app\Parameter;
  */
 class ModelUser extends ModelBase 
 {
+	protected $entity = 'PhpidUsers';
+	protected $query = 'PhpidUsersQuery';
+
 	/**
 	 * Fetch user lists
 	 *
@@ -32,7 +35,7 @@ class ModelUser extends ModelBase
 		$users = array();
 
 		// Create user query
-		$query = ModelBase::ormFactory('PhpidUsersQuery');
+		$query = $this->getQuery();
 
 		// Limit
 		if ( ! empty($limit)) $query->limit($limit);
@@ -77,7 +80,7 @@ class ModelUser extends ModelBase
 		if (empty($id)) return false;
 
 		// Get user
-		$user = ModelBase::ormFactory('PhpidUsersQuery')->findPK($id);
+		$user = $this->getQuery()->findPK($id);
 
 		if ($user) {
 			// Get other misc data
@@ -98,10 +101,10 @@ class ModelUser extends ModelBase
 	 */
 	public function createUser($username, $email, $password) {
 		// Get last user
-		$lastUser = ModelBase::ormFactory('PhpidUsersQuery')->orderByUid('desc')->findOne();
+		$lastUser = $this->getQuery()->orderByUid('desc')->findOne();
 		$uid = empty($lastUser) ? 1 : ($lastUser->getUid() + 1);
 
-		$user = ModelBase::ormFactory('PhpidUsers');
+		$user = $this->getEntity();
 		$user->setUid($uid);
 		$user->setName($username);
 		$user->setMail($email);
@@ -126,7 +129,7 @@ class ModelUser extends ModelBase
 		if (empty($id)) return false;
 
 		// Get user
-		$user = ModelBase::ormFactory('PhpidUsersQuery')->findPK($id);
+		$user = $this->getQuery()->findPK($id);
 
 		if ($user) {
 			foreach ($data as $key => $value) {
@@ -157,7 +160,7 @@ class ModelUser extends ModelBase
 		if (empty($id)) return false;
 
 		// Get user
-		$user = ModelBase::ormFactory('PhpidUsersQuery')->findPK($id);
+		$user = $this->getQuery()->findPK($id);
 
 		if ($user) {
 			// Get custom data

@@ -19,6 +19,9 @@ use app\Parameter;
  */
 class ModelNode extends ModelBase 
 {
+	protected $entity = 'PhpidNode';
+	protected $query = 'PhpidNodeQuery';
+
 	/**
 	 * Fetch Node article lists
 	 *
@@ -33,7 +36,7 @@ class ModelNode extends ModelBase
 		$articles = array();
 
 		// Create article query
-		$query = ModelBase::ormFactory('PhpidNodeQuery');
+		$query = $this->getQuery();
 
 		// Limit
 		if ( ! empty($limit)) $query->limit($limit);
@@ -85,7 +88,7 @@ class ModelNode extends ModelBase
 		if (empty($id)) return false;
 
 		// Get user
-		$article = ModelBase::ormFactory('PhpidNodeQuery')->findPK($id);
+		$article = $this->getQuery()->findPK($id);
 
 		// Extract
 		return (empty($article)) ? new Parameter() : $this->extractArticle($article->toArray());

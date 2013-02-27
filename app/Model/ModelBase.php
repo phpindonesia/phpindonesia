@@ -43,6 +43,20 @@ class ModelBase
 	}
 
 	/**
+	 * Get active query
+	 */
+	public function getQuery() {
+		return ModelBase::ormFactory($this->query);
+	}
+
+	/**
+	 * Get active entity
+	 */
+	public function getEntity() {
+		return ModelBase::ormFactory($this->entity);
+	}
+
+	/**
 	 * API untuk Inspector
 	 *
 	 * @return Inspector
