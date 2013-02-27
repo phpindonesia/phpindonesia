@@ -20,6 +20,7 @@ use Assetic\AssetManager;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\GlobAsset;
 use Assetic\Asset\AssetCollection;
+use Minifier\MinFilter as Min;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
@@ -34,6 +35,11 @@ class ModelAsset extends ModelBase
 	protected $assetModifiedTime;
 	protected $filter = array();
 	protected $subFolder = '';
+
+	/**
+	 * Ubah ke TRUE untuk YUI compressor
+	 * @var bool
+	 */
 	private $yuiSupport = false;
 
 	/**
@@ -49,8 +55,8 @@ class ModelAsset extends ModelBase
 		// Build filter
 		$this->filter = array(
 			'less' => new LessphpFilter(),
-			'css'=> new Yui\CssCompressorFilter($this->path . 'yuicompressor.jar'),
-			'js' => new Yui\JsCompressorFilter($this->path . 'yuicompressor.jar'),
+			'css'=> $this->yuiSupport ? new Yui\CssCompressorFilter($this->path . 'yuicompressor.jar') : new Min('css'),
+			'js' => $this->yuiSupport ? new Yui\JsCompressorFilter($this->path . 'yuicompressor.jar') : new Min('js'),
 		);
 	}
 
@@ -166,15 +172,15 @@ class ModelAsset extends ModelBase
 			switch ($type) {
 				// Strip the YUI filters if not possible
 				case 'less':
-					$filters = $this->yuiSupport ? array($this->filter['less'], $this->filter['css']) : array($this->filter['less']);
+					$filters = array($this->filter['less'], $this->filter['css']);
 					break;
 				
 				case 'css':
-					$filters = $this->yuiSupport ? array($this->filter['css']) : array();
+					$filters = array($this->filter['css']);
 					break;
 
 				case 'js':
-					$filters = $this->yuiSupport ? array($this->filter['js']) : array();
+					$filters = array($this->filter['js']);
 					break;
 			}
 
