@@ -58,7 +58,16 @@ class ControllerCommunityTest extends PHPUnit_Framework_TestCase {
 	 * Cek action index
 	 */
 	public function testCekActionArticleAppControllerCommunity() {
+		// Article list
 		$request = Request::create('/community/article');
+		$controllerCommunity = new ControllerCommunity($request);
+		$response = $controllerCommunity->actionArticle();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals(200, $response->getStatusCode());
+
+		// Article detail
+		$request = Request::create('/community/article', 'GET', array('id' => 1));
 		$controllerCommunity = new ControllerCommunity($request);
 		$response = $controllerCommunity->actionArticle();
 

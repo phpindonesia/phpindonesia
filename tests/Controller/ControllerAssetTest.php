@@ -22,6 +22,14 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals(200, $response->getStatusCode());
+
+		// Begitu juga dengan code.css
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'css', 'GET', array('id' => 'code.css'));
+		$controllerAsset = new ControllerAsset($request);
+		$response = $controllerAsset->actionCss();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals(200, $response->getStatusCode());
 	}
 
 	public function testCekActionGagalControllerCssAsset() {
@@ -48,8 +56,8 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals(200, $response->getStatusCode());
 
-		// Karena bootstrap-alert.js adalah file yang valid maka ini akan mendapat response yang valid
-		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'js', 'GET', array('id' => 'bootstrap-alert.js'));
+		// Begitu juga dengan code.js
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'js', 'GET', array('id' => 'code.js'));
 		$controllerAsset = new ControllerAsset($request);
 		$response = $controllerAsset->actionJs();
 

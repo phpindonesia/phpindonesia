@@ -36,9 +36,25 @@ class AclTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCekKonsistensiAppAcl() {
 		$acl = new Acl($this->request,$this->reader);
+		$this->assertInstanceOf('\app\AclInterface', $acl);
 		$this->assertObjectHasAttribute('request', $acl);
 		$this->assertObjectHasAttribute('session',$acl);
 		$this->assertObjectHasAttribute('reader',$acl);
+	}
+
+	/**
+	 * Cek Current ACL state
+	 */
+	public function testCekCurrentStateAttributesAppAcl() {
+		$this->request->attributes->set('class','app\Controller\ControllerCommunity');
+		$this->request->attributes->set('action','article');
+		$acl = new Acl($this->request,$this->reader);
+		$this->assertObjectHasAttribute('request', $acl);
+		$this->assertObjectHasAttribute('session',$acl);
+		$this->assertObjectHasAttribute('reader',$acl);
+
+		$this->assertEquals('app\Controller\ControllerCommunity',$acl->getCurrentResource());
+		$this->assertEquals('article',$acl->getCurrentAction());
 	}
 
 	/**

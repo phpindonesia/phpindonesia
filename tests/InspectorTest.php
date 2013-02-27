@@ -15,6 +15,7 @@ class InspectorTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCekKonsistensiAppInspector() {
 		$inspector = new Inspector();
+		$this->assertInstanceOf('\app\InspectorInterface', $inspector);
 		$this->assertObjectHasAttribute('substance', $inspector);
 		$this->assertObjectHasAttribute('methods',$inspector);
 		$this->assertObjectHasAttribute('properties',$inspector);

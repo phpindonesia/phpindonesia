@@ -106,4 +106,16 @@ class ControllerAuthTest extends PHPUnit_Framework_TestCase {
 
 		$controllerAuth->actionConfirmation();
 	}
+
+	/**
+	 * Cek action Reset
+	 */
+	public function testCekActionResetControllerAuth() {
+		$request = Request::create('/auth/reset');
+		$controllerAuth = new ControllerAuth($request);
+
+		$this->setExpectedException('InvalidArgumentException', 'Token tidak ditemukan!');
+
+		$controllerAuth->actionReset();
+	}
 }
