@@ -6,6 +6,7 @@
 		<li class="divider"></li>
 		<li class="nav-header">Informasi</li>
 		<li><i class="icon icon-time"></i> {{ item.Date }}</li>
+		<li><i class="icon icon-check"></i> {{ item.LastLogin }}</li>
 		<li><i class="icon icon-quote-left"></i><blockquote><small>{{ item.Signature|striptags }}</small></blockquote></li>
 	</ul>
 </div>

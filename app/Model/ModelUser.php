@@ -281,7 +281,8 @@ class ModelUser extends ModelBase
 		// @codeCoverageIgnoreEnd
 
 		$userData->set('Avatar', 'https://secure.gravatar.com/avatar/' . md5($userData->get('Mail')));
-		$userData->set('Date', 'Sejak '.date('M d, Y', $userData->get('Created')));
+		$userData->set('Date', 'Terdaftar '.date('d M Y', $userData->get('Created')));
+		$userData->set('LastLogin', 'Terakhir tampak '.date('d M', $userData->get('Login')));
 
 		return $userData;
 	}
