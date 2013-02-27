@@ -9,6 +9,7 @@
 namespace app;
 
 use app\Acl;
+use app\AclDriverInterface;
 
 /**
  * AclDriver
@@ -16,7 +17,8 @@ use app\Acl;
  * @author PHP Indonesia Dev
  * @Annotations
  */
-class AclDriver {
+class AclDriver implements AclDriverInterface
+{
 
 	public $name;
 	public $availableActions = array();
@@ -52,14 +54,8 @@ class AclDriver {
 	 * @return bool
 	 */
 	public function grantPermission($type = Acl::READ, $config = array(), $role = 'guest') {
-		$allowed = false;
 		$allowedRole = $config[$type];
-
-		if ($allowedRole == 'all') {
-			$allowed = true;
-		} else {
-			$allowed = strpos($allowedRole, $role) !== false;
-		}
+		$allowed = ($allowedRole == 'all' || strpos($allowedRole, $role) !== false);
 
 		return $allowed;
 	}

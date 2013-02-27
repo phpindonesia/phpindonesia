@@ -8,6 +8,7 @@
 
 namespace app;
 
+use app\AclInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Annotations\AnnotationReader as Reader;
 use app\AclDriver;
@@ -17,13 +18,8 @@ use app\AclDriver;
  *
  * @author PHP Indonesia Dev
  */
-class Acl
+class Acl implements AclInterface
 {
-	const READ = 1;
-	const WRITE = 2;
-	const EDIT = 3;
-	const DELETE = 4;
-	const ANNOTATION = 'app\AclDriver';
 	protected $request;
 	protected $session;
 	protected $reader;
@@ -32,6 +28,7 @@ class Acl
 	 * Constructor.
 	 *
 	 * @param Request $request Current request instance
+	 * @param Reader  $reader Annotation reader instance
 	 */
 	public function __construct(Request $request, Reader $reader) {
 		// Get request and extract the session
@@ -60,21 +57,18 @@ class Acl
 	public function isAllowed($permission = self::READ, $id = NULL, $action = '', $resource = NULL) {
 		$granted = false;
 
-		if (empty($resource) || ! class_exists($resource)) {
-			// Ambil dari request
-			$resource = $this->getCurrentResource();
-		}
+		// Validasi resource
+		$resource = (empty($resource) || ! class_exists($resource)) ? $this->getCurrentResource() : $resource;
 
-		if (empty($action)) {
-			// Ambil dari request
-			$action = $this->request->get('action','undefined');
-		}
+		// Validasi action
+		$action = (empty($action)) ? $action = $this->getCurrentAction() : $action;
 
+		// Dapatkan driver
 		$resourceReflection = new \ReflectionClass($resource);
 		$driver = $this->reader->getClassAnnotation($resourceReflection, self::ANNOTATION);
 
-		if ( ! empty($driver) && $driver instanceof AclDriver && $driver->inRange($action)) {
-			// Action ada dalam range
+		if ( ! empty($driver) && $driver instanceof AclDriverInterface && $driver->inRange($action)) {
+			// Action ada dalam range, ambil config
 			$config = $driver->getConfig($action);
 
 			// Lihat permission
@@ -90,7 +84,7 @@ class Acl
 	 * @return string User Role
 	 */
 	public function getCurrentRole() {
-		return 'member';
+		return $this->session->get('role', 'guest');
 	}
 
 	/**
@@ -99,7 +93,16 @@ class Acl
 	 * @return string Controller Class
 	 */
 	public function getCurrentResource() {
-		return $this->request->attributes->get('class');
+		return $this->request->get('class','Undefined');
+	}
+
+	/**
+	 * Mengambil nama action dalam request saat ini
+	 *
+	 * @return string Controller Action
+	 */
+	public function getCurrentAction() {
+		return $this->request->get('action','undefined');
 	}
 
 	/**
@@ -108,9 +111,7 @@ class Acl
 	 * Mengecek apakah user sedang login
 	 */
 	public function isLogin() {
-		if (empty($this->session)) return false;
-
-		return $this->session->get('login', false);
+		return (empty($this->session)) ? false : $this->session->get('login', false);
 	}
 
 	/**
@@ -119,8 +120,6 @@ class Acl
 	 * Mengecek apakah user sedang login dengan FB
 	 */
 	public function isContainFacebookData() {
-		if (empty($this->session)) return false;
-
-		return is_array($this->session->get('facebookData'));
+		return (empty($this->session)) ? false : is_array($this->session->get('facebookData'));
 	}
 }
