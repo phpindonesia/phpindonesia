@@ -121,8 +121,10 @@ class ControllerAsset extends ControllerBase
 			// Set the cache version
 			$this->modelAsset->setCollectionCacheVersion($codeJs, $file);
 		} else {
+			// @codeCoverageIgnoreStart
 			// Validasi file
 			list($file,$mime) = $this->modelAsset->getFileAttribute('js');
+			// @codeCoverageIgnoreEnd
 		}
 
 		return $this->renderAsset($mime,$file);

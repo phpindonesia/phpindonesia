@@ -37,8 +37,7 @@ class ControllerAuth extends ControllerBase
 			// Cek hasil login
 			if ($loginResult->get('success') === true) {
 				// Login berhasil
-				$this->session->set('login', true);
-				$this->session->set('userId', $loginResult->get('data'));
+				$this->setLogin($loginResult->get('data'));
 				
 				// Redirect ke after login url atau ke home
 				return $this->redirect($this->session->get('redirectAfterLogin', '/home'));
@@ -94,8 +93,7 @@ class ControllerAuth extends ControllerBase
 			// Cek hasil registrasi
 			if ($registrationResult->get('success') === true) {
 				// Login berhasil
-				$this->session->set('login', true);
-				$this->session->set('userId', $registrationResult->get('data'));
+				$this->setLogin($registrationResult->get('data'));
 				
 				// Redirect ke after login url atau ke home
 				return $this->redirect($this->session->get('redirectAfterLogin', '/home'));
@@ -172,8 +170,7 @@ class ControllerAuth extends ControllerBase
 			} 
 
 			// Login
-			$this->session->set('login', true);
-			$this->session->set('userId', $authResult->get('data'));
+			$this->setLogin($authResult->get('data'));
  		} 
 
  		return $this->redirect('/setting/password');
@@ -215,12 +212,29 @@ class ControllerAuth extends ControllerBase
 			$this->setAlert('info', $alert,5000,true);
 
 			// Login jika belum
-			$this->session->set('login', true);
-			$this->session->set('userId', $confirmationResult->get('data'));
+			$this->setLogin($confirmationResult->get('data'));
 		}
 
 		// Render
 		return $this->redirect('/home');
 		// @codeCoverageIgnoreEnd
+	}
+
+	/**
+	 * Login setter
+	 *
+	 * @param $id User ID
+	 * @codeCoverageIgnore
+	 */
+	protected function setLogin($id) {
+		// Catat waktu login
+		$currentUser = ModelBase::ormFactory('PhpidUsersQuery')->findPK($id);
+		$currentUser->setLogin(time());
+		$currentUser->save();
+
+		// Set login status
+		$this->session->set('login', true);
+		$this->session->set('userId', $id);
+		$this->session->set('role', 'member');
 	}
 }
