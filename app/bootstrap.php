@@ -15,6 +15,7 @@ defined('APPLICATION_DEBUG') OR define('APPLICATION_DEBUG', true);
 defined('APPLICATION_PATH') OR define('APPLICATION_PATH', __DIR__);
 defined('ASSET_PATH') OR define('ASSET_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'public');
 defined('CONFIG_PATH') OR define('CONFIG_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'conf');
+defined('CACHE_PATH') OR define('CACHE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'cache');
 
 require realpath(__DIR__ . '/../vendor/autoload.php');
 

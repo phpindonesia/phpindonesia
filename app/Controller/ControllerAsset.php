@@ -56,7 +56,7 @@ class ControllerAsset extends ControllerBase
 			$mime = 'text/css';
 
 			// Set the cache version
-			$this->modelAsset->setCollectionCacheVersion($less, $file);
+			$this->modelAsset->setCollectionCacheVersion($less, $file->dump());
 		} elseif ($this->assetFile == 'code.css') {
 			$codeCss = array(
 				$this->modelAsset->setFile('css/codemirror.css'),
@@ -67,7 +67,7 @@ class ControllerAsset extends ControllerBase
 			$mime = 'text/css';
 
 			// Set the cache version
-			$this->modelAsset->setCollectionCacheVersion($codeCss, $file);
+			$this->modelAsset->setCollectionCacheVersion($codeCss, $file->dump());
 		} else {
 			// @codeCoverageIgnoreStart
 			// Validasi file
@@ -107,7 +107,7 @@ class ControllerAsset extends ControllerBase
 			$mime = 'application/javascript';
 
 			// Set the cache version
-			$this->modelAsset->setCollectionCacheVersion($bootstrap, $file);
+			$this->modelAsset->setCollectionCacheVersion($bootstrap, $file->dump());
 		} elseif ($this->assetFile == 'code.js') {
 			$codeJs = array(
 				$this->modelAsset->setFile('js/codemirror.js'),
@@ -119,7 +119,7 @@ class ControllerAsset extends ControllerBase
 			$mime = 'application/javascript';
 
 			// Set the cache version
-			$this->modelAsset->setCollectionCacheVersion($codeJs, $file);
+			$this->modelAsset->setCollectionCacheVersion($codeJs, $file->dump());
 		} else {
 			// @codeCoverageIgnoreStart
 			// Validasi file
@@ -154,20 +154,18 @@ class ControllerAsset extends ControllerBase
 	 * Render method untuk Asset file
 	 *
 	 * @param string $mime MIME Type
-	 * @param string $asset 
+	 * @param string $content 
 	 *
 	 * @return Response
 	 */
-	protected function renderAsset($mime, $asset) {
-		// Default content
-		$content = '';
+	protected function renderAsset($mime, $content) {
 		// Default cache adalah 5 menit
 		$age = 60*5;
 
-		if ($asset instanceof File) {
-			$content = file_get_contents($asset);
-		} elseif ($asset instanceof CacheBundle || $asset instanceof AssetCollection) {
-			$content = $asset->dump();
+		if ($content instanceof File) {
+			$content = file_get_contents($content);
+		} elseif ($content instanceof CacheBundle || $content instanceof AssetCollection) {
+			$content = $content->dump();
 		}
 
 		// Cache image for a month

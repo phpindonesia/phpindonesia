@@ -33,7 +33,7 @@ class CacheManager implements CacheManagerInterface
 		} elseif (extension_loaded('apc')) {
 			$this->cacheProvider = new ApcCache();
 		} else {
-			$this->cacheProvider = new FilesystemCache();
+			$this->cacheProvider = new FilesystemCache(CACHE_PATH);
 		}
 	}
 
