@@ -8,15 +8,15 @@
 
 namespace app;
 
+use app\InspectorInterface;
+
 /**
  * Application Inspector
  *
  * @author PHP Indonesia Dev
  */
-class Inspector {
-
-	const IS = 'is';
-	const NO = 'no';
+class Inspector implements InspectorInterface
+{
 	protected $substance = array();
 	protected $methods = array();
 	protected $properties = array();
