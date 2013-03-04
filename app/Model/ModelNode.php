@@ -65,7 +65,7 @@ class ModelNode extends ModelBase
 
 			foreach ($allArticles as $singleArticle) {
 				// Convert to plain array and adding any necessary data
-				$articleData = $this->extractArticle($singleArticle->toArray());
+				$articleData = $this->extractArticle($singleArticle);
 
 				if ( ! empty($articleData)) {
 					$articles[] = $articleData->all();
@@ -91,22 +91,50 @@ class ModelNode extends ModelBase
 		$article = $this->getQuery()->findPK($id);
 
 		// Extract
-		return (empty($article)) ? new Parameter() : $this->extractArticle($article->toArray());
+		return (empty($article)) ? new Parameter() : $this->extractArticle($article);
+	}
+
+	/**
+	 * Create an article (Node+FieldBody)
+	 *
+	 * @param int $uid Author id
+	 * @param string $title Article title
+	 * @param string $bodyData Article body (in Markdown)
+	 * @return PhpidNode Node object with its body
+	 */
+	public function createArticle($uid, $title, $bodyData) {
+		// build the body data
+		$body = ModelBase::ormFactory('PhpidFieldDataBody');
+		$body->setEntityType('node');
+		$body->setBundle('article');
+		$body->setLanguage('id');
+		$body->setBodyFormat('markdown');
+		$body->setBodyValue($bodyData);
+
+		$node = $this->getEntity();
+		$node->setType('article');
+		$node->setLanguage('id');
+		$node->setCreated(time());
+		$node->setTitle($title);
+		$node->setUid($uid);
+		$node->setPhpidFieldDataBodys($this->wrapCollection($body));
+		$node->save();
+
+		return $node;
 	}
 
 	/**
 	 * Extract artikel
 	 *
-	 * @param array
+	 * @param PhpidNode
 	 * @return Parameter
 	 */
-	protected function extractArticle($articleArrayData = array()) {
-		$articleData = new Parameter($articleArrayData);
+	protected function extractArticle(PhpidNode $article) {
+		$currentBodyData = current($article->getPhpidFieldDataBodys());
+		$articleBodyData = new Parameter($currentBodyData->toArray());
+		$articleData = new Parameter($article->toArray());
 
 		if ($articleData->get('Nid')) {
-			// Get related content
-			$articleBodyData = new Parameter(ModelBase::ormFactory('PhpidFieldDataBodyQuery')->findOneByEntityTypeAndEntityId('node',$articleData->get('Nid'))->toArray());
-
 			// Get author and set appropriate pub date
 			$maxTitle = 20;
 			$maxText = 60;

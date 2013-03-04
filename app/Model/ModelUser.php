@@ -58,10 +58,9 @@ class ModelUser extends ModelBase
 		$query->orderByName();
 
 		if (($allUsers = $query->find()) && ! empty($allUsers)) {
-
 			foreach ($allUsers as $singleUser) {
 				// Convert to plain array and adding any necessary data
-				$userData = $this->extractUser($singleUser->toArray());
+				$userData = $this->extractUser($singleUser);
 				$users[] = $userData->all();
 			}
 		}
@@ -84,7 +83,7 @@ class ModelUser extends ModelBase
 
 		if ($user) {
 			// Get other misc data
-			$userData = $this->extractUser($user->toArray());
+			$userData = $this->extractUser($user);
 			$user = $userData;
 		}
 		
@@ -104,6 +103,9 @@ class ModelUser extends ModelBase
 		$lastUser = $this->getQuery()->orderByUid('desc')->findOne();
 		$uid = empty($lastUser) ? 1 : ($lastUser->getUid() + 1);
 
+		// Default role
+		$roles = ModelBase::ormFactory('PhpidRoleQuery')->findPKs(array(1,2));
+
 		$user = $this->getEntity();
 		$user->setUid($uid);
 		$user->setName($username);
@@ -111,6 +113,7 @@ class ModelUser extends ModelBase
 		$user->setPass($password);
 		$user->setCreated(time());
 		$user->setData(serialize(array()));
+		$user->setPhpidRoles($roles);
 
 		$user->save();
 
@@ -258,11 +261,13 @@ class ModelUser extends ModelBase
 	/**
 	 * Extract user
 	 *
-	 * @param array
+	 * @param PhpidUsers User object
 	 * @return Parameter
 	 */
-	protected function extractUser($userArrayData = array()) {
-		$userData = new Parameter($userArrayData);
+	protected function extractUser(PhpidUsers $user) {
+		$currentRole = current($user->getPhpidRoles());
+		$userRoleData = new Parameter(empty($currentRole) ?  array() : $currentRole->toArray());
+		$userData = new Parameter($user->toArray());
 		$userCustomData = $userData->get('Data');
 
 		// @codeCoverageIgnoreStart
@@ -287,6 +292,8 @@ class ModelUser extends ModelBase
 		$userData->set('Avatar', 'https://secure.gravatar.com/avatar/' . md5($userData->get('Mail')));
 		$userData->set('Date', 'Terdaftar '.date('d M Y', $userData->get('Created')));
 		$userData->set('LastLogin', 'Terakhir tampak '.date('d M', $userData->get('Login')));
+		$userData->set('RoleName', $userRoleData->get('Name','anonymous user'));
+		$userData->set('RoleValue', $userRoleData->get('Weight',0));
 
 		return $userData;
 	}

@@ -8,6 +8,7 @@
 
 namespace app\Model;
 
+use \PropelCollection as Collection;
 use app\Parameter;
 use app\Inspector;
 use \ModelCriteria;
@@ -63,6 +64,20 @@ class ModelBase
 	 */
 	public function getInspector() {
 		return $this->inspector;
+	}
+
+	/**
+	 * API untuk wrap object dengan propel collection
+	 *
+	 * @param mixed
+	 * @return PropelCollection
+	 */
+	public function wrapCollection($propelObject = NULL) {
+		if ($propelObject instanceof Collection) return $propelObject;
+
+		$collectionData = is_array($propelObject) ? $propelObject : array($propelObject);
+
+		return new Collection($collectionData);
 	}
 
 	/**
