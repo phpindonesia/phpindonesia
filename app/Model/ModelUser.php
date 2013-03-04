@@ -215,6 +215,7 @@ class ModelUser extends ModelBase
 		);
 		$articles = ModelBase::factory('Node')->getAllArticle(7, $page, $filter);
 
+		// @codeCoverageIgnoreStart
 		if (count($articles->all()) > 0) {
 			$withoutAvatar = true;
 			$filter[] = array('column' => 'Type', 'value' => 'article');
@@ -224,6 +225,7 @@ class ModelUser extends ModelBase
 			$templateData = array_merge($data->all(),$templateData);
 			$articleTab = ModelBase::factory('Template')->render('blocks/list/article.tpl', $templateData);
 		}
+		// @codeCoverageIgnoreEnd
 		
 
 		return $articleTab;
@@ -259,14 +261,33 @@ class ModelUser extends ModelBase
 	}
 
 	/**
+	 * Get the highest role value
+	 *
+	 * @param  mixed
+	 * @return Parameter
+	 */
+	protected function getRole($roles) {
+		$highestWeight = 0;
+
+		if ($roles instanceof \ArrayObject) {
+
+			foreach ($roles as $role) {
+				if ($role->getWeight() > $highestWeight) {
+					// Set new weight
+					$highestWeight = $role->getWeight();
+				}
+			}
+		}
+	}
+
+
+	/**
 	 * Extract user
 	 *
 	 * @param PhpidUsers User object
 	 * @return Parameter
 	 */
 	protected function extractUser(PhpidUsers $user) {
-		$currentRole = current($user->getPhpidRoles());
-		$userRoleData = new Parameter(empty($currentRole) ?  array() : $currentRole->toArray());
 		$userData = new Parameter($user->toArray());
 		$userCustomData = $userData->get('Data');
 
@@ -292,8 +313,7 @@ class ModelUser extends ModelBase
 		$userData->set('Avatar', 'https://secure.gravatar.com/avatar/' . md5($userData->get('Mail')));
 		$userData->set('Date', 'Terdaftar '.date('d M Y', $userData->get('Created')));
 		$userData->set('LastLogin', 'Terakhir tampak '.date('d M', $userData->get('Login')));
-		$userData->set('RoleName', $userRoleData->get('Name','anonymous user'));
-		$userData->set('RoleValue', $userRoleData->get('Weight',0));
+		$userData->set('RoleValue', $this->getRole($user->getPhpidRoles()));
 
 		return $userData;
 	}
