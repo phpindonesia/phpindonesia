@@ -233,14 +233,12 @@ class ControllerBase {
 	 */
 	public function setLogin($id) {
 		// Catat waktu login
-		$currentUser = ModelBase::ormFactory('PhpidUsersQuery')->findPK($id);
-		$currentUser->setLogin(time());
-		$currentUser->save();
+		$currentUser = ModelBase::factory('User')->updateUser($id, array('login' => time()));
 
 		// Set login status
 		$this->session->set('login', true);
-		$this->session->set('userId', $id);
-		$this->session->set('role', 'member');
+		$this->session->set('userId', $currentUser->get('Uid'));
+		$this->session->set('role', $currentUser->get('RoleValue'));
 	}
 
 	/**
