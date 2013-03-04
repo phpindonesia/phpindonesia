@@ -235,7 +235,7 @@ class ModelTemplate extends ModelBase
      * @return mixed
      * @codeCoverageIgnore
      */
-    public function getUserFullnameFromId($id) {
+    public static function getUserFullnameFromId($id) {
         return ModelBase::factory('Template')->getUserNameFromId($id, 200);
     }
 
@@ -247,7 +247,7 @@ class ModelTemplate extends ModelBase
      * @return mixed
      * @codeCoverageIgnore
      */
-    public function getUserNameFromId($id, $limitLen = 10) {
+    public static function getUserNameFromId($id, $limitLen = 10) {
         $userData = ModelBase::factory('User')->getUser($id);
 
         if (empty($userData)) {
@@ -266,7 +266,7 @@ class ModelTemplate extends ModelBase
      * @return mixed
      * @codeCoverageIgnore
      */
-    public function getUserAvatarFromId($id) {
+    public static function getUserAvatarFromId($id) {
         $userData = ModelBase::factory('User')->getUser($id);
 
         if (empty($userData)) {
@@ -285,7 +285,7 @@ class ModelTemplate extends ModelBase
      * @return string Parsed body
      * @codeCoverageIgnore
      */
-    public function parseDocument(Parameter $param) {
+    public static function parseDocument(Parameter $param) {
         $type = $param->get('bodyFormat');
 
         // Validate type
