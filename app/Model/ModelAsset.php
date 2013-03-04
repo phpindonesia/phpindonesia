@@ -162,9 +162,11 @@ class ModelAsset extends ModelBase
 	public function buildCollection($assets = array(), $type = 'js') {
 
 		// Only process if necessary
+		// @codeCoverageIgnoreStart
 		if ($this->checkCollectionCacheVersion($assets)) {
 			return new CacheBundle($this->getCollectionCacheVersion($assets));
 		}
+		// @codeCoverageIgnoreEnd
 
 		// Must in range
 		if (in_array($type,array('js','css','less'))) {

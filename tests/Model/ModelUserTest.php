@@ -33,6 +33,15 @@ class ModelUserTest extends PhpindonesiaTestCase {
 		$allUsers = $user->getAllUser();
 
 		$this->assertTrue(count($allUsers) > 0);
+
+		// Try filtering too
+		$filter = array(
+			array('column' => 'Name', 'value' => 'dum%'),
+		);
+
+		$allUsersFiltered = $user->getAllUser(0,1,$filter);
+
+		$this->assertTrue(count($allUsersFiltered) > 0);
 	}
 
 	/**
