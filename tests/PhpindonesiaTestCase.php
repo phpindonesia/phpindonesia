@@ -38,6 +38,24 @@ abstract class PhpindonesiaTestCase extends PHPUnit_Framework_TestCase {
 		// Perlukah menghapus data?
 		if ($this->needDatabase) {
 			$this->deleteDummyUser();
+			$this->deleteDummyArticle();
+		}
+	}
+
+	/**
+	 * Create dummy article
+	 */
+	public function createDummyArticle() {
+		return ModelBase::factory('Node')->createArticle(1, 'Title', 'The Body');
+	}
+
+	/**
+	 * Delete dummy article
+	 */
+	public function deleteDummyArticle() {
+		if (($dummyArticle = ModelBase::ormFactory('PhpidNodeQuery')->findOneByTitle('Title')) && ! empty($dummyArticle)) {
+			$articleBody = ModelBase::ormFactory('PhpidFieldDataBodyQuery')->findByPhpidNode($dummyArticle)->delete();
+			$dummyArticle->delete();
 		}
 	}
 
@@ -53,8 +71,10 @@ abstract class PhpindonesiaTestCase extends PHPUnit_Framework_TestCase {
 	 */
 	public function deleteDummyUser() {
 		if (($dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('dummy')) && ! empty($dummyUser)) {
+			$userRolePivot = ModelBase::ormFactory('PhpidUsersRolesQuery')->findByUid($dummyUser->getUid())->delete();
 			$dummyUser->delete();
 		} elseif (($dummyUser = ModelBase::ormFactory('PhpidUsersQuery')->findOneByName('Not Dummy Anymore')) && ! empty($dummyUser)) {
+			$userRolePivot = ModelBase::ormFactory('PhpidUsersRolesQuery')->findByUid($dummyUser->getUid())->delete();
 			$dummyUser->delete();
 		}
 	}

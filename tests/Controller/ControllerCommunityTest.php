@@ -65,11 +65,13 @@ class ControllerCommunityTest extends PhpindonesiaTestCase {
 		$this->assertEquals(200, $response->getStatusCode());
 
 		// Article detail non exists
-		$request = Request::create('/community/article', 'GET', array('id' => 9999));
+		$dummyArticle = $this->createDummyArticle();
+		$request = Request::create('/community/article', 'GET', array('id' => $dummyArticle->getNid()));
 		$controllerCommunity = new ControllerCommunity($request);
+		$response = $controllerCommunity->actionArticle();
 
-		$this->setExpectedException('RuntimeException', 'Tulisan tidak dapat ditemukan');
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals(200, $response->getStatusCode());
 		
-		$controllerCommunity->actionArticle();
 	}
 }
