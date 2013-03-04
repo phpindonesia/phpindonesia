@@ -62,6 +62,13 @@ class ControllerUser extends ControllerBase
 	public function actionProfile() {
 		$item = ModelBase::factory('User')->getUser($this->request->get('id'));
 
+		$roleName = $this->acl->getCurrentRole($item->get('RoleValue'));
+		$roleLabel = ($item->get('RoleValue',0) > 4) ? 'label-success' : ($item->get('RoleValue') > 2 ? 'label-info' : '');
+
+		// Set additional attribute
+		$item->set('roleName', strtoupper($roleName));
+		$item->set('roleLabel', $roleLabel);
+
 		// Check one or other mandatory fields
 		// @codeCoverageIgnoreStart
 		if ( empty($item) || ! $item->get('Mail') || ! $item->get('Name')) {

@@ -1,6 +1,7 @@
 <div id="sidebar">
 	<ul class="nav nav-list">
 		<li><br/><a href="http://en.gravatar.com/" target="_blank"><img src="{{ item.Avatar }}?s=150&d=retro" class="img-polaroid"/></a></li>
+		<li><center><label class="label {{ item.roleLabel }} ">{{ item.roleName }}</label></center></li>
 		<li><h3>{{ item.Name }}</h3></li>
 		<li><h4 class="subtitle">{{ item.Fullname }}</h4></li>
 		<li class="divider"></li>
