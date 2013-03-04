@@ -84,7 +84,27 @@ class Acl implements AclInterface
 	 * @return string User Role
 	 */
 	public function getCurrentRole() {
-		return $this->session->get('role', 'guest');
+		switch($this->session->get('role')) {
+			case 1:
+			case 2:
+				$role = 'member';
+				break;
+
+			case 3:
+			case 4:
+				$role = 'editor';
+				break;
+
+			case 5:
+				$role = 'admin';
+				break;
+
+			default:
+				$role = 'guest';
+
+		}
+
+		return $role;
 	}
 
 	/**
