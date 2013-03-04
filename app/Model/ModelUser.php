@@ -264,7 +264,7 @@ class ModelUser extends ModelBase
 	 * Get the highest role value
 	 *
 	 * @param  mixed
-	 * @return Parameter
+	 * @return int
 	 */
 	protected function getRole($roles) {
 		$highestWeight = 0;
@@ -278,6 +278,8 @@ class ModelUser extends ModelBase
 				}
 			}
 		}
+
+		return $highestWeight;
 	}
 
 
