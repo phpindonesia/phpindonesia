@@ -570,6 +570,9 @@
     <index name="body_format">
       <index-column name="body_format"/>
     </index>
+    <foreign-key foreignTable="phpid_node">
+      <reference local="entity_id" foreign="nid"/>
+    </foreign-key>
   </table>
   <table name="phpid_field_data_comment_body" phpName="PhpidFieldDataCommentBody" idMethod="native">
     <column name="entity_type" phpName="EntityType" type="VARCHAR" size="128" primaryKey="true" required="true" defaultValue=""/>
