@@ -130,6 +130,14 @@ class ControllerCommunity extends ControllerBase
 
 			$title = strip_tags($article->get('Title'));
 			$item = ModelBase::factory('User')->getUser($article->get('Uid'));
+			
+			$roleName = $item->get('RoleValue');
+			$roleLabel = ($roleName == 'admin') ? 'label-success' : ($roleName == 'editor' ? 'label-info' : '');
+
+			// Set additional attribute
+			$item->set('roleName', strtoupper($roleName));
+			$item->set('roleLabel', $roleLabel);
+
 			$data = ModelBase::factory('Template')->getComArticleData(compact('title','isList','item', 'article'));
 		}
 
