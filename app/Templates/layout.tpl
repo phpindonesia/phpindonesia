@@ -103,10 +103,10 @@
     <script src="/asset/js/app.js"></script>
     {% if getData.harlem is not empty %}
     <script src="/asset/js/harlem-shake.js"></script>
+    <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F35273963&amp;color=ff6600&amp;auto_play=true&amp;show_artwork=false" style="display:none;"></iframe>
     {% endif %}
     <script>
     {% include "inline.tpl" %}
     </script>
 </body>
-
 </html>
