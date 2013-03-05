@@ -267,7 +267,7 @@ class ModelUser extends ModelBase
 	 * @return string
 	 */
 	protected function getRole($roles) {
-		$roleName = 'guest';
+		$roleName = 'member';
 
 		if ($roles instanceof \ArrayObject) {
 			foreach ($roles as $role) {
@@ -277,8 +277,6 @@ class ModelUser extends ModelBase
 				} elseif ($role->getRid() == 5) {
 					$roleName = 'editor';
 					break;
-				} else {
-					$roleName = 'member';
 				}
 			}
 		}
