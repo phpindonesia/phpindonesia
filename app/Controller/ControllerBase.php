@@ -17,6 +17,8 @@ use app\Acl;
 use app\Session;
 use app\Parameter;
 use app\Model\ModelBase;
+use \Phing;
+use \ConfigurationException;
 
 /**
  * ControllerBase
@@ -39,14 +41,44 @@ class ControllerBase {
 	 * @see app/routes.php
 	 */
 	public function actionSynchronize() {
+		$success = TRUE;
+		$error = '';
 		$userAgent = $this->request->server->get('HTTP_USER_AGENT');
+
+		$timeStart = microtime(TRUE);
 
 		// TODO : More filtering
 		if (strpos($userAgent, 'curl') !== FALSE) {
+			// Update HEAD
 			passthru('cd ../phpindonesia;git checkout master;git fetch origin;git merge origin/develop;git push origin master');
+
+			// Generate ORM
+			try {
+			$propelPath = str_replace('app', 'vendor', APPLICATION_PATH).DIRECTORY_SEPARATOR.'propel/propel1/generator/build.xml';
+			$args = array(
+					'-f',
+					$propelPath,
+					'-Dusing.propel-gen=true',
+					'-Dproject.dir='.str_replace('app','',APPLICATION_PATH),
+					'om'
+				);
+				Phing::startup();
+				Phing::fire($args);
+
+			    // Invoke any shutdown routines.
+			    Phing::shutdown();
+			} catch (\ConfigurationException $x) {
+				$error = $x->getMessage();
+			} catch (\Exception $x) {
+				$error = $x->getMessage();
+			}
+
 		}
 
-		return $this->render('OK' . "\n");
+		// Generate time report
+		$timeElapsed = 'Total synchronize time: '.floor(microtime(TRUE) - $timeStart).' s'."\n";
+
+		return $success ? $this->render('OK' . "\n" . $timeElapsed) : $this->render('FAIL' . "\n" . $error . "\n" . $timeElapsed);
 	}
 
 	/**
