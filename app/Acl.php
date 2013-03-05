@@ -81,35 +81,10 @@ class Acl implements AclInterface
 	/**
 	 * Mengambil role user dalam request saat ini
 	 *
-	 * @param  int Role weight
 	 * @return string User Role
 	 */
-	public function getCurrentRole($roleWeight = NULL) {
-		if (is_null($roleWeight)) {
-			$roleWeight = $this->session->get('role',0);
-		}
-
-		switch($roleWeight) {
-			case 2:
-			case 4:
-			case 6:
-				$role = 'member';
-				break;
-
-			case 5:
-				$role = 'editor';
-				break;
-
-			case 3:
-				$role = 'admin';
-				break;
-
-			default:
-				$role = 'guest';
-
-		}
-
-		return $role;
+	public function getCurrentRole() {
+		return $this->session->get('role','guest');
 	}
 
 	/**

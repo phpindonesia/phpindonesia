@@ -261,25 +261,29 @@ class ModelUser extends ModelBase
 	}
 
 	/**
-	 * Get the highest role value
+	 * Get the possible role value
 	 *
 	 * @param  mixed
-	 * @return int
+	 * @return string
 	 */
 	protected function getRole($roles) {
-		$highestWeight = 0;
+		$roleName = 'guest';
 
 		if ($roles instanceof \ArrayObject) {
-
 			foreach ($roles as $role) {
-				if ($role->getRid() > $highestWeight) {
-					// Set new weight
-					$highestWeight = $role->getRid();
+				if ($role->getRid() == 3) {
+					$roleName = 'admin';
+					break;
+				} elseif ($role->getRid() == 5) {
+					$roleName = 'editor';
+					break;
+				} else {
+					$roleName = 'member';
 				}
 			}
 		}
 
-		return $highestWeight;
+		return $roleName;
 	}
 
 

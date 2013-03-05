@@ -62,7 +62,7 @@ class ControllerUser extends ControllerBase
 	public function actionProfile() {
 		$item = ModelBase::factory('User')->getUser($this->request->get('id'));
 
-		$roleName = $this->acl->getCurrentRole($item->get('RoleValue'));
+		$roleName = $item->get('RoleValue');
 		$roleLabel = ($roleName == 'admin') ? 'label-success' : ($roleName == 'editor' ? 'label-info' : '');
 
 		// Set additional attribute

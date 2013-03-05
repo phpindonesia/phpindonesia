@@ -61,20 +61,20 @@ class AclTest extends PhpindonesiaTestCase {
 	 * Cek Current Role ACL state
 	 */
 	public function testCekCurrentRoleAppAcl() {
-		// User dengan berat role 1,2 dikategorikan sebagai 'member'
-		$this->request->getSession()->set('role',1);
+		// Cek member
+		$this->request->getSession()->set('role','member');
 		$acl = new Acl($this->request,$this->reader);
 
 		$this->assertEquals('member',$acl->getCurrentRole());
 
-		// User dengan berat role 3,4 dikategorikan sebagai 'editor'
-		$this->request->getSession()->set('role',3);
+		// Cek editor
+		$this->request->getSession()->set('role','editor');
 		$acl = new Acl($this->request,$this->reader);
 
 		$this->assertEquals('editor',$acl->getCurrentRole());
 
-		// User dengan berat role 5 dikategorikan sebagai 'admin'
-		$this->request->getSession()->set('role',5);
+		// Cek admin
+		$this->request->getSession()->set('role','admin');
 		$acl = new Acl($this->request,$this->reader);
 
 		$this->assertEquals('admin',$acl->getCurrentRole());
