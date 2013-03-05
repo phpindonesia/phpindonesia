@@ -101,6 +101,9 @@
     {% include "blocks/footer.tpl" %}
 
     <script src="/asset/js/app.js"></script>
+    {% if getData.harlem is not empty %}
+    <script src="/asset/js/harlem-shake.js"></script>
+    {% endif %}
     <script>
     {% include "inline.tpl" %}
     </script>

@@ -27,3 +27,9 @@ for (i=0;i<codeParseable.length;i++) {
 	editor.setOption('theme', 'monokai');
 }
 {% endif %}
+
+{% if getData.harlem is not empty %}
+setTimeout(function(){
+	harlemShake();
+},100);
+{% endif %}
