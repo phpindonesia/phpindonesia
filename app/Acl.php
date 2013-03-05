@@ -90,17 +90,17 @@ class Acl implements AclInterface
 		}
 
 		switch($roleWeight) {
-			case 1:
 			case 2:
+			case 4:
+			case 6:
 				$role = 'member';
 				break;
 
-			case 3:
-			case 4:
+			case 5:
 				$role = 'editor';
 				break;
 
-			case 5:
+			case 3:
 				$role = 'admin';
 				break;
 

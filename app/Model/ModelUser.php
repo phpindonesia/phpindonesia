@@ -272,9 +272,9 @@ class ModelUser extends ModelBase
 		if ($roles instanceof \ArrayObject) {
 
 			foreach ($roles as $role) {
-				if ($role->getWeight() > $highestWeight) {
+				if ($role->getRid() > $highestWeight) {
 					// Set new weight
-					$highestWeight = $role->getWeight();
+					$highestWeight = $role->getRid();
 				}
 			}
 		}

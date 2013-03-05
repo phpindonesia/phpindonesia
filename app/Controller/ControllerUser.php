@@ -63,7 +63,7 @@ class ControllerUser extends ControllerBase
 		$item = ModelBase::factory('User')->getUser($this->request->get('id'));
 
 		$roleName = $this->acl->getCurrentRole($item->get('RoleValue'));
-		$roleLabel = ($item->get('RoleValue',0) > 4) ? 'label-success' : ($item->get('RoleValue') > 2 ? 'label-info' : '');
+		$roleLabel = ($roleName == 'admin') ? 'label-success' : ($roleName == 'editor' ? 'label-info' : '');
 
 		// Set additional attribute
 		$item->set('roleName', strtoupper($roleName));
