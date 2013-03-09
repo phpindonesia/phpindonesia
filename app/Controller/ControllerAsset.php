@@ -186,9 +186,14 @@ class ControllerAsset extends ControllerBase
 
 		// Generate asset
 		if ($content instanceof File) {
-			$content = file_get_contents($content);
-		} elseif ($content instanceof CacheBundle || $content instanceof AssetCollection) {
+                        ob_start();
+                        readfile($content);
+                        $content = ob_get_contents();
+                        ob_end_clean();
+                        ob_clean();
+                } elseif ($content instanceof CacheBundle || $content instanceof AssetCollection) {
 			$content = $content->dump();
+                        ob_clean();
 		}
 
 		// Cache image for a month
