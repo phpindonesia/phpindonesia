@@ -13,8 +13,8 @@
         "kriswallsmith/assetic": "v1.1.0-alpha4",
         "toopay/assetic-minifier": "v0.0.2",
         "leafo/lessphp": "v0.3.8",
-        "phpunit/phpunit": "3.7.18",
-        "phpunit/phpunit-selenium": "1.2.12",
+        "phpunit/phpunit": "3.7.*",
+        "phpunit/phpunit-selenium": "1.2.*",
         "facebook/php-sdk": "v3.2.2",
         "swiftmailer/swiftmailer": "v4.3.0"
     }
