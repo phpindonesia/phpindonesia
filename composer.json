@@ -8,14 +8,14 @@
         "doctrine/cache": "v1.0",
         "symfony/http-kernel": "v2.1.7",
         "symfony/routing": "v2.1.7",
-        "propel/propel1": "1.6.7",
-        "twig/twig": "v1.12.1",
-        "kriswallsmith/assetic": "v1.0.4",
-        "toopay/assetic-minifier": "v0.0.1",
+        "propel/propel1": "1.6.8",
+        "twig/twig": "v1.12.2",
+        "kriswallsmith/assetic": "v1.1.0-alpha4",
+        "toopay/assetic-minifier": "v0.0.2",
         "leafo/lessphp": "v0.3.8",
-        "phpunit/phpunit": "3.7.13",
-        "phpunit/phpunit-selenium": "1.2.11",
-        "facebook/php-sdk": "v3.2.1",
+        "phpunit/phpunit": "3.7.18",
+        "phpunit/phpunit-selenium": "1.2.12",
+        "facebook/php-sdk": "v3.2.2",
         "swiftmailer/swiftmailer": "v4.3.0"
     }
 }
