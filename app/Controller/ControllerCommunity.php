@@ -8,6 +8,7 @@
 
 namespace app\Controller;
 
+use app\Parameter;
 use app\Acl;
 use app\AclDriver;
 use app\Model\ModelBase;
