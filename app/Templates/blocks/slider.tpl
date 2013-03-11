@@ -19,6 +19,7 @@
 
             <!-- SLIDER -->
             <div class="span8">
+                {% if sliders is not empty %}
                 <div id="slider" class="carousel slide">
                     <div class="carousel-inner">
                         <div class="active item"><img src="asset/img/slider/surabaya.png" alt=""></div>
@@ -30,6 +31,7 @@
                     <a class="carousel-control right" href="#slider" data-slide="next">&rsaquo;</a>
                     <a class="carousel-control left" href="#slider" data-slide="prev">&lsaquo;</a>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
