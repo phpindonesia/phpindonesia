@@ -131,6 +131,11 @@ class ControllerCommunity extends ControllerBase
 			$title = strip_tags($article->get('Title'));
 			$item = ModelBase::factory('User')->getUser($article->get('Uid'));
 			
+			if ( ! $item instanceof Parameter) {
+				throw new \RuntimeException('Invalid item');
+				
+			}
+
 			$roleName = $item->get('RoleValue');
 			$roleLabel = ($roleName == 'admin') ? 'label-success' : ($roleName == 'editor' ? 'label-info' : '');
 
