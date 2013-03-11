@@ -46,7 +46,9 @@ abstract class PhpindonesiaTestCase extends PHPUnit_Framework_TestCase {
 	 * Create dummy article
 	 */
 	public function createDummyArticle() {
-		return ModelBase::factory('Node')->createArticle(1, 'Title', 'The Body');
+		$this->deleteDummyArticle();
+		$dummyUser = $this->createDummyUser();
+		return ModelBase::factory('Node')->createArticle($dummyUser->getUid(), 'Title', 'The Body');
 	}
 
 	/**
@@ -54,7 +56,7 @@ abstract class PhpindonesiaTestCase extends PHPUnit_Framework_TestCase {
 	 */
 	public function deleteDummyArticle() {
 		if (($dummyArticle = ModelBase::ormFactory('PhpidNodeQuery')->findOneByTitle('Title')) && ! empty($dummyArticle)) {
-			$articleBody = ModelBase::ormFactory('PhpidFieldDataBodyQuery')->findByPhpidNode($dummyArticle)->delete();
+			ModelBase::ormFactory('PhpidFieldDataBodyQuery')->findByPhpidNode($dummyArticle)->delete();
 			$dummyArticle->delete();
 		}
 	}
@@ -63,6 +65,7 @@ abstract class PhpindonesiaTestCase extends PHPUnit_Framework_TestCase {
 	 * Create dummy user
 	 */
 	public function createDummyUser() {
+		$this->deleteDummyUser();
 		return ModelBase::factory('Auth')->createUser('dummy', 'dummy@oot.com', 'secret');
 	}
 
