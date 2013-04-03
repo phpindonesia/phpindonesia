@@ -43,13 +43,15 @@ class ControllerAsset extends ControllerBase
 	 * Handler untuk GET /asset/css/somecss.css
 	 */
 	public function actionCss() {
-		if ($this->assetFile == 'main.css') {
+		if ($this->assetFile == 'main.css' || $this->assetFile == 'editor.css') {
 			// Build CSS from LESS
-			$less = array(
+			$less = ($this->assetFile == 'main.css') ? array(
 				$this->modelAsset->setFile('less/variables.less'),
 				$this->modelAsset->setFile('less/bootstrap.less'),
 				$this->modelAsset->setFile('less/responsive.less'),		// Generate responsive
 				$this->modelAsset->setFile('less/custom.style.less'),	// Custom style agar tidak merubah bootstrap default
+			) : array(
+				$this->modelAsset->setFile('less/bootstrap-markdown.less'),
 			); 
 
 			$file = $this->modelAsset->buildCollection($less,'less');
@@ -108,6 +110,18 @@ class ControllerAsset extends ControllerBase
 
 			// Set the cache version
 			$this->modelAsset->setCollectionCacheVersion($bootstrap, $file->dump());
+		} elseif ($this->assetFile == 'editor.js') {
+			$editorJs = array(
+				$this->modelAsset->setFile('js/markdown.js'),
+				$this->modelAsset->setFile('js/to-markdown.js'),
+				$this->modelAsset->setFile('js/bootstrap-markdown.js'),
+			);
+
+			$file = $this->modelAsset->buildCollection($editorJs, 'js');
+			$mime = 'application/javascript';
+
+			// Set the cache version
+			$this->modelAsset->setCollectionCacheVersion($editorJs, $file->dump());
 		} elseif ($this->assetFile == 'code.js') {
 			$codeJs = array(
 				$this->modelAsset->setFile('js/codemirror.js'),
