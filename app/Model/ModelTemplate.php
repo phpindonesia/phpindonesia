@@ -12,6 +12,7 @@ use app\Parameter;
 use \Twig_SimpleFilter;
 use \Twig_Loader_Filesystem;
 use \Twig_Environment;
+use dflydev\markdown\MarkdownExtraParser;
 
 /**
  * ModelTemplate
@@ -287,18 +288,18 @@ class ModelTemplate extends ModelBase
      */
     public static function parseDocument(Parameter $param) {
         $type = $param->get('bodyFormat');
-
         // Validate type
-        if ($type == 'markdown') {
-            $type = strpos($param->get('body'), '<p') === false ? 'markdown' : 'full_html';
-        }
+        $type = strpos($param->get('body'), '<p') === false ? 'markdown' : 'full_html';
 
         if ($type == 'full_html') {
             // Take care code tag
-            $bodyText = str_replace(array('<code>','</code>'), array('<textarea class="codeParseable">','</textarea>'), $param->get('body'));
+            $bodyText = $param->get('body');
+            $bodyText = preg_replace_callback('/<code>([\s\S]*)<\/code>/msU', function($match){
+                return '<code>'.trim(htmlentities($match[1])).'</code>';
+                }, $bodyText);
         } else {
-            // @TODO : Markdown parser if necessary
-            $bodyText = strip_tags($param->get('body'));
+            $markdownParser = new MarkdownExtraParser();
+            $bodyText = $markdownParser->transformMarkdown($param->get('body'));
         }
 
         return $bodyText;

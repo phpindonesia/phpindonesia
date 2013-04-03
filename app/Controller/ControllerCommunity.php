@@ -128,6 +128,9 @@ class ControllerCommunity extends ControllerBase
 				throw new \RuntimeException('Tulisan tidak dapat ditemukan');
 			}
 
+			// Cek ACL
+			if ($this->acl->isAllowed(Acl::WRITE)) $this->data->set('allowEditor', true);
+
 			$title = strip_tags($article->get('Title'));
 			$item = ModelBase::factory('User')->getUser($article->get('Uid'));
 
