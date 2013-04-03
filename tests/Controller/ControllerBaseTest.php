@@ -91,6 +91,19 @@ class ControllerBaseTest extends PhpindonesiaTestCase {
 	}
 
 	/**
+	 * Cek render json
+	 */
+	public function testCekRenderJsonAppControllerBase() {
+		$request = Request::create('/home/index');
+		$controllerBase = new ControllerBase($request);
+		$response = $controllerBase->renderJson(array('foo' => 'bar'));
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals(200, $response->getStatusCode());
+		$this->assertEquals(json_encode(array('foo' => 'bar')), $response->getContent());
+	}
+
+	/**
 	 * Cek render
 	 */
 	public function testCekRenderAppControllerBase() {

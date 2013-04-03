@@ -23,7 +23,14 @@ class ControllerAssetTest extends PhpindonesiaTestCase {
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals(200, $response->getStatusCode());
 
-		// Begitu juga dengan code.css
+		// Begitu juga dengan editor.css dan code.css
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'css', 'GET', array('id' => 'editor.css'));
+		$controllerAsset = new ControllerAsset($request);
+		$response = $controllerAsset->actionCss();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals(200, $response->getStatusCode());
+
 		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'css', 'GET', array('id' => 'code.css'));
 		$controllerAsset = new ControllerAsset($request);
 		$response = $controllerAsset->actionCss();
@@ -56,7 +63,14 @@ class ControllerAssetTest extends PhpindonesiaTestCase {
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals(200, $response->getStatusCode());
 
-		// Begitu juga dengan code.js
+		// Begitu juga dengan editor.js dan code.js
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'js', 'GET', array('id' => 'editor.js'));
+		$controllerAsset = new ControllerAsset($request);
+		$response = $controllerAsset->actionJs();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals(200, $response->getStatusCode());
+
 		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'js', 'GET', array('id' => 'code.js'));
 		$controllerAsset = new ControllerAsset($request);
 		$response = $controllerAsset->actionJs();
