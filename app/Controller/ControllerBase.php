@@ -344,6 +344,21 @@ class ControllerBase {
 	}
 
 	/**
+	 * Render JSON response.
+	 *
+	 * @param array $data A Response data
+	 * @param int $status HTTP status code
+	 *
+	 * @return Response A Response instance
+	 */
+	public function renderJson($data = array(), $status = 200) {
+		$jsonData = json_encode($data);
+		$jsonHeader = array('Content-Type' => 'application/json');
+
+		return $this->render($jsonData, $status, $jsonHeader);
+	}
+
+	/**
 	 * Render response.
 	 *
 	 * @param mixed $content A Response content
