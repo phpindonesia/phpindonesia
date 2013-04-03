@@ -2,7 +2,7 @@ $(function () {
 
 	// PLACEHOLDER TIP
 	$(':input').focusin(function(){
-		if ($(this).attr('type') != 'submit') {
+		if ($(this).attr('type') != 'submit' && $(this).attr('data-provider').indexOf('bootstrap-markdown')<0) {
 			$(this).tooltip({
 				placement: 'right',
 				title: $(this).attr('placeholder'),
