@@ -24,7 +24,7 @@ use app\Model\ModelBase;
  *		"article"={
  *			Acl::READ="all",
  *			Acl::WRITE="member,editor,admin",
- *			Acl::EDIT="editor,admin",
+ *			Acl::EDIT="owner,editor,admin",
  *			Acl::DELETE="admin"},
  *
  *		"forum"={
@@ -36,6 +36,27 @@ use app\Model\ModelBase;
  */
 class ControllerCommunity extends ControllerBase
 {
+	/**
+	 * Handler untuk ACL
+	 *
+	 * @param string Action
+	 * @param mixed ID
+	 */
+	public function isOwner($type, $id) {
+		$isOwner = false;
+		$user = (int) $this->session->get('userId', '0');
+		$id = (int) $id;
+
+		switch ($type) {
+			case 'article':
+				$resource = ModelBase::factory('Node')->getArticle($id);
+				$isOwner =  !empty($resource) && $resource->get('Uid') == $user;
+				break;
+		}
+
+		return $isOwner;
+	}
+
 	/**
 	 * Handler untuk GET/POST /users
 	 */
@@ -129,7 +150,7 @@ class ControllerCommunity extends ControllerBase
 			}
 
 			// Cek ACL
-			if ($this->acl->isAllowed(Acl::WRITE)) $this->data->set('allowEditor', true);
+			if ($this->acl->isAllowed(Acl::EDIT, $id)) $this->data->set('allowEditor', true);
 
 			$title = strip_tags($article->get('Title'));
 			$item = ModelBase::factory('User')->getUser($article->get('Uid'));

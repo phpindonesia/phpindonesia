@@ -72,7 +72,7 @@ class Acl implements AclInterface
 			$config = $driver->getConfig($action);
 
 			// Lihat permission
-			$granted = $driver->grantPermission($permission, $config, $this->getCurrentRole());
+			$granted = $driver->grantPermission($permission, $config, $this->getCurrentRole($id));
 		}
 
 		return $granted;
@@ -81,10 +81,20 @@ class Acl implements AclInterface
 	/**
 	 * Mengambil role user dalam request saat ini
 	 *
+	 * @param mixed Resource ID
 	 * @return string User Role
 	 */
-	public function getCurrentRole() {
-		return $this->session->get('role','guest');
+	public function getCurrentRole($id = null) {
+		$role = $this->session->get('role','guest');
+		$resource = $this->getCurrentResource();
+
+		if (class_exists($resource) && is_callable(array($resource,'isOwner'))) {
+			$resourceProvider = new $resource($this->request);
+
+			$role = $resourceProvider->isOwner($this->getCurrentAction(), $id) ? 'owner' : $role;
+		}
+
+		return $role;
 	}
 
 	/**
