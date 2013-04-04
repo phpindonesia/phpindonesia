@@ -52,6 +52,12 @@ class ControllerProvider extends ControllerBase
 					$success = true;
 					$data = 'Konten berhasil diupdate';
 				}
+			} else {
+				$title = $this->data->get('postData[input]',$title,true);
+				$article = ModelBase::factory('Node')->createArticle($this->session->get('userId'), $title, $content);
+
+				$success = !empty($article);
+				$data = $success ? 'Konten berhasil disimpan' : '';
 			}
 		}
 		

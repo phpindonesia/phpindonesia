@@ -7,6 +7,7 @@
 {######################## Content ########################}
 {% block sidebar_left %} 
 	{% include "blocks/sidebar/search.tpl" %} 
+	{{ allowWriteArticle|displayLinkNewArticle|raw }}
 	<hr/>
 	<h4>Tulisan Terbaru</h4>
 	{% include "blocks/sidebar/preview/article.tpl" %} 

@@ -141,6 +141,22 @@ class ModelBase
 	 }
 
 	 /**
+	  * Build editor 
+	  *
+	  * @param string Action URL
+	  * @param string Prompt
+	  * @param string URL redirect after save
+	  * @return string HTML
+	  */
+	 public static function buildEditor($action,$prompt = null, $redirect = '/home') {
+	 	return new Parameter(array(
+	 		'action' => $action,
+	 		'prompt' => $prompt,
+	 		'redirect' => $redirect,
+	 	));
+	 }
+
+	 /**
 	  * Build pagination information based some query object
 	  *
 	  * @param array the query instance

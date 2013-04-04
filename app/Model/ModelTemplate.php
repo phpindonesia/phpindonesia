@@ -47,10 +47,14 @@ class ModelTemplate extends ModelBase
 
         // Filter declaration
         $filters = array(
+            new Twig_SimpleFilter('isContainArticle', array(__CLASS__, 'isContainArticle')),
             new Twig_SimpleFilter('toUserName', array(__CLASS__, 'getUserNameFromId')),
             new Twig_SimpleFilter('toUserFullName', array(__CLASS__, 'getUserFullnameFromId')),
             new Twig_SimpleFilter('toUserAvatar', array(__CLASS__, 'getUserAvatarFromId')),
+            new Twig_SimpleFilter('displayEditor', array(__CLASS__, 'parseEditor')),
             new Twig_SimpleFilter('displayArticleBody', array(__CLASS__, 'parseDocument')),
+            new Twig_SimpleFilter('displayMarkdown', array(__CLASS__, 'parseMd')),
+            new Twig_SimpleFilter('displayLinkNewArticle', array(__CLASS__, 'parseLinkNewArticle')),
         );
 
         // Register filter
@@ -280,6 +284,28 @@ class ModelTemplate extends ModelBase
     }
 
     /**
+     * Custom Twig filter untuk melihat apakah resource adalah artikel
+     *
+     * @param string Current URL
+     * @return bool 
+     * @codeCoverageIgnore
+     */
+    public static function isContainArticle($url) {
+        return preg_match('/community\/article\/[0-9]/', $url);
+    }
+
+    /**
+     * Custom Twig filter untuk mendisplay editor
+     *
+     * @param object Editor object bundled with Parameter
+     * @return string Parsed editor
+     * @codeCoverageIgnore
+     */
+    public static function parseEditor(Parameter $param) {
+        return '<textarea class="markdown-editor-standalone" data-action="'.$param->get('action').'" data-prompt="'.$param->get('prompt').'" data-redirect="'.$param->get('redirect').'"></textarea>';
+    }
+
+    /**
      * Custom Twig filter untuk mendisplay body value
      *
      * @param object Document object bundled with Parameter
@@ -298,11 +324,34 @@ class ModelTemplate extends ModelBase
                 return '<code>'.trim(htmlentities($match[1])).'</code>';
                 }, $bodyText);
         } else {
-            $markdownParser = new MarkdownExtraParser();
-            $bodyText = $markdownParser->transformMarkdown($param->get('body'));
+            $bodyText = self::parseMd($param->get('body'));
         }
 
         return $bodyText;
+    }
+
+    /**
+     * Custom Twig filter untuk mendisplay Markdown
+     *
+     * @param string Markdown string
+     * @return string Parsed HTML body
+     * @codeCoverageIgnore
+     */
+    public static function parseMd($markdown = '') {
+        $markdownParser = new MarkdownExtraParser();
+
+        return $markdownParser->transformMarkdown($markdown);
+    }
+
+     /**
+     * Custom Twig filter untuk mendisplay link artikel baru
+     *
+     * @param bool Acl status
+     * @return string Parsed anchor link
+     * @codeCoverageIgnore
+     */
+    public static function parseLinkNewArticle($allowWriteArticle) {
+        return $allowWriteArticle ? '<hr/><a href="/community/article?new=true" class="btn btn-primary btn-large">Tulis Artikel</a>' : '';
     }
 
     /**

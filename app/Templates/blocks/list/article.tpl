@@ -16,7 +16,7 @@
 		{% endif %}
 		<td><a href="/community/article/{{ article.Nid }}" class="preview-link"><strong>{{ article.Title }}</strong></a>
 			<p class="subtitle">oleh <a href="{{ article.AuthorLink }}">{{ article.Uid|toUserFullName }}</a> pada {{ article.pubDate }}</p>
-			<p class="preview-text">{{ article.previewMediumText}}</p>
+			<p class="preview-text">{{ article.previewMediumText|displayMarkdown|raw|striptags }}</p>
 		</td>
 
 		<td class="span1"><button class="btn btn-mini disabled">Laporkan</button></td>

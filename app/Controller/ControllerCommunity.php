@@ -61,6 +61,9 @@ class ControllerCommunity extends ControllerBase
 	 * Handler untuk GET/POST /users
 	 */
 	public function actionIndex() {
+		// Cek ACL
+		if ($this->acl->isAllowed(Acl::WRITE, null, 'article')) $this->data->set('allowWriteArticle', true);
+
 		// Inisialisasi article section
 		$articles = ModelBase::factory('Node')->getAllArticle(5);
 
@@ -107,7 +110,17 @@ class ControllerCommunity extends ControllerBase
 		$id = $this->request->get('id');
 		$this->data->set('parseCode', true);
 
-		if (empty($id)) {
+		// Cek ACL
+		if ($this->acl->isAllowed(Acl::WRITE, $id)) $this->data->set('allowWriteArticle', true);
+		if ($this->acl->isAllowed(Acl::EDIT, $id)) $this->data->set('allowEditor', true);
+
+		if ($this->data->get('getData[new]','false',true) == 'true') {
+			$this->data->set('allowEditor', true);
+			$isList = true;
+			$editorTitle = 'Buat Tulisan';
+			$editor = ModelBase::buildEditor('/provider/article','Masukkan judul tulisan','/community/article');
+			$data = ModelBase::factory('Template')->getComArticleData(compact('isList', 'editorTitle', 'editor'));
+		} elseif (empty($id)) {
 			// Inisialisasi article section
 			$isList = true;
 			$listTitle = 'Semua Tulisan';
@@ -148,9 +161,6 @@ class ControllerCommunity extends ControllerBase
 			if ( ! $article->get('Nid')) {
 				throw new \RuntimeException('Tulisan tidak dapat ditemukan');
 			}
-
-			// Cek ACL
-			if ($this->acl->isAllowed(Acl::EDIT, $id)) $this->data->set('allowEditor', true);
 
 			$title = strip_tags($article->get('Title'));
 			$item = ModelBase::factory('User')->getUser($article->get('Uid'));

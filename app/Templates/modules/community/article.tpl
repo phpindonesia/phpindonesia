@@ -11,11 +11,12 @@
 	{% else %}
 		{% include "blocks/sidebar/profile.tpl" %} 
 	{% endif %}
+	{{ allowWriteArticle|displayLinkNewArticle|raw }}
 {% endblock %}
 
 {% block content %} 
 	{% if isList == true %}
-		{% include "blocks/list/article.tpl" %} 
+		{% include editor ? "blocks/editor.tpl" : "blocks/list/article.tpl" %} 
 	{% else %}
 		{% include "blocks/detail/article.tpl" %} 
 	{% endif %}
