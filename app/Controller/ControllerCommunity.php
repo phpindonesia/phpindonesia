@@ -30,7 +30,7 @@ use app\Model\ModelBase;
  *		"forum"={
  *			Acl::READ="all",
  *			Acl::WRITE="member,editor,admin",
- *			Acl::EDIT="admin",
+ *			Acl::EDIT="owner,admin",
  *			Acl::DELETE="admin"}
  * })
  */
