@@ -93,7 +93,7 @@
   </table>
   <table name="phpid_batch" phpName="PhpidBatch" idMethod="native">
     <column name="bid" phpName="Bid" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" required="true"/>
-    <column name="token" phpName="Token" type="VARCHAR" size="64" required="true"/>
+    <column name="token" phpName="Token" type="VARCHAR" size="128" required="true"/>
     <column name="timestamp" phpName="Timestamp" type="INTEGER" required="true"/>
     <column name="batch" phpName="Batch" type="BLOB" required="false"/>
     <index name="token">
