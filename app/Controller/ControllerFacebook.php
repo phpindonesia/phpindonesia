@@ -108,7 +108,7 @@ class ControllerFacebook extends ControllerBase
 			}
 
 		} else {
-			return $this->redirect($this->sessin->get('redirectAfterAuthenticated','/home'));
+			return $this->redirect($this->session->get('redirectAfterAuthenticated','/home'));
 		}
 		// @codeCoverageIgnoreEnd
 	}
