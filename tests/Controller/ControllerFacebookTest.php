@@ -36,8 +36,6 @@ class ControllerFacebookTest extends PhpindonesiaTestCase {
 
 		$this->assertInstanceOf('\app\Controller\ControllerBase', $controllerFacebook);
 		$this->assertInstanceOf('\app\Controller\ControllerFacebook', $controllerFacebook);
-		$this->assertObjectHasAttribute('appId', $controllerFacebook);
-		$this->assertObjectHasAttribute('secret', $controllerFacebook);
 		$this->assertObjectHasAttribute('facebook', $controllerFacebook);
 		$this->assertObjectHasAttribute('scope', $controllerFacebook);
 	}

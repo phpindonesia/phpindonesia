@@ -19,8 +19,8 @@ use app\Parameter;
  */
 class ControllerFacebook extends ControllerBase
 {
-	protected $appId = '546853652015493';
-	protected $secret = 'a1d06f877dc5f690d4df4b902128a402';
+	const APP_ID = '546853652015493';
+	const APP_SECRET = 'a1d06f877dc5f690d4df4b902128a402';
 	protected $facebook;
 	protected $scope;
 
@@ -31,8 +31,8 @@ class ControllerFacebook extends ControllerBase
 		parent::beforeAction();
 
 		$this->facebook = new Facebook($this->request, array(
-		  'appId'  => $this->appId,
-		  'secret' => $this->secret,
+		  'appId'  => self::APP_ID,
+		  'secret' => self::APP_SECRET,
 		));
 
 		$this->scope = array('scope' => array(

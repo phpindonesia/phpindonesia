@@ -19,8 +19,29 @@ use app\Parameter;
  */
 class ModelNode extends ModelBase 
 {
+	const NODE_EXTRACT = 'extract';
 	protected $entity = 'PhpidNode';
 	protected $query = 'PhpidNodeQuery';
+
+	/**
+	 * Fetch one Node
+	 *
+	 * @param int Node id
+	 * @param string Node Type
+	 *
+	 * @return Parameter
+	 */
+	public function getNode($id, $type = 'article') {
+		// Silly
+		if (empty($id)) return false;
+
+		// Get node
+		$node = $this->getQuery()->findPK($id);
+		$method = self::NODE_EXTRACT.ucfirst($type);
+
+		// Extract
+		return (empty($node) || (!empty($node) && $node->getType() !== $type)) ? new Parameter() : $this->$method($node);
+	}
 
 	/**
 	 * Fetch Node article lists
@@ -84,14 +105,7 @@ class ModelNode extends ModelBase
 	 * @return Parameter
 	 */
 	public function getArticle($id) {
-		// Silly
-		if (empty($id)) return false;
-
-		// Get user
-		$article = $this->getQuery()->findPK($id);
-
-		// Extract
-		return (empty($article)) ? new Parameter() : $this->extractArticle($article);
+		return $this->getNode($id,'article');
 	}
 
 	/**
