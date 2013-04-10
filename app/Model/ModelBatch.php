@@ -44,6 +44,17 @@ class ModelBatch extends ModelBase
 	}
 
 	/**
+	 * Fetch one Batch After 0
+	 *
+	 * @return Parameter
+	 */
+	public function getBatchAfterNil() {
+		$batchs = $this->getQuery()->orderByTimestamp()->find();
+		// Extract
+		return count($batchs) > 1 ? $this->extractBatch(next($batchs)) : new Parameter();
+	}
+
+	/**
 	 * Buat batch
 	 *
 	 * @param string $token

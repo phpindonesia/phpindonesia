@@ -77,4 +77,45 @@ class ControllerCron extends ControllerBase
 
 		return $this->renderJson(array('success' => count($result->get('data')) > 0,'data' => $rawResult));
 	}
+
+	/**
+	 * Handler untuk GET/POST /cron/consumefb
+	 * @codeCoverageIgnore
+	 */
+	public function actionConsumefb() {
+		// Cari batch pertama sebelum 0
+		$success = false;
+		$lastBatch = ModelBase::factory('Batch')->getBatchAfterNil();
+		$id = $lastBatch->get('Bid',null);
+		$data = $lastBatch->get('AdditionalData[data]',null,true);
+
+		if (!empty($id) && !empty($data) && is_array($data)) {
+			foreach ($data as $post) {
+				// Proses batch menjadi Forum POST
+				$param = new Parameter($post);
+				$signature = $param->get('id');
+				$name = $param->get('from[name]','-',true);
+				$message = htmlentities($param->get('message'));
+				$created = strtotime($param->get('created_time'));
+
+				$node = ModelBase::factory('Node')->createPost($name, $message, $created, $signature);
+
+				// Ambil komentar jika ada
+				if ($param->get('comments[count]',0,true) > 0) {
+					$comments = $param->get('comments[data]',array(),true);
+					if (! empty($comments)) {
+						ModelBase::factory('Comment')->createPostComments($node->getNid(),$comments);
+					}
+				}
+
+				// TODO: Ambil Like jika ada
+			}
+			
+			// Hapus batch
+			ModelBase::factory('Batch')->getQuery()->findPK($id)->delete();
+			$success = true;
+		}
+
+		return $this->renderJson(array('success' => $success,'bid'=>$id));
+	}
 }
