@@ -32,20 +32,38 @@ class ControllerCron extends ControllerBase
 		// Cari batch terakhir
 		$lastBatch = ModelBase::factory('Batch')->getBatch();
 		$access_token = $lastBatch->get('Token');
+		$url   = '/'.$group.'/feed';
 		$limit = 5;
 
 		if (is_null($lastBatch->get('Batch'))) {
 			$since = '2009-1-1';
 			$until = '2009-2-2';
-			$url   = '/'.$group.'/feed';
 		} else {
-			$url   = '/'.$group.$lastBatch->get('AdditionalData[next]',null,true);
+			$urlComponents = $lastBatch->get('AdditionalData[next]',null,true);
+			$urlComponents = parse_url($urlComponents);
+
+			if (array_key_exists('query', $urlComponents)) {
+				parse_str($urlComponents['query']);
+
+				if (isset($until)) {
+					unset($since);
+				}
+			}
 		}
 
-		$param = compact('access_token','limit','since','until');
+		$param = compact('access_token','limit','since','until','__paging_token');
 		$facebook = new Facebook($this->request, array('appId' => '','secret' => ''));
 		$rawResult = $facebook->api($url,$param);
 		$result = is_array($rawResult) && !empty($rawResult) ? new Parameter($rawResult) : new Parameter();
+
+		if (count($result->get('data')) == 0) {
+			$param['until'] = time();
+			unset($param['__paging_token']);
+
+			$facebook = new Facebook($this->request, array('appId' => '','secret' => ''));
+			$rawResult = $facebook->api($url,$param);
+			$result = is_array($rawResult) && !empty($rawResult) ? new Parameter($rawResult) : new Parameter();
+		}
 
 		if ($result->get('paging') && $result->get('data')) {
 			// TODO: Save the forum data via another CRON
@@ -57,6 +75,6 @@ class ControllerCron extends ControllerBase
 			ModelBase::factory('Batch')->createBatch($access_token,compact('data','next','previous'));
 		}
 
-		return $this->renderJson(array('success' => count($result->get('data')) > 0));
+		return $this->renderJson(array('success' => count($result->get('data')) > 0,'data' => $rawResult));
 	}
 }
