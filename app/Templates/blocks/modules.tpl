@@ -7,7 +7,7 @@
 
 	<div class="span4">
 		<h4><i class="icon-group"></i> Komunitas</h4>
-		<p>Bergabunglah dengan komunitas kami yang terdiri dari ribuan pengembang PHP se-indonesia, dan perluas jaringan anda melalui diskusi dan temu sapa di kota anda.</p><a href="/" class="btn btn-small">Lihat forum dan jadwal temu sapa</a>
+		<p>Bergabunglah dengan komunitas kami yang terdiri dari ribuan pengembang PHP se-indonesia, dan perluas jaringan anda melalui diskusi dan temu sapa di kota anda.</p><a href="/community" class="btn btn-small">Lihat forum dan jadwal temu sapa</a>
 	</div>
 
 	<div class="span4">
