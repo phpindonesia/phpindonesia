@@ -175,3 +175,24 @@ $('.markdown-editor-standalone').markdown({
 	},
 })
 {% endif %}
+$('.resource-loader').click(function(){
+	var that = $(this),
+		resetText = that.html()
+
+	that.html(that.data('loading-text'));
+
+	$.ajax({
+		type:'POST',
+		url:'/provider/resources',
+		data: that.data(),
+		success:function(res){
+			if (res.success) {
+				that.data('page',that.data('page')+1)
+				$(document).find('tbody').append(res.data)
+				that.html(resetText)
+			} else {
+				that.remove();
+			}
+		}
+	});
+})

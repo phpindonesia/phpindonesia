@@ -6,10 +6,10 @@
 	{% endif %}
 	</h4>
 	</thead>
+	<tbody>
 	{% if articles is not empty %}
 	{% for article in articles %}
 
-	<tbody>
 	<tr>
 		{% if withoutAvatar == false %}
 		<td class="span1"><img src="{{ article.Uid|toUserAvatar }}?d=retro" class="img-polaroid" /></td>

@@ -6,10 +6,10 @@
 	{% endif %}
 	</h4>
 	</thead>
+	<tbody>
 	{% if users is not empty %}
 	{% for pengguna in users %}
 
-	<tbody>
 	<tr>
 		<td class="span1"><img src="{{ pengguna.Avatar }}?d=retro" class="img-polaroid" /></td>
 		<td><a href="/user/profile/{{ pengguna.Uid }}"><strong>{{ pengguna.Name }}</strong></a><br/><blockquote><small>{{ pengguna.Signature|striptags }}</small></blockquote></td>

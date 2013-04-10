@@ -15,5 +15,9 @@
 {% endblock %}
 
 {% block content %} 
+	{% include "blocks/list/post.tpl" %}
+	<a href="/community/post"><i class="icon icon-th-list"></i> Semua Post</a>
+	<hr/>
 	{% include "blocks/list/user.tpl" %} 
+	<a href="/user"><i class="icon icon-th-list"></i> Semua Pengguna</a>
 {% endblock %}
