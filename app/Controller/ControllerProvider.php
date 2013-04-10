@@ -9,6 +9,7 @@
 namespace app\Controller;
 
 use app\Model\ModelBase;
+use app\Model\ModelTemplate;
 use app\Acl;
 
 /**
@@ -18,6 +19,39 @@ use app\Acl;
  */
 class ControllerProvider extends ControllerBase
 {
+	/**
+	 * Handler untuk GET/POST /provider/resources
+	 */
+	public function actionResources() {
+		$success = false;
+		$data = NULL;
+
+		if ($this->request->isXmlHttpRequest()) {
+			$filter = array();
+			$resource = $this->data->get('postData[resource]','',true);
+			$query = $this->data->get('postData[query]','',true);
+			$page = $this->data->get('postData[page]','',true);
+
+			if ($page > 1) {
+				switch ($resource) {
+					case 'post':
+						if ( ! empty($query)) {
+							$filter = array(
+								array('column' => 'Title', 'value' => '%'.$query.'%', 'chainOrStatement' => TRUE),
+							);
+						}
+
+						$posts = ModelBase::factory('Node')->getAllpost(7, $page, $filter);
+						$success = count($posts);
+						$data = ModelTemplate::render('blocks/list/tr_post.tpl', compact('posts'));
+						break;
+				}
+			}
+		}
+
+		return $this->renderJson(compact('success','data'));
+	}
+
 	/**
 	 * Handler untuk GET/POST /provider/article
 	 */

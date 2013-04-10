@@ -53,8 +53,10 @@ class ModelTemplate extends ModelBase
             new Twig_SimpleFilter('toUserAvatar', array(__CLASS__, 'getUserAvatarFromId')),
             new Twig_SimpleFilter('displayEditor', array(__CLASS__, 'parseEditor')),
             new Twig_SimpleFilter('displayArticleBody', array(__CLASS__, 'parseDocument')),
+            new Twig_SimpleFilter('displayPostBody', array(__CLASS__, 'parseDocument')),
             new Twig_SimpleFilter('displayMarkdown', array(__CLASS__, 'parseMd')),
             new Twig_SimpleFilter('displayLinkNewArticle', array(__CLASS__, 'parseLinkNewArticle')),
+            new Twig_SimpleFilter('displayLinkNewPost', array(__CLASS__, 'parseLinkNewPost')),
         );
 
         // Register filter
@@ -210,6 +212,23 @@ class ModelTemplate extends ModelBase
         return $this->prepareData($data, $otherData);
     }
 
+     /**
+     * Provider untuk template CommunityPost
+     *
+     * @param array $otherData Data dari model lain
+     *
+     * @return array $finalData
+     * @see ModelTemplate::finalData
+     */
+    public function getComPostData($otherData = array()) {
+        $data = array(
+            'title' => 'Forum',
+            'content' => NULL,
+        );
+
+        return $this->prepareData($data, $otherData);
+    }
+
     /**
      * Provider untuk template Auth
      *
@@ -343,15 +362,26 @@ class ModelTemplate extends ModelBase
         return $markdownParser->transformMarkdown($markdown);
     }
 
-     /**
+    /**
      * Custom Twig filter untuk mendisplay link artikel baru
      *
      * @param bool Acl status
      * @return string Parsed anchor link
      * @codeCoverageIgnore
      */
-    public static function parseLinkNewArticle($allowWriteArticle) {
+    public static function parseLinkNewArticle($allowWriteArticle = false) {
         return $allowWriteArticle ? '<hr/><a href="/community/article?new=true" class="btn btn-primary btn-large">Tulis Artikel</a>' : '';
+    }
+
+    /**
+     * Custom Twig filter untuk mendisplay link post baru
+     *
+     * @param bool Acl status
+     * @return string Parsed anchor link
+     * @codeCoverageIgnore
+     */
+    public static function parseLinkNewPost($allowWritePost = false) {
+        return $allowWritePost ? '<hr/><a href="/community/post?new=true" class="btn btn-primary btn-large">Tulis Post Baru</a>' : '';
     }
 
     /**

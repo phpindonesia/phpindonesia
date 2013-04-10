@@ -18,7 +18,7 @@ use app\Model\ModelBase;
  * @author PHP Indonesia Dev
  * @AclDriver(
  *	name="Community",
- * 	availableActions={"article","forum"},
+ * 	availableActions={"article","post"},
  *	config={
  *
  *		"article"={
@@ -27,7 +27,7 @@ use app\Model\ModelBase;
  *			Acl::EDIT="owner,editor,admin",
  *			Acl::DELETE="admin"},
  *
- *		"forum"={
+ *		"post"={
  *			Acl::READ="all",
  *			Acl::WRITE="member,editor,admin",
  *			Acl::EDIT="owner,admin",
@@ -64,6 +64,9 @@ class ControllerCommunity extends ControllerBase
 		// Cek ACL
 		if ($this->acl->isAllowed(Acl::WRITE, null, 'article')) $this->data->set('allowWriteArticle', true);
 
+		// Inisialisasi post/forum section
+		$posts = ModelBase::factory('Node')->getAllPost(5);
+
 		// Inisialisasi article section
 		$articles = ModelBase::factory('Node')->getAllArticle(5);
 
@@ -91,12 +94,85 @@ class ControllerCommunity extends ControllerBase
 
 		$searchQuery = $query;
 
-		$users = ModelBase::factory('User')->getAllUser(7, $page, $filter);
-		$pagination = ModelBase::buildPagination($users,'PhpidUsersQuery', $filter, $page, 7);
+		$users = ModelBase::factory('User')->getAllUser(3, $page, $filter);
+		$pagination = ModelBase::buildPagination($users,'PhpidUsersQuery', $filter, $page, 3);
 
 		// Template configuration
 		$this->layout = 'modules/community/index.tpl';
-		$data = ModelBase::factory('Template')->getComIndexData(compact('articles','users','listTitle', 'listPage','pagination','searchQuery'));
+		$data = ModelBase::factory('Template')->getComIndexData(compact('posts','articles','users','listTitle', 'listPage','pagination','searchQuery'));
+
+		// Render
+		return $this->render($data);
+	}
+
+	/**
+	 * Handler untuk GET/POST /post [a.k.a FORUM]
+	 */
+	public function actionPost() {
+		// Inisialisasi
+		$id = $this->request->get('id');
+		$this->data->set('parseCode', true);
+
+		// Cek ACL
+		if ($this->acl->isAllowed(Acl::WRITE, $id)) $this->data->set('allowWriteArticle', true);
+		if ($this->acl->isAllowed(Acl::EDIT, $id)) $this->data->set('allowEditor', true);
+
+		if ($this->data->get('getData[new]','false',true) == 'true') {
+			$this->data->set('allowEditor', true);
+			$isList = true;
+			$editorTitle = 'Buat Post';
+			$editor = ModelBase::buildEditor('/provider/post','Masukkan judul tulisan','/community/post');
+			$data = ModelBase::factory('Template')->getComPostData(compact('isList', 'editorTitle', 'editor'));
+		} elseif (empty($id)) {
+			// Inisialisasi post section
+			$isList = true;
+			$listTitle = 'Semua Post';
+			$page = $this->data->get('getData[page]',1,true);
+			$query = $this->data->get('getData[query]','',true);
+			$filter = array();
+
+			if ($_POST && isset($_POST['query'])) {
+				$query = $_POST['query'];
+
+				// Reset page
+				$page = 1;
+			}
+
+			if ( ! empty($query)) {
+				$listTitle = 'Pencarian "'.$query.'"';
+
+				$filter = array(
+					array('column' => 'Title', 'value' => '%'.$query.'%', 'chainOrStatement' => TRUE),
+				);
+			}
+
+			$searchQuery = $query;
+
+			$posts = ModelBase::factory('Node')->getAllpost(7, $page, $filter);
+
+			// Tambahkan filter post
+			$filter[] = array('column' => 'Type', 'value' => 'post');
+			$pagination = ModelBase::buildPagination($posts,'PhpidNodeQuery', $filter, $page, 10);
+
+			$data = ModelBase::factory('Template')->getComPostData(compact('isList','posts','listTitle','listPage','pagination','searchQuery'));
+		} else {
+			// Detail post
+			$isList = false;
+
+			$post = ModelBase::factory('Node')->getPost($id);
+
+			if ( ! $post->get('Nid')) {
+				throw new \RuntimeException('Post tidak dapat ditemukan');
+			}
+
+			$title = strip_tags($post->get('previewText'));
+			$posts = ModelBase::factory('Node')->getAllpost(5);
+
+			$data = ModelBase::factory('Template')->getComPostData(compact('title','isList','posts', 'post'));
+		}
+
+		// Template configuration
+		$this->layout = 'modules/community/post.tpl';
 
 		// Render
 		return $this->render($data);
