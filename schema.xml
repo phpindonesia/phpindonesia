@@ -434,6 +434,12 @@
     <index name="comment_created">
       <index-column name="created"/>
     </index>
+    <foreign-key foreignTable="phpid_node">
+      <reference local="nid" foreign="nid"/>
+    </foreign-key>
+    <foreign-key foreignTable="phpid_users">
+      <reference local="uid" foreign="uid"/>
+    </foreign-key>
   </table>
   <table name="phpid_ctools_css_cache" phpName="PhpidCtoolsCssCache" idMethod="native">
     <column name="cid" phpName="Cid" type="VARCHAR" size="128" primaryKey="true" required="true"/>
@@ -1509,10 +1515,12 @@
   <table name="phpid_node" phpName="PhpidNode" idMethod="native">
     <column name="nid" phpName="Nid" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="vid" phpName="Vid" type="INTEGER" size="10" sqlType="int(10) unsigned" required="false"/>
+    <column name="signature" phpName="Signature" type="VARCHAR" size="32" required="false" defaultValue=""/>
     <column name="type" phpName="Type" type="VARCHAR" size="32" required="true" defaultValue=""/>
     <column name="language" phpName="Language" type="VARCHAR" size="12" required="true" defaultValue=""/>
     <column name="title" phpName="Title" type="VARCHAR" size="255" required="true" defaultValue=""/>
     <column name="uid" phpName="Uid" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="60" required="false" defaultValue=""/>
     <column name="status" phpName="Status" type="INTEGER" required="true" defaultValue="1"/>
     <column name="created" phpName="Created" type="INTEGER" required="true" defaultValue="0"/>
     <column name="changed" phpName="Changed" type="INTEGER" required="true" defaultValue="0"/>
