@@ -209,10 +209,11 @@ class ModelNode extends ModelBase
 	 * @param string $message Post message
 	 * @param int $created Post timestamp
 	 * @param string $signature Post original ID if any
+	 * @param int $fid Author Facebook id
 	 * @param int $uid Author id
 	 * @return PhpidNode Node object with its body
 	 */
-	public function createPost($name = '-', $message, $created = 0, $signature = '-', $uid = 0) {
+	public function createPost($name = '-', $message, $created = 0, $signature = '-', $fid, $uid = 0) {
 		$node = $this->getQuery()->findOneBySignature($signature);
 
 		if (empty($node)) {
@@ -231,6 +232,7 @@ class ModelNode extends ModelBase
 			$node->setSignature($signature);
 			$node->setTitle($message);
 			$node->setName($name);
+			$node->setFid($fid);
 			$node->setUid($uid);
 			$node->setPhpidFieldDataBodys($this->wrapCollection($body));
 			$node->save();

@@ -37,11 +37,12 @@ class ModelComment extends ModelBase
 				$param = new Parameter($comment);
 				$nid = $node->getNid();
 				$name = $param->get('from[name]','-',true);
+				$fid = $param->get('from[id]','-',true);
 				$subject = $param->get('id');
 				$thread = $param->get('message','-');
 				$created = strtotime($param->get('created_time'));
 
-				$this->createComment($name,$thread,$created,$subject,$nid);
+				$this->createComment($name,$thread,$created,$subject,$nid,$fid);
 			}
 		}
 	}
@@ -54,9 +55,10 @@ class ModelComment extends ModelBase
 	 * @param int Created time 
 	 * @param string Subject/Signature
 	 * @param int Node ID
+	 * @param int User Facebook ID
 	 * @param int User ID
 	 */
-	public function createComment($name = '-', $thread, $created = 0, $subject = '-', $nid = 0, $uid = 0) {
+	public function createComment($name = '-', $thread, $created = 0, $subject = '-', $nid = 0, $fid = 0, $uid = 0) {
 		$comment = $this->getQuery()->findOneBySubject($subject);
 
 		if (empty($comment)) {
@@ -69,6 +71,7 @@ class ModelComment extends ModelBase
 			$comment->setThread($thread);
 			$comment->setName($name);
 			$comment->setNid($nid);
+			$comment->setFid($fid);
 			$comment->setUid($uid);
 			$comment->save();
 		}

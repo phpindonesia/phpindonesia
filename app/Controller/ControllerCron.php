@@ -95,10 +95,11 @@ class ControllerCron extends ControllerBase
 				$param = new Parameter($post);
 				$signature = $param->get('id');
 				$name = $param->get('from[name]','-',true);
+				$fid = $param->get('from[id]','-',true);
 				$message = htmlentities($param->get('message'));
 				$created = strtotime($param->get('created_time'));
 
-				$node = ModelBase::factory('Node')->createPost($name, $message, $created, $signature);
+				$node = ModelBase::factory('Node')->createPost($name, $message, $created, $signature, $fid);
 
 				// Ambil komentar jika ada
 				if ($param->get('comments[count]',0,true) > 0) {
@@ -117,5 +118,39 @@ class ControllerCron extends ControllerBase
 		}
 
 		return $this->renderJson(array('success' => $success,'bid'=>$id));
+	}
+
+	/**
+	 * Handler untuk GET/POST /cron/migratefid
+	 * @codeCoverageIgnore
+	 */
+	public function actionMigratefid() {
+		$processed = 0;
+		$users = ModelBase::factory('User')->getQuery()->find();
+
+		foreach ($users as $user) {
+			$userCustomData = $user->getData();
+
+			$streamName = (string) $userCustomData;
+
+			if (ModelBase::$stream->has($streamName)) {
+				$userDataSerialized = ModelBase::$stream->get($streamName);
+			} else {
+				$userDataSerialized = @stream_get_contents($userCustomData);
+				ModelBase::$stream->set($streamName, $userDataSerialized);
+			}
+
+			if ($userDataSerialized) {
+				$userData = new Parameter(unserialize($userDataSerialized));
+
+				if ($userData->get('fb_uid')) {
+					$processed++;
+					$user->setFid($userData->get('fb_uid'));
+					$user->save();
+				}
+			}
+		}
+
+		return $this->renderJson(array('success' => count($processed) > 0,'processed'=>$processed));
 	}
 }
