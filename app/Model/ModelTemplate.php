@@ -51,6 +51,7 @@ class ModelTemplate extends ModelBase
             new Twig_SimpleFilter('toUserName', array(__CLASS__, 'getUserNameFromId')),
             new Twig_SimpleFilter('toUserFullName', array(__CLASS__, 'getUserFullnameFromId')),
             new Twig_SimpleFilter('toUserAvatar', array(__CLASS__, 'getUserAvatarFromId')),
+            new Twig_SimpleFilter('toUserUniversalProfile', array(__CLASS__, 'getUserProfileFromCollection')),
             new Twig_SimpleFilter('toDate', array(__CLASS__, 'getDateFromUnix')),
             new Twig_SimpleFilter('displayEditor', array(__CLASS__, 'parseEditor')),
             new Twig_SimpleFilter('displayArticleBody', array(__CLASS__, 'parseDocument')),
@@ -301,6 +302,45 @@ class ModelTemplate extends ModelBase
         }
 
         return $avatar;
+    }
+
+     /**
+     * Custom Twig filter untuk mendapat link user profile (atau FB)
+     *
+     * @param mixed (array or Parameter)
+     * @return string Anchor profile
+     * @codeCoverageIgnore
+     */
+    public static function getUserProfileFromCollection($collection) {
+        $collection =  (is_array($collection)) ? new Parameter($collection) : $collection;
+        $uid = $collection->get('Uid');
+        $fid = $collection->get('Fid');
+        $name = $collection->get('Name');
+
+        $target = '';
+        $profileLink = '#!';
+
+        // External account (FB)
+        if (!empty($fid)) {
+            $target = '_blank';
+            $profileLink = '//www.facebook.com/'.$fid;
+            $user = ModelBase::factory('User')->getQuery()->findOneByFid($fid);
+
+            if ( ! empty($user)) {
+                $uid = $user->getUid();
+            }
+        }
+
+        // Found UID?
+        if (!empty($uid)) {
+            $target = '';
+            $profileLink = '/user/profile/'.$uid;
+        }
+
+       
+
+        // Check for uid
+        return '<a href="'.$profileLink.'" target="'.$target.'">'.$name.'</a>';
     }
 
     /**
