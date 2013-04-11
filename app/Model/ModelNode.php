@@ -46,7 +46,7 @@ class ModelNode extends ModelBase
 		$nodeData = (empty($node) || (!empty($node) && $node->getType() !== $type)) ? new Parameter() : $this->$method($node);
 
 		// Check ref entities
-		if ( ! empty($with)) {
+		if ( ! empty($with) && ! empty($node)) {
 			foreach ($with as $key => $value) {
 				$entityDispatcher = self::GET . $value;
 				$nodeData->set($key, $node->$entityDispatcher());
