@@ -403,7 +403,7 @@
     <column name="pid" phpName="Pid" type="INTEGER" required="true" defaultValue="0"/>
     <column name="nid" phpName="Nid" type="INTEGER" required="true" defaultValue="0"/>
     <column name="uid" phpName="Uid" type="INTEGER" required="true" defaultValue="0"/>
-    <column name="fid" phpName="Fid" type="INTEGER" size="10" sqlType="int(10)" required="true" defaultValue="0"/>
+    <column name="fid" phpName="Fid" type="INTEGER" size="15" sqlType="int(15)" required="true" defaultValue="0"/>
     <column name="subject" phpName="Subject" type="VARCHAR" size="64" required="true" defaultValue=""/>
     <column name="hostname" phpName="Hostname" type="VARCHAR" size="128" required="true" defaultValue=""/>
     <column name="created" phpName="Created" type="INTEGER" required="true" defaultValue="0"/>
@@ -1196,7 +1196,7 @@
     </index>
   </table>
   <table name="phpid_file_managed" phpName="PhpidFileManaged" idMethod="native">
-    <column name="fid" phpName="Fid" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="fid" phpName="Fid" type="INTEGER" size="15" sqlType="int(15) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="uid" phpName="Uid" type="INTEGER" size="10" sqlType="int(10) unsigned" required="true" defaultValue="0"/>
     <column name="filename" phpName="Filename" type="VARCHAR" size="255" required="true" defaultValue=""/>
     <column name="uri" phpName="Uri" type="VARCHAR" size="255" required="true" defaultValue=""/>
@@ -1218,7 +1218,7 @@
     </index>
   </table>
   <table name="phpid_file_usage" phpName="PhpidFileUsage" idMethod="native">
-    <column name="fid" phpName="Fid" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" required="true"/>
+    <column name="fid" phpName="Fid" type="INTEGER" size="15" sqlType="int(15) unsigned" primaryKey="true" required="true"/>
     <column name="module" phpName="Module" type="VARCHAR" size="255" primaryKey="true" required="true" defaultValue=""/>
     <column name="type" phpName="Type" type="VARCHAR" size="64" primaryKey="true" required="true" defaultValue=""/>
     <column name="id" phpName="Id" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" required="true" defaultValue="0"/>
@@ -1520,7 +1520,7 @@
     <column name="language" phpName="Language" type="VARCHAR" size="12" required="true" defaultValue=""/>
     <column name="title" phpName="Title" type="VARCHAR" size="255" required="true" defaultValue=""/>
     <column name="uid" phpName="Uid" type="INTEGER" required="true" defaultValue="0"/>
-    <column name="fid" phpName="Fid" type="INTEGER" size="10" sqlType="int(10)" required="true" defaultValue="0"/>
+    <column name="fid" phpName="Fid" type="INTEGER" size="15" sqlType="int(15)" required="true" defaultValue="0"/>
     <column name="name" phpName="Name" type="VARCHAR" size="60" required="false" defaultValue=""/>
     <column name="status" phpName="Status" type="INTEGER" required="true" defaultValue="1"/>
     <column name="created" phpName="Created" type="INTEGER" required="true" defaultValue="0"/>
@@ -1948,7 +1948,7 @@
   </table>
   <table name="phpid_users" phpName="PhpidUsers" idMethod="native">
     <column name="uid" phpName="Uid" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" required="true" defaultValue="0"/>
-    <column name="fid" phpName="Fid" type="INTEGER" size="10" sqlType="int(10)" required="true" defaultValue="0"/>
+    <column name="fid" phpName="Fid" type="INTEGER" size="15" sqlType="int(15)" required="true" defaultValue="0"/>
     <column name="name" phpName="Name" type="VARCHAR" size="60" required="true" defaultValue=""/>
     <column name="pass" phpName="Pass" type="VARCHAR" size="128" required="true" defaultValue=""/>
     <column name="mail" phpName="Mail" type="VARCHAR" size="320" required="false" defaultValue=""/>
