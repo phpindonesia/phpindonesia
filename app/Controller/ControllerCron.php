@@ -87,13 +87,13 @@ class ControllerCron extends ControllerBase
 		if ($this->request->isMethod('GET')) {
 			// Serve FB verification
 			$mode = $this->data->get('getData[hub_mode]','undefined',true);
-			$challange = $this->data->get('getData[hub_challange]','undefined',true);
+			$challenge = $this->data->get('getData[hub_challenge]','undefined',true);
 			$token = $this->data->get('getData[hub_verify_token]','undefined',true);
 
 
 			if ($token == self::FB_VERIFY_TOKEN) {
 				// This call really came from Facebook
-				die($challange);
+				die($challenge);
 			}
 		} elseif ($this->request->isMethod('POST')) {
 			// Accept the payload
