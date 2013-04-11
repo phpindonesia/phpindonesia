@@ -409,7 +409,7 @@
     <column name="created" phpName="Created" type="INTEGER" required="true" defaultValue="0"/>
     <column name="changed" phpName="Changed" type="INTEGER" required="true" defaultValue="0"/>
     <column name="status" phpName="Status" type="TINYINT" size="3" sqlType="tinyint(3) unsigned" required="true" defaultValue="1"/>
-    <column name="thread" phpName="Thread" type="VARCHAR" size="255" required="true"/>
+    <column name="thread" phpName="Thread" type="CLOB" required="true"/>
     <column name="name" phpName="Name" type="VARCHAR" size="60" required="false"/>
     <column name="mail" phpName="Mail" type="VARCHAR" size="64" required="false"/>
     <column name="homepage" phpName="Homepage" type="VARCHAR" size="255" required="false"/>
@@ -423,7 +423,6 @@
       <index-column name="status"/>
       <index-column name="created"/>
       <index-column name="cid"/>
-      <index-column name="thread"/>
     </index>
     <index name="comment_uid">
       <index-column name="uid"/>

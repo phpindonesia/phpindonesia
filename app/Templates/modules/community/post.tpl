@@ -26,5 +26,6 @@
 		{% endif %}
 	{% else %}
 		{% include "blocks/detail/post.tpl" %} 
+		{% include "blocks/list/comment.tpl" %} 
 	{% endif %}
 {% endblock %}

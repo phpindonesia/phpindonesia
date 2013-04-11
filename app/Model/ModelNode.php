@@ -19,6 +19,7 @@ use app\Parameter;
  */
 class ModelNode extends ModelBase 
 {
+	const GET = 'get';
 	const NODE_EXTRACT = 'extract';
 	protected $entity = 'PhpidNode';
 	protected $query = 'PhpidNodeQuery';
@@ -28,19 +29,31 @@ class ModelNode extends ModelBase
 	 *
 	 * @param int Node id
 	 * @param string Node Type
+	 * @param array Node Reference entities
 	 *
 	 * @return Parameter
 	 */
-	public function getNode($id, $type = 'article') {
+	public function getNode($id, $type = 'article',$with = array()) {
 		// Silly
 		if (empty($id)) return false;
 
 		// Get node
 		$node = $this->getQuery()->findPK($id);
+
 		$method = self::NODE_EXTRACT.ucfirst($type);
 
 		// Extract
-		return (empty($node) || (!empty($node) && $node->getType() !== $type)) ? new Parameter() : $this->$method($node);
+		$nodeData = (empty($node) || (!empty($node) && $node->getType() !== $type)) ? new Parameter() : $this->$method($node);
+
+		// Check ref entities
+		if ( ! empty($with)) {
+			foreach ($with as $key => $value) {
+				$entityDispatcher = self::GET . $value;
+				$nodeData->set($key, $node->$entityDispatcher());
+			}
+		}
+
+		return $nodeData;
 	}
 
 	/**
@@ -166,11 +179,12 @@ class ModelNode extends ModelBase
 	 * Fetch one Node post
 	 *
 	 * @param int Node id
+	 * @param bool With comments
 	 *
 	 * @return Parameter
 	 */
-	public function getPost($id) {
-		return $this->getNode($id,'post');
+	public function getPost($id, $withComment = false) {
+		return $this->getNode($id,'post',$withComment ? array('comments' => 'PhpidComments') : array());
 	}
 
 	/**

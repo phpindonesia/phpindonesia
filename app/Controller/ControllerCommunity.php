@@ -159,16 +159,18 @@ class ControllerCommunity extends ControllerBase
 			// Detail post
 			$isList = false;
 
-			$post = ModelBase::factory('Node')->getPost($id);
+			$post = ModelBase::factory('Node')->getPost($id,true);
 
 			if ( ! $post->get('Nid')) {
 				throw new \RuntimeException('Post tidak dapat ditemukan');
 			}
 
+			// Ambil comments data
+			$comments = $post->get('comments') instanceof \PropelObjectCollection ? $post->get('comments')->toArray() : array();
 			$title = strip_tags($post->get('previewText'));
 			$posts = ModelBase::factory('Node')->getAllpost(5);
 
-			$data = ModelBase::factory('Template')->getComPostData(compact('title','isList','posts', 'post'));
+			$data = ModelBase::factory('Template')->getComPostData(compact('title','isList','posts', 'post','comments'));
 		}
 
 		// Template configuration

@@ -51,6 +51,7 @@ class ModelTemplate extends ModelBase
             new Twig_SimpleFilter('toUserName', array(__CLASS__, 'getUserNameFromId')),
             new Twig_SimpleFilter('toUserFullName', array(__CLASS__, 'getUserFullnameFromId')),
             new Twig_SimpleFilter('toUserAvatar', array(__CLASS__, 'getUserAvatarFromId')),
+            new Twig_SimpleFilter('toDate', array(__CLASS__, 'getDateFromUnix')),
             new Twig_SimpleFilter('displayEditor', array(__CLASS__, 'parseEditor')),
             new Twig_SimpleFilter('displayArticleBody', array(__CLASS__, 'parseDocument')),
             new Twig_SimpleFilter('displayPostBody', array(__CLASS__, 'parseDocument')),
@@ -300,6 +301,17 @@ class ModelTemplate extends ModelBase
         }
 
         return $avatar;
+    }
+
+    /**
+     * Custom Twig filter untuk mendapat tanggal
+     *
+     * @param int ID (UNIX Timestamp)
+     * @return string
+     * @codeCoverageIgnore
+     */
+    public static function getDateFromUnix($ts) {
+        return date('d M, Y',$ts);
     }
 
     /**
