@@ -20,6 +20,7 @@ use app\Facebook;
 class ControllerCron extends ControllerBase
 {
 	const FB_GROUP_ID = '35688476100';
+	const FB_VERIFY_TOKEN = 'f4c3b00k';
 
 	/**
 	 * Handler untuk GET/POST /cron/fb
@@ -76,6 +77,31 @@ class ControllerCron extends ControllerBase
 		}
 
 		return $this->renderJson(array('success' => count($result->get('data')) > 0,'data' => $rawResult));
+	}
+
+	/**
+	 * Handler untuk GET/POST /cron/acceptfbpayload
+	 * @codeCoverageIgnore
+	 */
+	public function actionAcceptfbpayload() {
+		if ($this->request->isMethod('GET')) {
+			// Serve FB verification
+			$mode = $this->data->get('getData[hub_mode]','undefined',true);
+			$challange = $this->data->get('getData[hub_challange]','undefined',true);
+			$token = $this->data->get('getData[hub_verify_token]','undefined',true);
+
+
+			if ($token == self::FB_VERIFY_TOKEN) {
+				// This call really came from Facebook
+				die($challange);
+			}
+		} elseif ($this->request->isMethod('POST')) {
+			// Accept the payload
+			$payloadJson = $this->request->getContent();
+			file_put_contents(CACHE_PATH . DIRECTORY_SEPARATOR . 'fb.log', $payloadJson);
+		}
+
+		return $this->renderJson(array('success' => $success));
 	}
 
 	/**
