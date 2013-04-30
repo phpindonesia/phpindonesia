@@ -30,7 +30,8 @@ class ControllerHome extends ControllerBase
 
 		// Template configuration
 		$this->layout = 'modules/home/index.tpl';
-		$data = ModelBase::factory('Template')->getHomeData();
+		$events = ModelBase::factory('Wakuwakuw', new \app\Parameter())->getMeetups();
+		$data = ModelBase::factory('Template')->getHomeData(compact('events'));
 
 		// Render
 		return $this->render($data);
