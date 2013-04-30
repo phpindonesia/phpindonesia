@@ -39,7 +39,7 @@ class ModelWakuwakuw extends ModelBase
      * Get all valid meetups
      */
     public function getMeetups() {
-        $response = $this->getData(self::API_URL.'event', array('community' => 'developer'));
+        $response = $this->getData(self::API_URL.'event', array('community' => 'phpindonesia'));
 
         if ($response->get('result') == false || strpos($response->get('body'),'data')===false) {
             return false;
