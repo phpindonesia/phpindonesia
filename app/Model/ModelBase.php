@@ -25,6 +25,7 @@ class ModelBase
 	const ORM = 'Orm';
 	protected $inspector;
 	static $stream = false;
+	static $req = false;
 
 	/**
 	 * Constructor
