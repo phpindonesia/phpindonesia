@@ -232,6 +232,197 @@ class ModelBase
 	 }
 
 	 /**
+	 * POST an API JSON data
+	 *
+	 * @param string $url
+	 * @param array $data
+	 * @return Parameter
+	 * @throws RuntimeException
+	 */
+	public function postJsonData($url, $jsonData) {
+		 try {
+			// Start output buffer
+			ob_start();
+
+			//open connection
+			static::$req = curl_init();
+
+			$opt[] = array(
+				CURLOPT_URL => $url,
+				CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
+				CURLOPT_RETURNTRANSFER => 1,
+				CURLOPT_FOLLOWLOCATION => TRUE,
+				CURLOPT_VERBOSE => TRUE,
+				CURLOPT_POSTFIELDS => $jsonData,
+				CURLOPT_POST => 1,
+			);
+
+			$this->setRequestOption($opt);
+
+			//Execute post
+			$result = $this->executeRequest();
+
+			//close connection
+			curl_close(static::$req);
+
+			// Capture the buffer and assign into content holder
+			$result->set('body',ob_get_clean());
+		} catch (\Exception $e) {
+			throw new \RuntimeException('cURL POST error');
+		}
+
+		return $result;
+	}
+
+	/**
+	 * POST an API data
+	 *
+	 * @param string $url
+	 * @param array $data
+	 * @param array $opt
+	 * @return Parameter
+	 * @throws RuntimeException
+	 */
+	public function postData($url, $data, $opt = array()) {
+		 try {
+			// Start output buffer
+			ob_start();
+
+			//open connection
+			static::$req = curl_init();
+
+			$opt[] = array(
+				CURLOPT_URL => $url,
+				CURLOPT_POSTFIELDS => http_build_query($data),
+			);
+
+			$this->setRequestOption($opt);
+
+			//Execute post
+			$result = $this->executeRequest();
+
+			//close connection
+			curl_close(static::$req);
+
+			// Capture the buffer and assign into content holder
+			$result->set('body', ob_get_clean());
+		} catch (\Exception $e) {
+			throw new \RuntimeException('cURL POST error');
+		}
+
+		return $result;
+	}
+
+	/**
+	 * GET an API data
+	 *
+	 * @param string $url
+	 * @param array $data
+	 * @param array $opt
+	 * @return Parameter
+	 * @throws Exception
+	 */
+	public function getData($url, $data, $opt = array()) {
+		$url .= '?'.http_build_query($data);
+
+		try {
+			// Start output buffer
+			ob_start();
+
+			//open connection
+			static::$req = curl_init();
+
+			$opt[] = array(
+				CURLOPT_URL => $url,
+			);
+
+			$this->setRequestOption($opt);
+
+			//Execute post
+			$result = $this->executeRequest();
+
+			//close connection
+			curl_close(static::$req);
+
+			// Capture the buffer and assign into content holder
+			$result->set('body',ob_get_clean());
+		} catch (\Exception $e) {
+			throw new \RuntimeException('cURL GET error');
+		}
+
+		return $result;
+	}
+
+	/**
+	 * DELETE an API data
+	 *
+	 * @param string $url
+	 * @param array $opt
+	 * @return int HTTP Code
+	 * @throws Exception
+	 */
+	public function removeData($url, $opt = array()) {
+		try {
+			// Start output buffer
+			ob_start();
+
+			//open connection
+			static::$req = curl_init();
+
+			$opt[] = array(
+				CURLOPT_URL => $url,
+				CURLOPT_CUSTOMREQUEST => "DELETE",
+			);
+
+			$this->setRequestOption($opt);
+
+			//Execute post
+			$result = $this->executeRequest();
+			$httpCode = curl_getinfo(static::$req, CURLINFO_HTTP_CODE);
+
+			//close connection
+			curl_close(static::$req);
+
+			$body = ob_get_clean();
+		} catch (\Exception $e) {
+			throw new \RuntimeException('cURL DELETE error');
+		}
+
+		return $httpCode;
+	}
+
+	/**
+	 * Set cURL options
+	 *
+	 * @param array $opt
+	 */
+	protected function setRequestOption($opt = array()) {
+		krsort($opt);
+		foreach (array_values($opt) as $singleOption) {
+			foreach ($singleOption as $option => $value) {
+				curl_setopt(static::$req, $option, $value);
+			}
+		}
+	}
+
+	/**
+	 * Execute cURL request
+	 *
+	 * @return Parameter
+	 */
+	protected function executeRequest() {
+		// Set the global UA
+		curl_setopt(static::$req,CURLOPT_USERAGENT, "Depending/GH-Service");
+
+		$result  = curl_exec(static::$req);
+		$err     = curl_errno(static::$req); 
+		$errmsg  = curl_error(static::$req) ;
+		$head    = curl_getinfo(static::$req);
+
+		return new Parameter(compact('result', 'err', 'errmsg', 'head'));
+	}
+
+	 /**
 	  * Overide method for gracefully fail bad method
 	  *
 	  * @codeCoverageIgnore
