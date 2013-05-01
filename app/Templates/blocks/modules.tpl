@@ -50,7 +50,7 @@
 		                  <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">
 		                    <div class="accordion-inner">
 		                    <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=14&size=260x150&maptype=roadmap%20&markers=color:green%7Clabel:X%7C{{ event.lat }},{{ event.lng }}%20&sensor=false" title="Location"/><br/><br/>
-		                    <p>{{ event.description }}</p>
+		                    <p>{{ event.description|raw }}</p>
 		                    </div>
 		                  </div>
 		                </div>

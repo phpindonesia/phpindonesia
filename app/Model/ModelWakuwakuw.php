@@ -82,7 +82,7 @@ class ModelWakuwakuw extends ModelBase
                 'lng' => $event['lng'],
                 'eid' => $event['id'],
                 'title' => $event['title'],
-                'description' => $event['description'],
+                'description' => nl2br($event['description']),
                 'confirmed' => $confirmed,
                 'pending' => $pending,
                 'confirmed_count' => $confirmed_count,
