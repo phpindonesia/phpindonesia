@@ -64,11 +64,12 @@ class ModelWakuwakuw extends ModelBase
             $pending = '';
 
             foreach ($event['guests'] as $guest) {
+                $name = $guest['name'];
                 if ($guest['is_approved']) {
-                    $confirmed .= '<img src="'.self::API_USER_IMG.$guest['user'].'?size=small"/>';
+                    $confirmed .= '<img src="'.self::API_USER_IMG.$guest['user'].'?size=small" title="'.$name.'"/>';
                     $confirmed_count++;
                 } else {
-                    $pending .= '<img src="'.self::API_USER_IMG.$guest['user'].'?size=small"/>';
+                    $pending .= '<img src="'.self::API_USER_IMG.$guest['user'].'?size=small" title="'.$name.'"/>';
                     $pending_count++;
                 }
             }
