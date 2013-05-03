@@ -72,7 +72,7 @@ class ControllerWakuwakuw extends ControllerBase
 		}
 
 		// Update user
-		$wid = $wakuUser->get('id');
+		$wid = $wakuUser->get('wid');
 		$wk_access_token = $accessToken;
 		ModelBase::factory('User')->updateUserData($this->session->get('userId'),compact('wk_access_token','wid'));
 
@@ -108,6 +108,6 @@ class ControllerWakuwakuw extends ControllerBase
 			$this->setAlert('error', 'RSVP gagal!', 0, true);
 		}
 
-		return $this->redirect('/home');
+		return $this->redirect('/wakuwakuw');
 	}
 }
