@@ -27,7 +27,7 @@
 
 	<div class="span4">
 		<div class="well meetup-preview">
-			<h4 class="pull-right"><i class="icon-calendar"></i> Event & Meetup ({{ events|lenght }})</h4>
+			<h4 class="pull-right"><i class="icon-calendar"></i> Event & Meetup ({{ events|length }})</h4>
 			<br class="clear"/>
 			<hr/>
 			<div id="#meetups" class="carousel slide">
