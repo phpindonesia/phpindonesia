@@ -198,6 +198,12 @@ $('.resource-loader').click(function(){
 })
 
 $('.carousel').carousel()
+$('.carousel').mouseenter(function(){
+	$(this).carousel('pause')
+}).mouseleave(function(){
+	$(this).carousel('cycle')
+})
+
 $('.carousel-control').click(function(){
 	$('.carousel').carousel($(this).data('slide'))
 })
