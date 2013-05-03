@@ -31,7 +31,7 @@ class ControllerHome extends ControllerBase
 		// Template configuration
 		$this->layout = 'modules/home/index.tpl';
 		$events = ModelBase::factory('Wakuwakuw', new \app\Parameter(array(
-			'userId' => $this->session->get('userId'),
+			'userId' => isset($this->session) ? $this->session->get('userId') : 0,
 		)))->getMeetups();
 		$data = ModelBase::factory('Template')->getHomeData(compact('events'));
 
