@@ -41,8 +41,12 @@ class ModelWakuwakuw extends ModelBase
      * Get all valid meetups
      */
     public function getMeetups() {
+        $my_id = 0;
         $me = ModelBase::factory('User')->getUser($this->userId);
-        $my_id = (int) $me->get('AdditionalData[wid]',0,true);
+
+        if ($me instanceof Parameter) {
+            $my_id = (int) $me->get('AdditionalData[wid]',0,true);
+        }
 
         $response = $this->getData(self::API_URL.'event', array('community' => 'phpindonesia'));
 
