@@ -24,6 +24,7 @@ class ModelWakuwakuw extends ModelBase
     protected $clientId = '713C11CDEF33B';
     protected $clientSecret = '8913DC472145B285FD38DB631541E';
     protected $scope = 'community,meetup,event';
+    protected $userId = 0;
     protected $accessToken = '';
     protected $redirectUrl = '';
 
@@ -31,6 +32,7 @@ class ModelWakuwakuw extends ModelBase
      * Constructor
      */
     public function __construct(Parameter $params) {
+        $this->userId = $params->get('userId', 0);
         $this->accessToken = $params->get('wakuwakuwToken');
         $this->redirectUrl = $params->get('redirectUrl');
     }
@@ -39,6 +41,9 @@ class ModelWakuwakuw extends ModelBase
      * Get all valid meetups
      */
     public function getMeetups() {
+        $me = ModelBase::factory('User')->getUser($this->session->get('userId'));
+        $my_id = (int) $me->get('AdditionalData[wid]',0,true);
+
         $response = $this->getData(self::API_URL.'event', array('community' => 'phpindonesia'));
 
         if ($response->get('result') == false || strpos($response->get('body'),'data')===false) {
@@ -62,8 +67,13 @@ class ModelWakuwakuw extends ModelBase
             $time = date('d M, H:i', $start).' - '.date('H:i Y', $end);
             $confirmed = '';
             $pending = '';
+            $registered = FALSE;
 
             foreach ($event['guests'] as $guest) {
+                if (((int) $guest['user']) == $my_id) {
+                    $registered = TRUE;
+                }
+
                 $name = $guest['name'];
                 if ($guest['is_approved']) {
                     $confirmed .= '<img src="'.self::API_USER_IMG.$guest['user'].'?size=small" title="'.$name.'"/>';
@@ -87,6 +97,7 @@ class ModelWakuwakuw extends ModelBase
                 'pending' => $pending,
                 'confirmed_count' => $confirmed_count,
                 'pending_count' => $pending_count,
+                'registered' => $registered,
             );
 
             if (!$init) $init = true;
