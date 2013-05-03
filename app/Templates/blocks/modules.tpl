@@ -82,7 +82,7 @@
 		            <center>
 		            {% if acl.isLogin %}
 		            	{% if event.registered %}
-			            <label class="label-success">Anda sudah RSVP</label>
+			            <label class="label label-success">Anda sudah RSVP</label>
 			            {% else %}
 			            <a href="/wakuwakuw/rsvp/{{ event.eid }}" class="btn btn-small btn-success">RSVP</a>
 			            {% endif %}
