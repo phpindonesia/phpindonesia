@@ -19,6 +19,9 @@ defined('CACHE_PATH') OR define('CACHE_PATH', dirname(__DIR__) . DIRECTORY_SEPAR
 
 require realpath(__DIR__ . '/../vendor/autoload.php');
 
+// Set UTC to Jakarta
+date_default_timezone_set('Asia/Jakarta');
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RequestContext;
