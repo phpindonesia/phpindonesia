@@ -36,14 +36,14 @@
 			  	{% for event in events %}
 			    <div class="{{ event.state }} item">
 					<h4>{{ event.title }}</h4>
-					<div class="accordion" id="accordion-meetup">
+					<div class="accordion" id="accordion-meetup-{{ event.eid }}">
 						<ul class="unstyled">
 					        <li><i class="icon-time pull-left"></i>{{ event.time }}</li>
 					        <li><i class="icon-map-marker pull-left"></i>{{ event.place }}</li>
 					    </ul>
 		                <div class="accordion-group">
 		                  <div class="accordion-heading">
-		                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-meetup" href="#collapseOne">
+		                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-meetup-{{ event.eid }}" href="#collapseOne">
 		                      Deskripsi
 		                    </a>
 		                  </div>
@@ -56,7 +56,7 @@
 		                </div>
 		                <div class="accordion-group">
 		                  <div class="accordion-heading">
-		                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-meetup" href="#collapseTwo">
+		                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-meetup-{{ event.eid }}" href="#collapseTwo">
 		                    Terdaftar <span class="pull-right">({{ event.confirmed_count }})</span>
 		                    </a>
 		                  </div>
@@ -68,7 +68,7 @@
 		                </div>
 		                <div class="accordion-group">
 		                  <div class="accordion-heading">
-		                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-meetup" href="#collapseThree">
+		                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-meetup-{{ event.eid }}" href="#collapseThree">
 		                    RSVP (Pending) <span class="pull-right">({{ event.pending_count }})</span>
 		                    </a>
 		                  </div>
@@ -95,8 +95,8 @@
 			  </div>
 			  <!-- Carousel nav -->
 			  <br class="clear"/>
-			  <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-			  <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+			  <a class="carousel-control left" href="#meetups" data-slide="prev">&lsaquo;</a>
+			  <a class="carousel-control right" href="#meetups" data-slide="next">&rsaquo;</a>
 			</div>
 		</div>
 	</div>

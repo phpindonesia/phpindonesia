@@ -63,6 +63,7 @@ class ModelWakuwakuw extends ModelBase
         $events_data = array();
         $init = false;
         $pending_count = $confirmed_count = 0;
+        krsort($events['data']);
 
         foreach ($events['data'] as $event) {
             // Tanggal
