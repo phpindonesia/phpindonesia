@@ -117,7 +117,9 @@
     <script src="/asset/js/editor.js"></script>
     {% endif %}
     <script>
-    {% include "inline.tpl" %}
+    $(function(){
+        {% include "inline.tpl" %}
+    })
     </script>
 </body>
 </html>

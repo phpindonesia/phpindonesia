@@ -196,3 +196,8 @@ $('.resource-loader').click(function(){
 		}
 	});
 })
+
+$('.carousel').carousel()
+$('.carousel-control').click(function(){
+	$('.carousel').carousel($(this).data('slide'))
+})

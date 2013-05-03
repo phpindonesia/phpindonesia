@@ -43,11 +43,11 @@
 					    </ul>
 		                <div class="accordion-group">
 		                  <div class="accordion-heading">
-		                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-meetup-{{ event.eid }}" href="#collapseOne">
+		                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-meetup-{{ event.eid }}" href="#{{ event.eid }}-collapseOne">
 		                      Deskripsi
 		                    </a>
 		                  </div>
-		                  <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">
+		                  <div id="{{ event.eid }}-collapseOne" class="accordion-body collapse" style="height: 0px; ">
 		                    <div class="accordion-inner">
 		                    <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=14&size=260x150&maptype=roadmap%20&markers=color:green%7Clabel:X%7C{{ event.lat }},{{ event.lng }}%20&sensor=false" title="Location"/><br/><br/>
 		                    <p>{{ event.description|raw }}</p>
@@ -56,11 +56,11 @@
 		                </div>
 		                <div class="accordion-group">
 		                  <div class="accordion-heading">
-		                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-meetup-{{ event.eid }}" href="#collapseTwo">
+		                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion-meetup-{{ event.eid }}" href="#{{ event.eid }}-collapseTwo">
 		                    Terdaftar <span class="pull-right">({{ event.confirmed_count }})</span>
 		                    </a>
 		                  </div>
-		                  <div id="collapseTwo" class="accordion-body collapse" style="height: 0px; ">
+		                  <div id="{{ event.eid }}-collapseTwo" class="accordion-body collapse" style="height: 0px; ">
 		                    <div class="accordion-inner">
 		                    {{ event.confirmed|raw }}
 		                    </div>
@@ -68,11 +68,11 @@
 		                </div>
 		                <div class="accordion-group">
 		                  <div class="accordion-heading">
-		                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-meetup-{{ event.eid }}" href="#collapseThree">
+		                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-meetup-{{ event.eid }}" href="#{{ event.eid }}-collapseThree">
 		                    RSVP (Pending) <span class="pull-right">({{ event.pending_count }})</span>
 		                    </a>
 		                  </div>
-		                  <div id="collapseThree" class="accordion-body collapse">
+		                  <div id="{{ event.eid }}-collapseThree" class="accordion-body collapse">
 		                    <div class="accordion-inner">
 		                    {{ event.pending|raw }}
 		                    </div>
@@ -95,8 +95,8 @@
 			  </div>
 			  <!-- Carousel nav -->
 			  <br class="clear"/>
-			  <a class="carousel-control left" href="#meetups" data-slide="prev">&lsaquo;</a>
-			  <a class="carousel-control right" href="#meetups" data-slide="next">&rsaquo;</a>
+			  <a class="carousel-control left c-prev" href="#meetups" data-slide="prev">&lsaquo;</a>
+			  <a class="carousel-control right c-next" href="#meetups" data-slide="next">&rsaquo;</a>
 			</div>
 		</div>
 	</div>
