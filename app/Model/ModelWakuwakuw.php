@@ -20,7 +20,7 @@ class ModelWakuwakuw extends ModelBase
     const ACCESS_TOKEN_URL = 'https://www.wakuwakuw.com/oauth/access_token';
     const AUTHORIZE_URL = 'https://www.wakuwakuw.com/oauth/authorize';
     const API_URL = 'https://www.wakuwakuw.com/graph/';
-    const API_USER_IMG = 'https://www.wakuwakuw.com/img/user/';
+    const API_USER_IMG = 'http://wakuwakuw.com/img/user/';
     protected $clientId = '713C11CDEF33B';
     protected $clientSecret = '8913DC472145B285FD38DB631541E';
     protected $scope = 'community,meetup,event';
