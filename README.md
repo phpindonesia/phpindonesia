@@ -19,6 +19,12 @@ Untuk menjalankan aplikasi ini, anda membutuhkan web-server dan PHP versi 5.3
 Instalasi
 ---------
 
+Windows :
+
+Ada [tulisan detail dari member yang menjelaskan bagaimana proses instalasi dilakukan di Windows](http://www.facebook.com/groups/35688476100/10151635488776101/).
+
+Unix :
+
 Jika anda belum memiliki direktori yang berisi "Fork" atau "Clone" dari repositori ini, maka pertama-tama anda perlu clone repositori ini :
 
 	git clone git://github.com/phpindonesia/phpindonesia.git
