@@ -62,6 +62,7 @@ class ModelWakuwakuw extends ModelBase
         // Proses event data
         $events_data = array();
         $init = false;
+        $now = time();
         
         krsort($events['data']);
 
@@ -70,6 +71,10 @@ class ModelWakuwakuw extends ModelBase
             // Tanggal
             $start = $event['time_start'];
             $end = $event['time_end'];
+
+            // Skip event yang udah lewat
+            if ($end > $now) continue;
+
             $time = date('d M, H:i', $start).' - '.date('H:i Y', $end);
             $confirmed = '';
             $pending = '';
