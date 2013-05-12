@@ -73,7 +73,7 @@ class ModelWakuwakuw extends ModelBase
             $end = $event['time_end'];
 
             // Skip event yang udah lewat
-            if ($end > $now) continue;
+            if ($end < $now) continue;
 
             $time = date('d M, H:i', $start).' - '.date('H:i Y', $end);
             $confirmed = '';
