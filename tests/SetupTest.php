@@ -6,7 +6,7 @@
  * (c) PHP Indonesia 2013
  */
 
-class SetupTest extends PHPUnit_Framework_TestCase {
+class SetupTest extends PhpindonesiaTestCase {
 
 	/**
 	 * Cek folder app

@@ -11,4 +11,4 @@
 {% block modules %} {% include "blocks/modules.tpl" %} {% endblock %}
 
 {######################## Content ########################}
-{% block content %} {{content}} {% endblock %}
+{% block content %} {{ content }} {% endblock %}

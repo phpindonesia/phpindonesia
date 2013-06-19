@@ -9,7 +9,7 @@
 use app\Controller\ControllerHome;
 use Symfony\Component\HttpFoundation\Request;
 
-class ControllerHomeTest extends PHPUnit_Framework_TestCase {
+class ControllerHomeTest extends PhpindonesiaTestCase {
 
 	/**
 	 * Cek konsistensi controller base instance

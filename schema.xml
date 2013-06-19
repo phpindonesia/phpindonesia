@@ -62,12 +62,18 @@
       <index-column name="nid"/>
     </index>
   </table>
-  <table name="phpid_acl_user" phpName="PhpidAclUser" idMethod="native">
+  <table name="phpid_acl_user" phpName="PhpidAclUser" idMethod="native" isCrossRef="true">
     <column name="acl_id" phpName="AclId" type="INTEGER" primaryKey="true" required="true" defaultValue="0"/>
     <column name="uid" phpName="Uid" type="INTEGER" primaryKey="true" required="true" defaultValue="0"/>
     <index name="uid">
       <index-column name="uid"/>
     </index>
+    <foreign-key foreignTable="phpid_users">
+      <reference local="uid" foreign="uid"/>
+    </foreign-key>
+    <foreign-key foreignTable="phpid_acl">
+      <reference local="acl_id" foreign="acl_id"/>
+    </foreign-key>
   </table>
   <table name="phpid_actions" phpName="PhpidActions" idMethod="native">
     <column name="aid" phpName="Aid" type="VARCHAR" size="255" primaryKey="true" required="true" defaultValue="0"/>
@@ -87,7 +93,7 @@
   </table>
   <table name="phpid_batch" phpName="PhpidBatch" idMethod="native">
     <column name="bid" phpName="Bid" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" required="true"/>
-    <column name="token" phpName="Token" type="VARCHAR" size="64" required="true"/>
+    <column name="token" phpName="Token" type="VARCHAR" size="128" required="true"/>
     <column name="timestamp" phpName="Timestamp" type="INTEGER" required="true"/>
     <column name="batch" phpName="Batch" type="BLOB" required="false"/>
     <index name="token">
@@ -397,12 +403,13 @@
     <column name="pid" phpName="Pid" type="INTEGER" required="true" defaultValue="0"/>
     <column name="nid" phpName="Nid" type="INTEGER" required="true" defaultValue="0"/>
     <column name="uid" phpName="Uid" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="fid" phpName="Fid" type="VARCHAR" size="128" required="true" defaultValue=""/>
     <column name="subject" phpName="Subject" type="VARCHAR" size="64" required="true" defaultValue=""/>
     <column name="hostname" phpName="Hostname" type="VARCHAR" size="128" required="true" defaultValue=""/>
     <column name="created" phpName="Created" type="INTEGER" required="true" defaultValue="0"/>
     <column name="changed" phpName="Changed" type="INTEGER" required="true" defaultValue="0"/>
     <column name="status" phpName="Status" type="TINYINT" size="3" sqlType="tinyint(3) unsigned" required="true" defaultValue="1"/>
-    <column name="thread" phpName="Thread" type="VARCHAR" size="255" required="true"/>
+    <column name="thread" phpName="Thread" type="CLOB" required="true"/>
     <column name="name" phpName="Name" type="VARCHAR" size="60" required="false"/>
     <column name="mail" phpName="Mail" type="VARCHAR" size="64" required="false"/>
     <column name="homepage" phpName="Homepage" type="VARCHAR" size="255" required="false"/>
@@ -416,7 +423,6 @@
       <index-column name="status"/>
       <index-column name="created"/>
       <index-column name="cid"/>
-      <index-column name="thread"/>
     </index>
     <index name="comment_uid">
       <index-column name="uid"/>
@@ -428,6 +434,12 @@
     <index name="comment_created">
       <index-column name="created"/>
     </index>
+    <foreign-key foreignTable="phpid_node">
+      <reference local="nid" foreign="nid"/>
+    </foreign-key>
+    <foreign-key foreignTable="phpid_users">
+      <reference local="uid" foreign="uid"/>
+    </foreign-key>
   </table>
   <table name="phpid_ctools_css_cache" phpName="PhpidCtoolsCssCache" idMethod="native">
     <column name="cid" phpName="Cid" type="VARCHAR" size="128" primaryKey="true" required="true"/>
@@ -564,6 +576,9 @@
     <index name="body_format">
       <index-column name="body_format"/>
     </index>
+    <foreign-key foreignTable="phpid_node">
+      <reference local="entity_id" foreign="nid"/>
+    </foreign-key>
   </table>
   <table name="phpid_field_data_comment_body" phpName="PhpidFieldDataCommentBody" idMethod="native">
     <column name="entity_type" phpName="EntityType" type="VARCHAR" size="128" primaryKey="true" required="true" defaultValue=""/>
@@ -1181,7 +1196,7 @@
     </index>
   </table>
   <table name="phpid_file_managed" phpName="PhpidFileManaged" idMethod="native">
-    <column name="fid" phpName="Fid" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="fid" phpName="Fid" type="INTEGER" size="15" sqlType="int(15) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="uid" phpName="Uid" type="INTEGER" size="10" sqlType="int(10) unsigned" required="true" defaultValue="0"/>
     <column name="filename" phpName="Filename" type="VARCHAR" size="255" required="true" defaultValue=""/>
     <column name="uri" phpName="Uri" type="VARCHAR" size="255" required="true" defaultValue=""/>
@@ -1203,7 +1218,7 @@
     </index>
   </table>
   <table name="phpid_file_usage" phpName="PhpidFileUsage" idMethod="native">
-    <column name="fid" phpName="Fid" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" required="true"/>
+    <column name="fid" phpName="Fid" type="INTEGER" size="15" sqlType="int(15) unsigned" primaryKey="true" required="true"/>
     <column name="module" phpName="Module" type="VARCHAR" size="255" primaryKey="true" required="true" defaultValue=""/>
     <column name="type" phpName="Type" type="VARCHAR" size="64" primaryKey="true" required="true" defaultValue=""/>
     <column name="id" phpName="Id" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" required="true" defaultValue="0"/>
@@ -1500,10 +1515,13 @@
   <table name="phpid_node" phpName="PhpidNode" idMethod="native">
     <column name="nid" phpName="Nid" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="vid" phpName="Vid" type="INTEGER" size="10" sqlType="int(10) unsigned" required="false"/>
+    <column name="signature" phpName="Signature" type="VARCHAR" size="32" required="false" defaultValue=""/>
     <column name="type" phpName="Type" type="VARCHAR" size="32" required="true" defaultValue=""/>
     <column name="language" phpName="Language" type="VARCHAR" size="12" required="true" defaultValue=""/>
     <column name="title" phpName="Title" type="VARCHAR" size="255" required="true" defaultValue=""/>
     <column name="uid" phpName="Uid" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="fid" phpName="Fid" type="VARCHAR" size="128" required="true" defaultValue=""/>
+    <column name="name" phpName="Name" type="VARCHAR" size="60" required="false" defaultValue=""/>
     <column name="status" phpName="Status" type="INTEGER" required="true" defaultValue="1"/>
     <column name="created" phpName="Created" type="INTEGER" required="true" defaultValue="0"/>
     <column name="changed" phpName="Changed" type="INTEGER" required="true" defaultValue="0"/>
@@ -1930,6 +1948,7 @@
   </table>
   <table name="phpid_users" phpName="PhpidUsers" idMethod="native">
     <column name="uid" phpName="Uid" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" required="true" defaultValue="0"/>
+    <column name="fid" phpName="Fid" type="VARCHAR" size="128" required="true" defaultValue=""/>
     <column name="name" phpName="Name" type="VARCHAR" size="60" required="true" defaultValue=""/>
     <column name="pass" phpName="Pass" type="VARCHAR" size="128" required="true" defaultValue=""/>
     <column name="mail" phpName="Mail" type="VARCHAR" size="320" required="false" defaultValue=""/>
@@ -1961,12 +1980,18 @@
       <index-column name="picture"/>
     </index>
   </table>
-  <table name="phpid_users_roles" phpName="PhpidUsersRoles" idMethod="native">
+  <table name="phpid_users_roles" phpName="PhpidUsersRoles" idMethod="native" isCrossRef="true">
     <column name="uid" phpName="Uid" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" required="true" defaultValue="0"/>
     <column name="rid" phpName="Rid" type="INTEGER" size="10" sqlType="int(10) unsigned" primaryKey="true" required="true" defaultValue="0"/>
     <index name="rid">
       <index-column name="rid"/>
     </index>
+    <foreign-key foreignTable="phpid_users">
+      <reference local="uid" foreign="uid"/>
+    </foreign-key>
+    <foreign-key foreignTable="phpid_role">
+      <reference local="rid" foreign="rid"/>
+    </foreign-key>
   </table>
   <table name="phpid_variable" phpName="PhpidVariable" idMethod="native">
     <column name="name" phpName="Name" type="VARCHAR" size="128" primaryKey="true" required="true" defaultValue=""/>

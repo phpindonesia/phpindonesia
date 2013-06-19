@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\EventListener\ExceptionListener;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\HttpKernel\HttpKernel;
 
-class RouteTest extends PHPUnit_Framework_TestCase {
+class RouteTest extends PhpindonesiaTestCase {
 
 	/**
 	 * Cek konsistensi router instance

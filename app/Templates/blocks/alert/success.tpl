@@ -1,0 +1,1 @@
+<h4>Sukses!</h4><small>{{ message }}</small><br/>

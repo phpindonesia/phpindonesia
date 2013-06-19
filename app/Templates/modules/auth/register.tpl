@@ -13,12 +13,19 @@
 			<h3>{{title}}</h3>
 			<hr>
 
-			<form>
-				<input type="text" placeholder="Nama Lengkap" class="span4">
-				<input type="text" placeholder="Email" class="span4">
-				<input type="text" placeholder="Nama Pengguna" class="span4">
-				<input type="password" placeholder="Sandi" class="span4">
-				<input type="password" placeholder="Konfirmasi Sandi" class="span4">
+			{% if acl.isContainFacebookData == false %}
+			<a href="/auth/registerfb" class="btn btn-large"><i class="icon-facebook-sign"></i> Daftar dengan Facebook</a>
+			<hr>
+			{% endif %}
+
+			{% if result.error %}
+			   <div class="alert alert-error"><a href="#" class="close" data-dismiss="alert">&times;</a>{{ result.error|raw }}</div>
+			{% endif %}
+			<form method="POST" action="/auth/register">
+				<input name="username" type="text" placeholder="Username" class="span4" value="{{ postData.username }}">
+				<input name="email" type="text" placeholder="Email" class="span4" value="{{ postData.email }}">
+				<input name="password" type="password" placeholder="Password" class="span4">
+				<input name="cpassword" type="password" placeholder="Konfirmasi Password" class="span4">
 
 				<hr>
 

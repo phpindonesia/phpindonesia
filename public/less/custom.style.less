@@ -1,3 +1,13 @@
+//
+// Variables
+// --------------------------------------------------
+// Core variables and mixins
+@import "variables.less"; // Modify this for custom colors, font-sizes, etc
+@import "mixins.less";
+// Internal variables
+@bluishOot:			#73a0ba;
+@greyishOot:		#aaa;
+
 /**********************************
 Base
 **********************************/
@@ -7,16 +17,16 @@ body{
 }
 
 #toolbar{
-	background-color: darken(#73a0ba, 10%);
+	background-color: darken(@bluishOot, 10%);
 	padding-top: 10px;
 	padding-bottom: 10px;
-	color: #fff;
+	color: @white;
 }
 
 #header{
-	background-color: #73a0ba;
+	background-color: @bluishOot;
 	padding-top: 20px;
-	color: #fff;
+	color: @white;
 	position: relative;
 }
 
@@ -25,11 +35,103 @@ body{
 	padding-bottom: 20px;
 }
 
+#sidebar{
+	margin: 0 auto;
+	padding: 5px;
+	background-color: white;
+	border: 1px solid #DDD;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.sidebar-list {
+	padding-left:0;
+}
+
 @media (max-width: 767px) {
 	#header{
 		padding-left: 20px;
     	padding-right: 20px;
 		margin: auto -20px;
+	}
+}
+
+.transparent-25 > .alert {
+	opacity:0.25;
+}
+
+.transparent-50 > .alert {
+	opacity:0.5;
+}
+
+.transparent-75 > .alert {
+	opacity:0.75;
+}
+
+.transparent-25 > .alert:hover,
+.transparent-50 > .alert:hover,
+.transparent-75 > .alert:hover {
+	opacity:0.95;
+}
+
+.preview-text {
+	font-size:12px;
+	line-height:13px;
+}
+
+.preview-text span {
+	display:block;
+	line-height:15px;
+	margin-top:4px;
+}
+
+.preview-link {
+	display:block;
+	line-height:16px;
+	font-weight:bold;
+	margin-bottom:5px;
+}
+
+.preview-text,
+.subtitle {
+	color:@greyishOot;
+}
+
+code {
+	white-space: pre;
+	border:none;
+	display:block;
+	background-color:lighten(@black,10%);
+	color:@green;
+}
+
+.meetup-preview {
+	margin-bottom:0;
+	padding:10px;
+	min-height:300px;
+	.carousel-inner {
+		min-height:300px;
+	}
+	.carousel {
+		margin-bottom:0 !important;
+	}
+	.carousel-control {
+		bottom:0;
+		background:none;
+		border:0;
+		color:@greyishOot;
+		font-size:30px;
+		font-weight:bold;
+	}
+	.left {
+		left:10px;
+	}
+	li {
+		padding:5px 0 0 0;
+	}
+	hr {
+		margin:20px 0 5px;
 	}
 }
 
@@ -54,7 +156,6 @@ HEADER
 	width: 100%;
 	bottom:0;
 	margin-bottom: 0;
-	background-color: #aaa;
 }
 
 // Header Left
@@ -82,10 +183,34 @@ Navbar
 			color: #ddd;
 
 			&:hover{
-				color: #fff;
+				color: @white;
 			}
 		}
 	}
+}
+
+#account {
+	&:before {
+    content: '';
+    display: inline-block;
+    border-left:   7px solid transparent;
+    border-right:  7px solid transparent;
+    border-bottom: 7px solid @navbarInverseSearchPlaceholderColor;
+    border-bottom-color: @dropdownBorder;
+    position: absolute;
+    top: -7px;
+    right: 9px;
+  }
+  &:after {
+    content: '';
+    display: inline-block;
+    border-left:   6px solid transparent;
+    border-right:  6px solid transparent;
+    border-bottom: 6px solid @dropdownBackground;
+    position: absolute;
+    top: -6px;
+    right: 10px;
+  }
 }
 
 /**********************************
@@ -109,8 +234,8 @@ body {
 	height: 60px;
 }
 #footer {
-	background-color: #111;
-	color: #aaa;
+	background-color: @navbarInverseBackground;
+	color: @greyishOot;
 }
 
 @media (max-width: 767px) {

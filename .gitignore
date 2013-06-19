@@ -5,9 +5,12 @@ buildtime.xml
 connection.xml
 vendor/*
 app/Model/Orm/*
+app/Controller/ControllerSandbox.php
 conf/*
 sql/*
 migrations/*
 /nbproject
 /tests/assets/*
 !/tests/assets/.gitignore
+cache/*
+!cache/.gitkeep

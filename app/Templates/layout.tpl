@@ -3,28 +3,44 @@
 <head>
     {% block head %}
         <meta charset="utf-8">
-        <title>{% block title %}{% endblock %} :: PHP Indonesia - Bersama Berkarya Berjaya</title>
+
+        {% set _title = block('title') %}
+
+        {% if (_title is not empty) %}
+            <title>{% block title %}{% endblock %} - PHP Indonesia</title>
+        {% else %}
+            <title>{{ title }} - PHP Indonesia</title>
+        {% endif %}
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
 
         <link href="/asset/css/main.css" rel="stylesheet">
+
+        {% if parseCode == true %}
+        <link href="/asset/css/code.css" rel="stylesheet">
+        <script src="/asset/js/code.js"></script>
+        {% endif %}
         
+        {% if allowEditor == true %}
+        <link href="/asset/css/editor.css" rel="stylesheet">
+        {% endif %}
 
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="/assets/img/favicon/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="/assets/img/favicon/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/asset/img/favicon/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/asset/img/favicon/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/asset/img/favicon/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="/asset/img/favicon/apple-touch-icon-57-precomposed.png">
+        <link rel="shortcut icon" href="/asset/img/favicon/favicon.png">
     {% endblock %}
 </head>
 
 <body>
-
+    <div class="notifications transparent-75 bottom-right"></div>
     <div id="wrap">
 
         {######################## Header ########################}
@@ -37,32 +53,45 @@
             <div class="container">
                 <div class="row">
 
+                    {% set _content         = block('content') %}
                     {% set _sidebar_left    = block('sidebar_left') %}
                     {% set _sidebar_right   = block('sidebar_right') %}
 
-                    {% if (_sidebar_left is not empty) %}
-                        <div class="span3">
-                            {% block sidebar_left %}{% endblock %}
-                        </div>
-                    {% endif %}
+                    {% if (_content is not empty) %}
 
-                    {% if (_sidebar_left is not empty) or (_sidebar_right is not empty) %}
-                        {% if (_sidebar_left is not empty) and (_sidebar_right is not empty) %}
-                            <div class="span6">
-                        {% else %}
-                            <div class="span9">
+                        {% if (_sidebar_left is not empty) %}
+                            <div class="span3">
+                                {% block sidebar_left %}{% endblock %}
+                            </div>
                         {% endif %}
-                    {% else %}
-                        <div class="span12"> 
-                    {% endif %}
 
-                        {% block content %}{% endblock %}
-                    </div>
+                        {% if (_sidebar_left is not empty) or (_sidebar_right is not empty) %}
+                            {% if (_sidebar_left is not empty) and (_sidebar_right is not empty) %}
+                                <div class="span6">
+                            {% else %}
+                                <div class="span9">
+                            {% endif %}
+                        {% else %}
+                            <div class="span12"> 
+                        {% endif %}
 
-                    {% if (_sidebar_right is not empty) %}
-                        <div class="span3">
-                            {% block sidebar_right %}{% endblock %}
+                            {% block content %}{% endblock %}
                         </div>
+
+                        {% if (_sidebar_right is not empty) %}
+                            <div class="span3">
+                                {% block sidebar_right %}{% endblock %}
+                            </div>
+                        {% endif %}
+
+                    {% else %}
+                    <div class="span12">
+                    {% if rawContent %}
+                        {{ content|raw }}
+                    {% else %}
+                        {{ content }}
+                    {% endif %}
+                    </div>
                     {% endif %}
 
                 </div>
@@ -71,10 +100,7 @@
                 {% block modules %}{% endblock %}
             </div>
         </div>
-
         
-
-        <div id="content"></div>
         <div id="push"></div>
     </div>
 
@@ -82,6 +108,18 @@
     {% include "blocks/footer.tpl" %}
 
     <script src="/asset/js/app.js"></script>
-</body>
+    {% if getData.harlem is not empty %}
+    <script src="/asset/js/harlem-shake.js"></script>
+    <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F35273963&amp;color=ff6600&amp;auto_play=true&amp;show_artwork=false" style="display:none;"></iframe>
+    {% endif %}
 
+    {% if allowEditor == true %}
+    <script src="/asset/js/editor.js"></script>
+    {% endif %}
+    <script>
+    $(function(){
+        {% include "inline.tpl" %}
+    })
+    </script>
+</body>
 </html>

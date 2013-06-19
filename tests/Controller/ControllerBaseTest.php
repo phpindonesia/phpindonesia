@@ -7,9 +7,11 @@
  */
 
 use app\Controller\ControllerBase;
+use app\Session as AppSession;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
-class ControllerBaseTest extends PHPUnit_Framework_TestCase {
+class ControllerBaseTest extends PhpindonesiaTestCase {
 
 	/**
 	 * Cek konsistensi controller base instance
@@ -20,6 +22,16 @@ class ControllerBaseTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf('\app\Controller\ControllerBase', $controllerBase);
 		$this->assertObjectHasAttribute('request', $controllerBase);
+
+		// Cek beforeAction
+		$controllerBase->getSession()->set('login', true);
+		$controllerBase->getSession()->set('postData', array('foo' => 'bar'));
+		$controllerBase->beforeAction();
+
+		$this->assertArrayHasKey('foo', $controllerBase->getData()->get('postData'));
+		$this->assertInstanceOf('\app\Acl', $controllerBase->getAcl());
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $controllerBase->handleException());
 	}
 
 	/**
@@ -35,6 +47,63 @@ class ControllerBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Cek set alert
+	 */
+	public function testCekSetAlertAppControllerBase() {
+		// Test alert flow
+		$session = new AppSession();
+
+		$session->start();
+
+		$sessionId = $session->getName();
+		$cookies = array($sessionId => TRUE);
+
+		$request = Request::create('/home/index', 'GET', array(), $cookies);
+
+		if ( ! $request->hasPreviousSession()) {
+			$request->setSession($session);
+		} 
+
+		$request->getSession()->set('alert', serialize(array(
+			'alertType' => 'success',
+			'alertMessage' => 'Something to say...',
+		)));
+
+		$controllerBase = new ControllerBase($request);
+
+		// Cek data 
+		$this->assertEquals('success', $controllerBase->getData()->get('alertType'));
+		$this->assertEquals('Something to say...', $controllerBase->getData()->get('alertMessage'));
+
+		// Set new alert for next request
+		$controllerBase->setAlert('error', 'Some warning for next request...', 1000, true);
+
+		// Cek data, seharusnya tidak berubah dari sebelumnya
+		$this->assertEquals('success', $controllerBase->getData()->get('alertType'));
+		$this->assertEquals('Something to say...', $controllerBase->getData()->get('alertMessage'));
+
+		// Set new alert for current request
+		$controllerBase->setAlert('error', 'Some warning...');
+
+		// Cek data 
+		$this->assertEquals('error', $controllerBase->getData()->get('alertType'));
+		$this->assertTrue(strpos($controllerBase->getData()->get('alertMessage'),'Some warning...') !== false);
+	}
+
+	/**
+	 * Cek render json
+	 */
+	public function testCekRenderJsonAppControllerBase() {
+		$request = Request::create('/home/index');
+		$controllerBase = new ControllerBase($request);
+		$response = $controllerBase->renderJson(array('foo' => 'bar'));
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals(200, $response->getStatusCode());
+		$this->assertEquals(json_encode(array('foo' => 'bar')), $response->getContent());
+	}
+
+	/**
 	 * Cek render
 	 */
 	public function testCekRenderAppControllerBase() {
@@ -45,5 +114,24 @@ class ControllerBaseTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals(200, $response->getStatusCode());
 		$this->assertEquals('Content', $response->getContent());
+	}
+
+	/**
+	 * Cek token
+	 */
+	public function testCekTokenAppControllerBase() {
+		// Token exists
+		$request = Request::create('/confirmation');
+		$controllerBase = new ControllerBase($request);
+		$getData = array('token' => 'somehashtoken');
+		$controllerBase->getData()->set('getData', $getData);
+		$this->assertEquals('somehashtoken', $controllerBase->getToken());
+
+		$request = Request::create('/confirmation');
+		$controllerBase = new ControllerBase($request);
+
+		$this->setExpectedException('InvalidArgumentException', 'Token tidak ditemukan!');
+		
+		$controllerBase->getToken();
 	}
 }

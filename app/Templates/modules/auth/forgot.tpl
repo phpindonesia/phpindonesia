@@ -13,8 +13,11 @@
 			<h3>{{title}}</h3>
 			<hr>
 
-			<form>
-				<input type="text" placeholder="Email" class="span4">
+			{% if result.error %}
+			   <div class="alert alert-error"><a href="#" class="close" data-dismiss="alert">&times;</a>{{ result.error|raw }}</div>
+			{% endif %}
+			<form method="POST" action="/auth/forgot">
+				<input name="email" type="text" placeholder="Email anda" class="span4">
 
 				<hr>
 

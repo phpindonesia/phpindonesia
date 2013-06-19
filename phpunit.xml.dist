@@ -27,6 +27,7 @@
 			<directory suffix=".php">app</directory>
 			<exclude>
 		      <directory suffix=".php">app/Model/Orm</directory>
+		      <file>app/Controller/ControllerSandbox.php</file>
 		    </exclude>
 		</whitelist>
 	</filter>

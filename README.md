@@ -1,11 +1,15 @@
 README
 ======
 
-[![Build Status](https://secure.travis-ci.org/phpindonesia/phpindonesia.png)](http://travis-ci.org/phpindonesia/phpindonesia) 
+| Master Build | Develop Build | Dependencies |
+| :---: | :---: | :---: |
+[![Build Status](https://secure.travis-ci.org/phpindonesia/phpindonesia.png?branch=master&)](http://travis-ci.org/phpindonesia/phpindonesia)|[![Build Status](https://secure.travis-ci.org/phpindonesia/phpindonesia.png?branch=develop&)](http://travis-ci.org/phpindonesia/phpindonesia)|[![Dependencies Status](https://www.wakuwakuw.com/d/7916557)](http://depending.in/phpindonesia/phpindonesia)
+
+
 
 Official-repository untuk Portal PHP Indonesia. Project ini dikembangkan secara open-source oleh member PHP Indonesia.
 
-Jika anda ingin berkontribusi, anda bisa membaca bagian [TATA CARA BERKONTRIBUSI](https://github.com/phpindonesia/phpindonesia/blob/master/CONTRIBUTING.md).
+Jika anda ingin berkontribusi, anda bisa membaca bagian [TATA CARA BERKONTRIBUSI](https://github.com/phpindonesia/phpindonesia/blob/master/CONTRIBUTING.md) serta pastikan anda meninjau [STYLEGUIDE TEMPLATE](https://github.com/phpindonesia/phpindonesia/blob/master/TEMPLATE.md).
 
 Requirements
 ------------
@@ -14,6 +18,12 @@ Untuk menjalankan aplikasi ini, anda membutuhkan web-server dan PHP versi 5.3
 
 Instalasi
 ---------
+
+### Windows :
+
+Ada [tulisan detail dari member yang menjelaskan bagaimana proses instalasi dilakukan di Windows](http://www.facebook.com/groups/35688476100/10151635488776101/).
+
+### Unix :
 
 Jika anda belum memiliki direktori yang berisi "Fork" atau "Clone" dari repositori ini, maka pertama-tama anda perlu clone repositori ini :
 
@@ -38,7 +48,7 @@ Selanjutnya, kita akan menyiapkan database menggunakan **Propel ORM**. Pertama t
 
 Anda dapat menggunakan template (build.properties.tpl, connection.xml.tpl, buildtime.xml.tpl) sebagai starting point dan mengubah nilai-nya (nama database, username, password) sesuai dengan environment anda. Di sistem UNIX, mungkin anda akan perlu mengubah permission pada propel agar script **propel-gen** berjalan :
 	
-	chmod -R 755 vendor/propel
+	chmod -R 777 vendor/propel
 
 Setelah ke-tiga file tersebut siap, sekarang kita bisa menjalankan :
 

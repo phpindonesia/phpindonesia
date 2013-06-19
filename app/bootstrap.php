@@ -15,8 +15,12 @@ defined('APPLICATION_DEBUG') OR define('APPLICATION_DEBUG', true);
 defined('APPLICATION_PATH') OR define('APPLICATION_PATH', __DIR__);
 defined('ASSET_PATH') OR define('ASSET_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'public');
 defined('CONFIG_PATH') OR define('CONFIG_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'conf');
+defined('CACHE_PATH') OR define('CACHE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'cache');
 
 require realpath(__DIR__ . '/../vendor/autoload.php');
+
+// Set UTC to Jakarta
+date_default_timezone_set('Asia/Jakarta');
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,11 +31,16 @@ use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\EventListener\ExceptionListener;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\HttpKernel\HttpKernel;
+use Doctrine\Common\Annotations\AnnotationRegistry;
+use app\Controller\ControllerBase;
 
 include 'routes.php';
 
 // Setting Propel
 Propel::init(str_replace('app', 'conf', APPLICATION_PATH) . DIRECTORY_SEPARATOR . 'connection.php');
+
+// Setting Doctrine Component
+AnnotationRegistry::registerAutoloadNamespace('app', realpath(__DIR__.'/../'));
 
 $request = Request::createFromGlobals();
 
@@ -43,10 +52,10 @@ $matcher = new UrlMatcher($routes, $context);
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new RouterListener($matcher));
 $dispatcher->addSubscriber(new ExceptionListener(function (Request $request) {
-                    $msg = 'Something went wrong! (' . $request->get('exception')->getMessage() . ')';
+	$handler = new ControllerBase($request);
 
-                    return new Response($msg, 500);
-                }));
+    return $handler->handleException();
+}));
 
 $resolver = new ControllerResolver();
 

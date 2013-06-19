@@ -9,7 +9,7 @@
 use app\Controller\ControllerAsset;
 use Symfony\Component\HttpFoundation\Request;
 
-class ControllerAssetTest extends PHPUnit_Framework_TestCase {
+class ControllerAssetTest extends PhpindonesiaTestCase {
 
 	/**
 	 * Cek action css
@@ -17,6 +17,21 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 	public function testCekActionCssAppControllerAsset() {
 		// Karena main.css sudah didefinisikan, ini akan mendapat response valid
 		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'css', 'GET', array('id' => 'main.css'));
+		$controllerAsset = new ControllerAsset($request);
+		$response = $controllerAsset->actionCss();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals(200, $response->getStatusCode());
+
+		// Begitu juga dengan editor.css dan code.css
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'css', 'GET', array('id' => 'editor.css'));
+		$controllerAsset = new ControllerAsset($request);
+		$response = $controllerAsset->actionCss();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals(200, $response->getStatusCode());
+
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'css', 'GET', array('id' => 'code.css'));
 		$controllerAsset = new ControllerAsset($request);
 		$response = $controllerAsset->actionCss();
 
@@ -48,8 +63,15 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals(200, $response->getStatusCode());
 
-		// Karena bootstrap-alert.js adalah file yang valid maka ini akan mendapat response yang valid
-		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'js', 'GET', array('id' => 'bootstrap-alert.js'));
+		// Begitu juga dengan editor.js dan code.js
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'js', 'GET', array('id' => 'editor.js'));
+		$controllerAsset = new ControllerAsset($request);
+		$response = $controllerAsset->actionJs();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals(200, $response->getStatusCode());
+
+		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'js', 'GET', array('id' => 'code.js'));
 		$controllerAsset = new ControllerAsset($request);
 		$response = $controllerAsset->actionJs();
 
@@ -77,6 +99,14 @@ class ControllerAssetTest extends PHPUnit_Framework_TestCase {
 	public function testCekActionImgAppControllerAsset() {
 		// Satu level directory
 		$request = Request::create(DIRECTORY_SEPARATOR.'asset'.DIRECTORY_SEPARATOR.'img', 'GET', array('id' => 'glyphicons-halflings-white.png'));
+		$controllerAsset = new ControllerAsset($request);
+		$response = $controllerAsset->actionImg();
+
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals(200, $response->getStatusCode());
+
+		// Lebih dari satu level directory
+		$request = Request::create('/asset/img', 'GET', array('subfolder' => 'favicon','id' => 'favicon.png'));
 		$controllerAsset = new ControllerAsset($request);
 		$response = $controllerAsset->actionImg();
 

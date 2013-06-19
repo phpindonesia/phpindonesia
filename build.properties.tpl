@@ -10,6 +10,8 @@ propel.database.password =
 
 # Environment
 propel.namespace.autoPackage = true
+propel.addGenericAccessors = true
+propel.addGenericMutators = true
 propel.runtime.conf.file = connection.xml
 propel.buildtime.conf.file = buildtime.xml
 propel.output.dir = ${propel.project.dir}
