@@ -19,8 +19,8 @@ use app\Parameter;
  */
 class ControllerFacebook extends ControllerBase
 {
-	const APP_ID = '546853652015493';
-	const APP_SECRET = 'a1d06f877dc5f690d4df4b902128a402';
+	const APP_ID 		= '';
+	const APP_SECRET 	= '';
 	protected $facebook;
 	protected $scope;
 
